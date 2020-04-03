@@ -12,5 +12,10 @@ module.exports = (db) => {
   router.get("/home", (req, res) => {
     res.render("home");
   })
+
+  router.get("/organization", (req, res) => {
+    res.render("organization");
+  });
+  
   return router;
 }
