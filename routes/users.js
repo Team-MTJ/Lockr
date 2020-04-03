@@ -32,9 +32,5 @@ module.exports = (db) => {
     res.render("manage");
   });
 
-  router.get("/organization", (req, res) => {
-    res.render("organization");
-  });
-
   return router;
 };
