@@ -113,7 +113,7 @@ module.exports = (db) => {
   };
   return { getUserWithEmail, login, addUser, getUserWithId, getOrgsWithUserId };
 
-   * Get a list of users from the given organization id.
+  /* Get a list of users from the given organization id.
    * @param {String} org The org of the user.
    * @return {Promise<{}>} A promise to the user.
    */
