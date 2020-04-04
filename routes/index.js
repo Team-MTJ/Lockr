@@ -9,10 +9,21 @@ module.exports = (db) => {
   });
 
   router.get("/login", (req, res) => {
-    dbHelpers.getUsers().then((data) => {
-      console.log(data);
-    });
     res.render("login");
+  });
+
+  router.post("/login", (req, res) => {
+    const { email, password } = req.body;
+    dbHelpers
+      .login(email, password)
+      .then((user) => {
+        if (!user) {
+          return res.status(400).send("Error logging in!");
+        }
+        req.session.userId = user.id;
+        return res.send("Logged in!");
+      })
+      .catch((e) => res.send(e));
   });
 
   router.get("/register", (req, res) => {
