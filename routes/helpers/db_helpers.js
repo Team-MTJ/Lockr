@@ -97,7 +97,7 @@ module.exports = (db) => {
         SELECT * FROM users
         JOIN membership ON user_id=users.id
         JOIN org on org_id=org.id
-        WHERE users.id=$1::integer
+        WHERE users.id=$1::integer AND is_active=true;
         `,
         [id]
       )
@@ -131,11 +131,12 @@ module.exports = (db) => {
   };
 
   /**
-   * Add a new user to the database.
+   * Add a new org to the database.
    * @param {name: string} org
+   * @param {name: string} user
    * @return {Promise<{}>} A promise to the user.
    */
-  const addOrg = function (org) {
+  const addOrg = function (org, user) {
     return db
       .query(
         `
@@ -147,7 +148,22 @@ module.exports = (db) => {
         `,
         [org.name]
       )
-      .then((res) => res.rows[0])
+      .then((data) => {
+        const newOrg = data.rows[0];
+        // Make membership entry
+        db.query(
+          `
+          INSERT INTO membership
+          (user_id, org_id, is_admin)
+          VALUES
+          ($1, $2, true)
+          RETURNING *;
+          `,
+          [user.id, newOrg.id]
+        )
+          .then((res) => res.rows[0])
+          .catch((e) => console.error(e));
+      })
       .catch((e) => console.error(e));
   };
 
