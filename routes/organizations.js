@@ -9,17 +9,15 @@ module.exports = (db) => {
     if (!req.session.userId) {
       res.status(400).send("please login");
     } else {
-      let cookieUser;
       dbHelpers
         .getUserWithId(req.session.userId)
         .then((user) => {
-          cookieUser = user;
           dbHelpers
-            .getPwdByOrgID(org_id, cookieUser.id)
+            .getPwdByOrgID(org_id, user.id)
             .then((data) => {
               if (!data) res.status(400).send("NO ORG OR NOT ACTIVE");
               else {
-                let templateVars = { data: data, user: cookieUser };
+                let templateVars = { data: data, user: user };
                 res.render("organization", templateVars);
               }
             })

@@ -111,8 +111,8 @@ module.exports = (db) => {
         `
     SELECT *, membership.is_active FROM pwd
     JOIN membership ON membership.org_id = pwd.org_id
-    WHERE membership.org_id = $1
-    AND membership.user_id = $2
+    WHERE membership.org_id = $1::integer
+    AND membership.user_id = $2::integer
     AND membership.is_active = true;
     `,
         [org_id, user_id]
@@ -121,7 +121,7 @@ module.exports = (db) => {
         if (res.rows.length === 0) return null;
         return res.rows;
       })
-      .catch((e) => console.log("error"));
+      .catch((e) => console.log(e));
   };
 
   return {
