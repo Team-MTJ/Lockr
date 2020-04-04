@@ -1,6 +1,3 @@
-// For Password display page
-// For Password card (individual passwords)
-
 const express = require('express');
 const router  = express.Router();
 

@@ -1,6 +1,3 @@
-// For Main page (before login and register) 
-// For Home Page (first page when logged in)
-
 const express = require('express');
 const router  = express.Router();
 
