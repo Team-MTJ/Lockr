@@ -44,9 +44,10 @@
           Organizations
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">use ejs </a>
-          <a class="dropdown-item" href="#">to loop</a>
-          <a class="dropdown-item" href="#">and put orgs in this dropdown</a>
+          <% if (orgs) { for (org of orgs) { %>
+          <a class="dropdown-item" href="/orgs/<%= org.id%>"><%= org.name %></a>
+          <% }} %>
+          <a class="dropdown-item" href="/orgs/new">Create an organization...</a>
         </div>
       </li>
       <form class="form-inline" method="POST" action="/logout">

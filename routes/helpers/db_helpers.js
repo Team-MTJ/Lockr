@@ -84,5 +84,31 @@ module.exports = (db) => {
       });
   };
 
-  return { getUserWithEmail, login, addUser, getUserWithId };
+  /**
+   * Get an array of orgs the user belongs to from the database
+   * @param {string} id The id of the user.
+   * @return {Promise<{}>} A promise to the user.
+   */
+  const getOrgsWithUserId = function (id) {
+    if (!id) return null;
+    return db
+      .query(
+        `
+        SELECT * FROM users
+        JOIN membership ON user_id=users.id
+        JOIN org on org_id=org.id
+        WHERE users.id=$1::integer
+        `,
+        [id]
+      )
+      .then((res) => {
+        if (res.rows.length === 0) return null;
+        console.log(res.rows);
+        return res.rows;
+      })
+      .catch((e) => {
+        return e;
+      });
+  };
+  return { getUserWithEmail, login, addUser, getUserWithId, getOrgsWithUserId };
 };
