@@ -112,8 +112,9 @@ module.exports = (db) => {
       });
   };
 
+  /** 
   /* Get a list of users from the given organization id.
-   * @param {String} org The org of the user.
+   * @param {integer} org The org id of the user.
    * @return {Promise<{}>} A promise to the user.
    */
 
@@ -132,5 +133,40 @@ module.exports = (db) => {
       .catch((e) => console.error(e));
   };
 
-  return { getUserWithEmail, login, addUser, getUserWithId, getUsersByOrg, getOrgsWithUserId };
+    /**
+   * Check password id against user id to make sure that user is allowed to access that password
+   * @param {integer} user_id The id of the user.
+   * @param {integer} pwd_id The id of the password.
+   * @return {Promise<{}>} A promise to the user.
+   */
+  const isAuthorized = function (user_id, pwd_id) {
+    return db
+      .query(
+        `
+      SELECT * FROM users 
+      JOIN membership ON users.id = user_id
+      JOIN org ON org.id = membership.org_id
+      JOIN pwd ON pwd.org_id = org.id
+      WHERE membership.user_id = $1 AND pwd.id = $2 AND membership.is_active = true
+    `,
+        [user_id, pwd_id]
+      )
+      .then((res) => {
+        if (res.rows.length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+  };
+
+  return {
+    getUserWithEmail,
+    login,
+    addUser,
+    getUserWithId,
+    getUsersByOrg,
+    getOrgsWithUserId,
+    isAuthorized,
+  };
 };
