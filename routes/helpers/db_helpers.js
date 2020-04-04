@@ -97,13 +97,12 @@ module.exports = (db) => {
         SELECT * FROM users
         JOIN membership ON user_id=users.id
         JOIN org on org_id=org.id
-        WHERE users.id=$1::integer
+        WHERE users.id=$1::integer AND is_active=true;
         `,
         [id]
       )
       .then((res) => {
         if (res.rows.length === 0) return null;
-        console.log(res.rows);
         return res.rows;
       })
       .catch((e) => {
@@ -123,11 +122,48 @@ module.exports = (db) => {
         SELECT users.first_name, users.last_name, users.email FROM users
         JOIN membership ON users.id = user_id
         JOIN org ON org.id = org_id
-        WHERE org.id = $1
+        WHERE org.id = $1 AND is_active = true;
         `,
         [id]
       )
       .then((res) => res.rows)
+      .catch((e) => console.error(e));
+  };
+
+  /**
+   * Add a new org to the database.
+   * @param {name: string} org
+   * @param {name: string} user
+   * @return {Promise<{}>} A promise to the user.
+   */
+  const addOrg = function (org, user) {
+    return db
+      .query(
+        `
+        INSERT INTO org
+        (name)
+        VALUES
+        ($1)
+        RETURNING *;
+        `,
+        [org.name]
+      )
+      .then((data) => {
+        const newOrg = data.rows[0];
+        // Make membership entry
+        db.query(
+          `
+          INSERT INTO membership
+          (user_id, org_id, is_admin)
+          VALUES
+          ($1, $2, true)
+          RETURNING *;
+          `,
+          [user.id, newOrg.id]
+        )
+          .then((res) => res.rows[0])
+          .catch((e) => console.error(e));
+      })
       .catch((e) => console.error(e));
   };
 
@@ -138,5 +174,6 @@ module.exports = (db) => {
     getUserWithId,
     getUsersByOrg,
     getOrgsWithUserId,
+    addOrg,
   };
 };
