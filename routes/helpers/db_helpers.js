@@ -103,7 +103,6 @@ module.exports = (db) => {
       )
       .then((res) => {
         if (res.rows.length === 0) return null;
-        console.log(res.rows);
         return res.rows;
       })
       .catch((e) => {
