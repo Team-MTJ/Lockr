@@ -122,11 +122,32 @@ module.exports = (db) => {
         SELECT users.first_name, users.last_name, users.email FROM users
         JOIN membership ON users.id = user_id
         JOIN org ON org.id = org_id
-        WHERE org.id = $1
+        WHERE org.id = $1 AND is_active = true;
         `,
         [id]
       )
       .then((res) => res.rows)
+      .catch((e) => console.error(e));
+  };
+
+  /**
+   * Add a new user to the database.
+   * @param {name: string} org
+   * @return {Promise<{}>} A promise to the user.
+   */
+  const addOrg = function (org) {
+    return db
+      .query(
+        `
+        INSERT INTO org
+        (name)
+        VALUES
+        ($1)
+        RETURNING *;
+        `,
+        [org.name]
+      )
+      .then((res) => res.rows[0])
       .catch((e) => console.error(e));
   };
 
@@ -137,5 +158,6 @@ module.exports = (db) => {
     getUserWithId,
     getUsersByOrg,
     getOrgsWithUserId,
+    addOrg,
   };
 };
