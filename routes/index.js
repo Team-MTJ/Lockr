@@ -7,12 +7,20 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     dbHelpers.getUserWithId(req.session.userId).then((user) => {
       const templateVars = { user };
-      res.render("index", templateVars);
+      return res.render("index", templateVars);
     });
   });
 
   router.get("/login", (req, res) => {
-    res.render("login");
+    dbHelpers.getUserWithId(req.session.userId).then((user) => {
+      // If user is already logged in and tried to go to /register
+      if (user) {
+        return res.status(400).send("Already logged in!");
+      }
+
+      const templateVars = { user };
+      return res.render("login", templateVars);
+    });
   });
 
   router.post("/login", (req, res) => {
@@ -29,13 +37,20 @@ module.exports = (db) => {
           return res.status(400).send("Error logging in!");
         }
         req.session.userId = user.id;
-        return res.send("Logged in!"); // Redirect to '/' later
+        return res.redirect("/");
       })
       .catch((e) => res.send(e));
   });
 
   router.get("/register", (req, res) => {
-    res.render("register");
+    dbHelpers.getUserWithId(req.session.userId).then((user) => {
+      // If user is already logged in and tried to go to /register
+      if (user) {
+        return res.status(400).send("Already registered!");
+      }
+      const templateVars = { user };
+      return res.render("register", templateVars);
+    });
   });
 
   router.post("/register", (req, res) => {
@@ -48,13 +63,16 @@ module.exports = (db) => {
 
     dbHelpers.addUser(user).then((user) => {
       if (!user) {
-        res.send({ error: "error" });
-        return;
+        return res.send({ error: "error" });
       }
       req.session.userId = user.id;
-      res.send("Registered!"); // Redirect to '/' later
+      return res.redirect("/");
     });
   });
 
+  router.post("/logout", (req, res) => {
+    req.session.userId = null;
+    return res.redirect("/");
+  });
   return router;
 };
