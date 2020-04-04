@@ -5,17 +5,17 @@ const express = require('express');
 const router  = express.Router();
 
 module.exports = (db) => {
-  router.get("/front", (req, res) => {
-    res.render("front");
-  });
-
-  router.get("/home", (req, res) => {
-    res.render("home");
+  router.get("/", (req, res) =>{
+    res.render("index");
   })
 
-  router.get("/organization", (req, res) => {
-    res.render("organization");
+  router.get("/login", (req, res) => {
+    res.render("login");
   });
-  
+
+  router.get("/register", (req, res) => {
+    res.render("register");
+  });
+
   return router;
 }
