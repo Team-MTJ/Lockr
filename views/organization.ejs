@@ -13,7 +13,7 @@
           URL: <%= subData.website_url%>
         </h6>
         <p class="card-text">Password: <%= subData.encrypted_pwd%></p>
-        <a href="#" class="btn btn-primary">GO</a>
+        <a href="/passwords/<%=subData.id%>" class="btn btn-primary">GO</a>
       </div>
     </div>
     <% }); %>
