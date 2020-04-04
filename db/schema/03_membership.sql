@@ -4,7 +4,7 @@ CASCADE;
 CREATE TABLE membership
 (
   id        SERIAL  PRIMARY KEY,
-  user_id   INTEGER REFERENCES user ON DELETE CASCADE,
+  user_id   INTEGER REFERENCES users ON DELETE CASCADE,
   org_id    INTEGER REFERENCES org ON DELETE CASCADE,
   is_active BOOLEAN DEFAULT true,
   is_admin  BOOLEAN DEFAULT false

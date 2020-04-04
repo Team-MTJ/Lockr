@@ -5,5 +5,5 @@ CREATE TABLE org
 (
   id         SERIAL       PRIMARY KEY,
   name       VARCHAR(255) NOT NULL,
-  secret_key VARCHAR(255) NOT NULL,
+  secret_key VARCHAR(255) NOT NULL
 );

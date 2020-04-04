@@ -1,10 +1,11 @@
-DROP TABLE IF EXISTS user
+DROP TABLE IF EXISTS users
 CASCADE;
 
-CREATE TABLE user
+CREATE TABLE users
 (
-  id       SERIAL       PRIMARY KEY,
-  name     VARCHAR(255) NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  email    VARCHAR(255) NOT NULL
+  id         SERIAL       PRIMARY KEY,
+  first_name VARCHAR(255) NOT NULL,
+  last_name  VARCHAR(255) NOT NULL,
+  password   VARCHAR(255) NOT NULL,
+  email      VARCHAR(255) NOT NULL
 );
