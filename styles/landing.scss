@@ -31,11 +31,13 @@
         padding: 20%;
         text-align: center;
       }
-      #key, #shield, #idea {
+      #key,
+      #shield,
+      #idea {
         width: 50%;
         height: 50%;
-        background-repeat:no-repeat;
-        background-size:contain;
+        background-repeat: no-repeat;
+        background-size: contain;
         margin-top: 2.5em;
       }
     }
@@ -52,7 +54,6 @@
 
 #idea {
   background-image: url("../imgs/idea.png");
-
 }
 
 // Slight adjustment on smaller screen/viewport sizes
