@@ -14,6 +14,11 @@ module.exports = (db) => {
 
   router.post("/login", (req, res) => {
     const { email, password } = req.body;
+    
+    if (!email || !password) {
+      return res.status(400).send("Error logging in!");
+    }
+
     dbHelpers
       .login(email, password)
       .then((user) => {
