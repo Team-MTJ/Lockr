@@ -155,7 +155,7 @@ module.exports = (db) => {
         if (res.rows.length === 0) {
           return false;
         } else {
-          return true;
+          return res.rows[0];
         }
       });
   };
