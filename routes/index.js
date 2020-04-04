@@ -1,12 +1,17 @@
-const express = require('express');
-const router  = express.Router();
+const express = require("express");
+const router = express.Router();
 
 module.exports = (db) => {
-  router.get("/", (req, res) =>{
+  const dbHelpers = require("./helpers/db_helpers")(db);
+
+  router.get("/", (req, res) => {
     res.render("index");
-  })
+  });
 
   router.get("/login", (req, res) => {
+    dbHelpers.getUsers().then((data) => {
+      console.log(data);
+    });
     res.render("login");
   });
 
@@ -15,4 +20,4 @@ module.exports = (db) => {
   });
 
   return router;
-}
+};
