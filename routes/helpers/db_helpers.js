@@ -113,7 +113,7 @@ module.exports = (db) => {
 
   /**
    * Get a list of users from the given organization id.
-   * @param {String} org The org of the user.
+   * @param {String} id The org_id.
    * @return {Promise<{}>} A promise to the user.
    */
   const getUsersByOrg = function (id) {
