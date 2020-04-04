@@ -63,7 +63,9 @@ module.exports = (db) => {
 
     dbHelpers.addUser(user).then((user) => {
       if (!user) {
-        return res.send({ error: "error" });
+        return res.send(
+          "There was a problem registering! Most likely the email is already registered!"
+        );
       }
       req.session.userId = user.id;
       return res.redirect("/");
