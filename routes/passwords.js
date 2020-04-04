@@ -9,7 +9,7 @@ module.exports = (db) => {
     // get user_id from req.session
     const { userId } = req.session;
     const password = req.params.pwd_id;
-    dbHelpers.isAuthorized(userId, password) .then((data) => {
+    dbHelpers.getPassword(userId, password) .then((data) => {
       res.json( {data});
     })
     .catch((e) => console.error(e));
