@@ -1,5 +1,5 @@
 INSERT INTO org
-  (name, secret_key)
+  (name)
 VALUES
-  ('FBI', 'secret'),
-  ('CIA', 'key');
+  ('FBI'),
+  ('CIA');
