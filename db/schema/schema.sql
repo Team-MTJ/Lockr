@@ -5,3 +5,4 @@ BEGIN;
 \i ./db/schema/04_pwd.sql
 \i ./db/schema/05_usage.sql
 COMMIT;
+-- psql -d midterm -U labber -f ./db/schema/schema.sql

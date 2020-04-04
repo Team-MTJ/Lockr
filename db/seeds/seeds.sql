@@ -5,3 +5,4 @@ BEGIN;
 \i ./db/seeds/04_pwd.sql
 \i ./db/seeds/05_usage.sql
 COMMIT;
+-- psql -d midterm -U labber -f ./db/seeds/seeds.sql
