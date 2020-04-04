@@ -19,10 +19,5 @@ module.exports = (db) => {
         res.status(500).json({ error: err.message });
       });
   });
-
-  router.get("/manage", (req, res) => {
-    res.render("manage");
-  });
-
   return router;
 };
