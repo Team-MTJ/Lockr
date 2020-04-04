@@ -105,5 +105,31 @@ module.exports = (db) => {
       .catch((e) => console.error(e));
   };
 
-  return { getUserWithEmail, login, addUser, getUserWithId, getUsersByOrg };
+  const getPwdByOrgID = function (org_id, user_id) {
+    return db
+      .query(
+        `
+    SELECT *, membership.is_active FROM pwd
+    JOIN membership ON membership.org_id = pwd.org_id
+    WHERE membership.org_id = $1
+    AND membership.user_id = $2
+    AND membership.is_active = true;
+    `,
+        [org_id, user_id]
+      )
+      .then((res) => {
+        if (res.rows.length === 0) return null;
+        return res.rows;
+      })
+      .catch((e) => console.log("error"));
+  };
+
+  return {
+    getUserWithEmail,
+    login,
+    addUser,
+    getUserWithId,
+    getUsersByOrg,
+    getPwdByOrgID,
+  };
 };

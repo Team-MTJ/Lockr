@@ -1,0 +1,22 @@
+<%- include('partials/_header') %> <%- include('partials/_navbar') %>
+<div class="container">
+  <div class="row row-cols-4">
+    <% data.forEach((subData) => { %>
+    <div
+      class="card col- mx-3 mt-4 bg-light mb-3 text-center"
+      style="max-width: 20rem;"
+    >
+      <img src="..." class="card-img-top" alt="..." />
+      <div class="card-body">
+        <h5 class="card-title"><%= subData.website_title%></h5>
+        <h6 class="card-subtitle mb-2 text-muted">
+          URL: <%= subData.website_url%>
+        </h6>
+        <p class="card-text">Password: <%= subData.encrypted_pwd%></p>
+        <a href="#" class="btn btn-primary">GO</a>
+      </div>
+    </div>
+    <% }); %>
+  </div>
+</div>
+<%-include('partials/_footer') %>
