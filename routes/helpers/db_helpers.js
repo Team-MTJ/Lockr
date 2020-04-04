@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 module.exports = (db) => {
   /**
@@ -37,5 +37,31 @@ module.exports = (db) => {
       });
   };
 
-  return { getUserWithEmail, login };
+  /**
+   * Add a new user to the database.
+   * @param {{first_name: string, last_name:string, password: string, email: string}} user
+   * @return {Promise<{}>} A promise to the user.
+   */
+  const addUser = function (user) {
+    return db
+      .query(
+        `
+        INSERT INTO users
+        (first_name, last_name, email, password)
+        VALUES
+        ($1, $2, $3, $4)
+        RETURNING *;
+        `,
+        [
+          user.first_name,
+          user.last_name,
+          user.email,
+          bcrypt.hashSync(user.password, 12),
+        ]
+      )
+      .then((res) => res.rows[0])
+      .catch((e) => null);
+  };
+
+  return { getUserWithEmail, login, addUser };
 };
