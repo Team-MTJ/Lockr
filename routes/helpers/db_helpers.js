@@ -139,7 +139,7 @@ module.exports = (db) => {
    * @param {integer} pwd_id The id of the password.
    * @return {Promise<{}>} A promise to the user.
    */
-  const getPassword = function (user_id, pwd_id) {
+  const checkAuthGetPwd = function (user_id, pwd_id) {
     return db
       .query(
         `
@@ -167,6 +167,6 @@ module.exports = (db) => {
     getUserWithId,
     getUsersByOrg,
     getOrgsWithUserId,
-    getPassword,
+    checkAuthGetPwd,
   };
 };
