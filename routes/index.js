@@ -5,10 +5,18 @@ module.exports = (db) => {
   const dbHelpers = require("./helpers/db_helpers")(db);
 
   router.get("/", (req, res) => {
-    dbHelpers.getUserWithId(req.session.userId).then((user) => {
-      const templateVars = { user };
-      return res.render("index", templateVars);
-    });
+    dbHelpers
+      .getUserWithId(req.session.userId) // Get user id
+      .then((user) => {
+        if (!user) return res.render("index", { user: null });
+        
+        dbHelpers
+          .getOrgsWithUserId(user.id) // Get orgs
+          .then((orgs) => {
+            const templateVars = { user, orgs };
+            return res.render("index", templateVars);
+          });
+      });
   });
 
   router.get("/login", (req, res) => {

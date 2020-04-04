@@ -3,7 +3,7 @@ const router = express.Router();
 
 module.exports = (db) => {
   router.get("/:organization", (req, res) => {
-    res.render("organization");
+    res.send("organization");
   });
 
   router.get("/:organization/manage", (req, res) => {
