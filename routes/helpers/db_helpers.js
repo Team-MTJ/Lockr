@@ -111,7 +111,6 @@ module.exports = (db) => {
         return e;
       });
   };
-  return { getUserWithEmail, login, addUser, getUserWithId, getOrgsWithUserId };
 
   /* Get a list of users from the given organization id.
    * @param {String} org The org of the user.
@@ -133,5 +132,5 @@ module.exports = (db) => {
       .catch((e) => console.error(e));
   };
 
-  return { getUserWithEmail, login, addUser, getUserWithId, getUsersByOrg };
+  return { getUserWithEmail, login, addUser, getUserWithId, getUsersByOrg, getOrgsWithUserId };
 };
