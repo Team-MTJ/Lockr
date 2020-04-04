@@ -18,7 +18,7 @@
     background-color: rgba(1, 1, 26, 0.5);
     section {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       flex-direction: column;
       border: 5px solid rgb(15, 20, 24);
@@ -29,6 +29,15 @@
       margin-bottom: 1.5em;
       span {
         color: white;
+        padding: 20%;
+        text-align: center;
+      }
+      #key, #shield, #idea {
+        width: 50%;
+        height: 50%;
+        background-repeat:no-repeat;
+        background-size:contain;
+        margin-top: 2.5em;
       }
     }
   }
@@ -36,15 +45,20 @@
 
 #key {
   background-image: url("../imgs/key.png");
-  width: 50%;
-  height: 50%;
-  background-repeat:no-repeat;
-  background-size:contain;
+}
+
+#shield {
+  background-image: url("../imgs/shield.png");
+}
+
+#idea {
+  background-image: url("../imgs/idea.png");
+
 }
 
 // Slight adjustment on smaller screen/viewport sizes
 @media only screen and (max-width: 1250px) {
-  #landing div {
+  #landing > div {
     transform: translateX(-36%);
   }
 }
