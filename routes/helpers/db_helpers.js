@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 module.exports = (db) => {
   /**
    * Get a single user from the db given their email.
