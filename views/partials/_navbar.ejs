@@ -16,7 +16,8 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <!-- IF USER IS LOGGED IN -->
-    <!-- <ul class="navbar-nav mr-auto">
+    <% if (user) { %>
+    <ul class="navbar-nav mr-auto">
       <form class="form-inline">
         <input
           class="form-control mr-sm-2"
@@ -59,9 +60,9 @@
           Log Out
         </button>
       </form>
-    </ul> -->
-    <!----------------------------->
+    </ul>
 
+    <% } else { %>
     <!-- IF USER IS NOT LOGGED IN -->
     <ul class="navbar-nav ml-auto">
       <div class="navbar-nav">
@@ -69,5 +70,6 @@
         <a class="nav-item nav-link" href="/register">REGISTER</a>
       </div>
     </ul>
+    <% } %>
   </div>
 </nav>
