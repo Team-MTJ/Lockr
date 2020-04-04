@@ -111,7 +111,8 @@ module.exports = (db) => {
       });
   };
 
-  /* Get a list of users from the given organization id.
+  /**
+   * Get a list of users from the given organization id.
    * @param {String} org The org of the user.
    * @return {Promise<{}>} A promise to the user.
    */
@@ -119,16 +120,23 @@ module.exports = (db) => {
     return db
       .query(
         `
-     SELECT users.first_name, users.last_name, users.email FROM users
-      JOIN membership ON users.id = user_id
-      JOIN org ON org.id = org_id
-      WHERE org.id = $1
-     `,
+        SELECT users.first_name, users.last_name, users.email FROM users
+        JOIN membership ON users.id = user_id
+        JOIN org ON org.id = org_id
+        WHERE org.id = $1
+        `,
         [id]
       )
       .then((res) => res.rows)
       .catch((e) => console.error(e));
   };
 
-  return { getUserWithEmail, login, addUser, getUserWithId, getUsersByOrg, getOrgsWithUserId };
+  return {
+    getUserWithEmail,
+    login,
+    addUser,
+    getUserWithId,
+    getUsersByOrg,
+    getOrgsWithUserId,
+  };
 };
