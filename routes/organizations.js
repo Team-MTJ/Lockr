@@ -5,8 +5,8 @@ module.exports = (db) => {
   router.get("/:organization", (req, res) => {
     res.render("organization");
   });
-  
-  router.get("/manage", (req, res) => {
+
+  router.get("/:organization/manage", (req, res) => {
     res.render("manage");
   });
 
