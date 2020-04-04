@@ -28,8 +28,7 @@ module.exports = (db) => {
    * @param {String} password encrypted
    */
   const login = function (email, password) {
-    return db
-      .getUserWithEmail(email) //Test
+    return getUserWithEmail(email) //Test
       .then((user) => {
         if (bcrypt.compareSync(password, user.password)) {
           return user;
