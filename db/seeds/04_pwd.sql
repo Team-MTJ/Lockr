@@ -1,5 +1,5 @@
 INSERT INTO pwd
-  (org_id, website_title, website_url, encrypted_pwd, category)
+  (org_id, website_title, website_url, website_pwd, category)
 VALUES
   (1, 'Reddit', 'http://www.reddit.com', 'x', 'entertainment'),
   (1, 'Food Network', 'https://www.foodnetwork.com/', 'x', 'food'),
