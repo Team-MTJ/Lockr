@@ -32,29 +32,47 @@ module.exports = (db) => {
 
   router.get("/:org_id", (req, res) => {
     const { org_id } = req.params;
+    let templateVars = {};
     if (!req.session.userId) {
       res.status(400).send("please login");
     } else {
-      dbHelpers
-        .getUserWithId(req.session.userId)
-        .then((user) => {
-          dbHelpers
-            .getOrgsWithUserId(user.id) // Get orgs
-            .then((orgs) => {
-              dbHelpers
-                .getPwdByOrgID(org_id, user.id)
-                .then((data) => {
-                  if (!data) res.status(400).send("NO ORG OR NOT ACTIVE");
-                  else {
-                    let templateVars = { pwds: data, user, orgs };
-                    res.render("organization", templateVars);
-                  }
-                })
-                .catch((e) => res.send(e));
+      dbHelpers.getUserWithId(req.session.userId).then((user) => {
+        dbHelpers.getOrgsWithUserId(user.id).then((orgs) => {
+          dbHelpers.doesOrgExist(org_id).then((yesOrNo) => {
+            if (!yesOrNo) res.status(400).send("NO ORG OR NOT ACTIVE");
+            dbHelpers.getPwdByOrgID(org_id, user.id).then((pwds) => {
+              if (!pwds) {
+                templateVars = { user, orgs, pwds: "" };
+              } else {
+                templateVars = { user, orgs, pwds };
+                res.render("organization", templateVars);
+              }
             });
-        })
-        .catch((e) => res.send(e));
+          });
+        });
+      });
     }
+    //   dbHelpers
+    //     .getUserWithId(req.session.userId)
+    //     .then((user) => {
+    //       db.doesOrgExist
+    //       dbHelpers
+    //         .getOrgsWithUserId(user.id) // Get orgs
+    //         .then((orgs) => {
+    //           dbHelpers
+    //             .getPwdByOrgID(org_id, user.id)
+    //             .then((data) => {
+    //               if (!data) res.status(400).send("NO ORG OR NOT ACTIVE");
+    //               else {
+    //                 let templateVars = { pwds: data, user, orgs };
+    //                 res.render("organization", templateVars);
+    //               }
+    //             })
+    //             .catch((e) => res.send(e));
+    //         });
+    //     })
+    //     .catch((e) => res.send(e));
+    // }
   });
   return router;
 };

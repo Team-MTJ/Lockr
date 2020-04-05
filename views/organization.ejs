@@ -18,7 +18,7 @@
         >
       </div>
     </div>
-    <% pwds.forEach((pwd) => { %>
+    <% if (pwds) { pwds.forEach((pwd) => { %>
     <div
       class="card col- mx-3 mt-4 bg-light mb-3 text-center"
       style="min-width: 20rem;"
@@ -34,7 +34,7 @@
         <a href="/passwords/<%=pwd.id%>" class="btn btn-primary">GO</a>
       </div>
     </div>
-    <% }); %>
+    <% }); } %>
   </div>
 </div>
 <%-include('partials/_footer') %>

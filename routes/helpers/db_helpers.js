@@ -186,10 +186,24 @@ module.exports = (db) => {
         [org_id, user_id]
       )
       .then((res) => {
-        if (res.rows.length === 0) return null;
         return res.rows;
       })
       .catch((e) => console.error(e));
+  };
+
+  const doesOrgExist = function (id) {
+    return db
+      .query(
+        `
+    SELECT * FROM org
+    WHERE org.id = $1::integer
+    `,
+        [id]
+      )
+      .then((res) => {
+        if (res.rows) return true;
+        return false;
+      });
   };
 
   return {
@@ -201,5 +215,6 @@ module.exports = (db) => {
     getOrgsWithUserId,
     addOrg,
     getPwdByOrgID,
+    doesOrgExist,
   };
 };
