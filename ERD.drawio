@@ -145,7 +145,7 @@
         <mxCell id="kHBQBAvJ7uF7JaD16tmF-75" value="" style="shape=partialRectangle;top=0;left=0;bottom=0;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[];portConstraint=eastwest;part=1;fontSize=12;" parent="kHBQBAvJ7uF7JaD16tmF-74" vertex="1" connectable="0">
           <mxGeometry width="30" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="kHBQBAvJ7uF7JaD16tmF-23" value="encrypted_pwd" style="shape=partialRectangle;top=0;left=0;right=0;bottom=0;align=left;verticalAlign=top;fillColor=none;spacingLeft=34;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;dropTarget=0;fontSize=12;" parent="kHBQBAvJ7uF7JaD16tmF-18" vertex="1">
+        <mxCell id="kHBQBAvJ7uF7JaD16tmF-23" value="website_pwd" style="shape=partialRectangle;top=0;left=0;right=0;bottom=0;align=left;verticalAlign=top;fillColor=none;spacingLeft=34;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;dropTarget=0;fontSize=12;" parent="kHBQBAvJ7uF7JaD16tmF-18" vertex="1">
           <mxGeometry y="108" width="136" height="26" as="geometry" />
         </mxCell>
         <mxCell id="kHBQBAvJ7uF7JaD16tmF-24" value="" style="shape=partialRectangle;top=0;left=0;bottom=0;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[];portConstraint=eastwest;part=1;fontSize=12;" parent="kHBQBAvJ7uF7JaD16tmF-23" vertex="1" connectable="0">
