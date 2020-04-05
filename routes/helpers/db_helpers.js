@@ -130,7 +130,7 @@ module.exports = (db) => {
       .catch((e) => console.error(e));
   };
 
-    /**
+  /**
    * Check password id against user id to make sure that user is allowed to access that password
    * @param {integer} user_id The id of the user.
    * @param {integer} pwd_id The id of the password.
@@ -154,8 +154,8 @@ module.exports = (db) => {
         } else {
           return res.rows[0];
         }
-      })
-    }
+      });
+  };
   /**
    * Add a new org to the database.
    * @param {name: string} org
@@ -255,6 +255,20 @@ module.exports = (db) => {
       });
   };
 
+  const addPwdToOrg = function (org, title, url, username, password) {
+    // Category not added yet (not sure about functionality with it)
+    const values = [org, title, url, username, password];
+    return db
+      .query(
+        `
+    INSERT INTO pwd (org_id, website_title, website_url, website_username, website_pwd) VALUES ($1, $2, $3, $4, $5) RETURNING *;
+    `,
+        values
+      )
+      .then((res) => res.rows[0])
+      .catch((e) => console.log(e));
+  };
+
   return {
     getUserWithEmail,
     login,
@@ -267,5 +281,6 @@ module.exports = (db) => {
     getPwdByOrgID,
     doesOrgExist,
     isUserAdmin,
+    addPwdToOrg,
   };
 };
