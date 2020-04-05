@@ -1,6 +1,7 @@
 <%- include('partials/_header') %> <%- include('partials/_navbar') %>
 <div class="container">
   <div class="row row-cols-4">
+    <% if(trueOrNot) { %>
     <div
       class="card col- mx-3 mt-4 bg-light mb-3 text-center"
       style="min-width: 20rem;"
@@ -18,7 +19,7 @@
         >
       </div>
     </div>
-    <% if (pwds) { pwds.forEach((pwd) => { %>
+    <% } %> <% if (pwds) { pwds.forEach((pwd) => { %>
     <div
       class="card col- mx-3 mt-4 bg-light mb-3 text-center"
       style="min-width: 20rem;"

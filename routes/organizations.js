@@ -24,8 +24,9 @@ module.exports = (db) => {
   router.post("/new", (req, res) => {
     const org = req.body;
     dbHelpers.getUserWithId(req.session.userId).then((user) => {
-      dbHelpers.addOrg(org, user).then(() => {
-        return res.send(`Successfully created ${org.name}`);
+      dbHelpers.addOrg(org, user).then((data) => {
+        console.log(data);
+        return res.redirect(`/orgs/${data.org_id}`);
       });
     });
   });
@@ -39,14 +40,17 @@ module.exports = (db) => {
       dbHelpers.getUserWithId(req.session.userId).then((user) => {
         dbHelpers.getOrgsWithUserId(user.id).then((orgs) => {
           dbHelpers.doesOrgExist(org_id).then((yesOrNo) => {
-            if (!yesOrNo) res.status(400).send("NO ORG OR NOT ACTIVE");
-            dbHelpers.getPwdByOrgID(org_id, user.id).then((pwds) => {
-              if (!pwds) {
-                templateVars = { user, orgs, pwds: "" };
-              } else {
-                templateVars = { user, orgs, pwds };
-                res.render("organization", templateVars);
-              }
+            if (!yesOrNo) res.status(400).send("NO ORG");
+            dbHelpers.isUserAdmin(org_id, user.id).then((trueOrNot) => {
+              console.log(trueOrNot);
+              dbHelpers.getPwdByOrgID(org_id, user.id).then((pwds) => {
+                if (!pwds) {
+                  templateVars = { user, orgs, pwds: "", trueOrNot };
+                } else {
+                  templateVars = { user, orgs, pwds, trueOrNot };
+                  res.render("organization", templateVars);
+                }
+              });
             });
           });
         });

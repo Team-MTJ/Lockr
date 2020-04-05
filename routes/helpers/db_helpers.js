@@ -151,17 +151,20 @@ module.exports = (db) => {
       .then((data) => {
         const newOrg = data.rows[0];
         // Make membership entry
-        db.query(
-          `
+        return db
+          .query(
+            `
           INSERT INTO membership
           (user_id, org_id, is_admin)
           VALUES
           ($1, $2, true)
           RETURNING *;
           `,
-          [user.id, newOrg.id]
-        )
-          .then((res) => res.rows[0])
+            [user.id, newOrg.id]
+          )
+          .then((res) => {
+            return res.rows[0];
+          })
           .catch((e) => console.error(e));
       })
       .catch((e) => console.error(e));
@@ -177,7 +180,7 @@ module.exports = (db) => {
     return db
       .query(
         `
-    SELECT pwd.* , membership.is_active FROM pwd
+    SELECT pwd.* , membership.is_active, membership.is_admin FROM pwd
     JOIN membership ON membership.org_id = pwd.org_id
     WHERE membership.org_id = $1::integer
     AND membership.user_id = $2::integer
@@ -206,6 +209,28 @@ module.exports = (db) => {
       });
   };
 
+  const isUserAdmin = function (org_id, user_id) {
+    return db
+      .query(
+        `
+    SELECT * FROM membership
+    WHERE org_id = $1::integer
+    AND user_id = $2::integer
+    AND is_admin = true;
+    `,
+        [org_id, user_id]
+      )
+      .then((res) => {
+        console.log("res", res.rows);
+        if (res.rows.length > 0) {
+          console.log("true");
+          return true;
+        }
+
+        return false;
+      });
+  };
+
   return {
     getUserWithEmail,
     login,
@@ -216,5 +241,6 @@ module.exports = (db) => {
     addOrg,
     getPwdByOrgID,
     doesOrgExist,
+    isUserAdmin,
   };
 };
