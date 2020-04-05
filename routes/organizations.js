@@ -46,7 +46,7 @@ module.exports = (db) => {
                 .then((data) => {
                   if (!data) res.status(400).send("NO ORG OR NOT ACTIVE");
                   else {
-                    let templateVars = { data, user, orgs };
+                    let templateVars = { pwds: data, user, orgs };
                     res.render("organization", templateVars);
                   }
                 })
