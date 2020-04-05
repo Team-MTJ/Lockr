@@ -8,11 +8,13 @@ $(() => {
     }
   });
 
-  $("#copy").on("click", function() {
-    console.log("WTF")
-    const $text = $("#passwordBox");
-    $text.focus().select();
-    document.execCommand("copy");
-    alert("Copied the text: " + $text.value);
-  });
+
+});
+
+$("#copy").on("click", function() {
+  console.log("WTF")
+  const $text = $("#passwordBox");
+  $text.select();
+  document.execCommand("copy");
+  alert("Copied the text: " + $text);
 });
