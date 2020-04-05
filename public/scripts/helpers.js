@@ -1,3 +1,8 @@
+/**
+ * Generate a random password client-side given some options
+ * @param {{length: Number, includeNumbers: Boolean, includeSymbols: Boolean }} options An options object
+ * @return {String} The generated password
+ */
 const generateRandomPassword = (options) => {
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   const numbers = "1234567890";
