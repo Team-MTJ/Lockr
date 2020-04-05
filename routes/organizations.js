@@ -2,13 +2,59 @@ const express = require("express");
 const router = express.Router();
 
 module.exports = (db) => {
-  router.get("/:organization", (req, res) => {
-    res.send("organization");
+  const dbHelpers = require("./helpers/db_helpers")(db);
+
+  router.get("/new", (req, res) => {
+    dbHelpers
+      .getUserWithId(req.session.userId) // Get user id
+      .then((user) => {
+        if (!user) {
+          return res.status(403).send("You are not authorized!");
+        }
+
+        dbHelpers
+          .getOrgsWithUserId(user.id) // Get orgs
+          .then((orgs) => {
+            const templateVars = { user, orgs };
+            return res.render("orgs_new", templateVars);
+          });
+      });
   });
 
-  router.get("/:organization/manage", (req, res) => {
-    res.render("manage");
+  router.post("/new", (req, res) => {
+    const org = req.body;
+    dbHelpers.getUserWithId(req.session.userId).then((user) => {
+      dbHelpers.addOrg(org, user).then(() => {
+        return res.send(`Successfully created ${org.name}`);
+      });
+    });
   });
 
+  router.get("/:org_id", (req, res) => {
+    const { org_id } = req.params;
+    if (!req.session.userId) {
+      res.status(400).send("please login");
+    } else {
+      dbHelpers
+        .getUserWithId(req.session.userId)
+        .then((user) => {
+          dbHelpers
+            .getOrgsWithUserId(user.id) // Get orgs
+            .then((orgs) => {
+              dbHelpers
+                .getPwdByOrgID(org_id, user.id)
+                .then((data) => {
+                  if (!data) res.status(400).send("NO ORG OR NOT ACTIVE");
+                  else {
+                    let templateVars = { pwds: data, user, orgs };
+                    res.render("organization", templateVars);
+                  }
+                })
+                .catch((e) => res.send(e));
+            });
+        })
+        .catch((e) => res.send(e));
+    }
+  });
   return router;
 };

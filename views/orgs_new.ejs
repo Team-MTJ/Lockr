@@ -1,0 +1,15 @@
+<%- include('partials/_header') %> <%- include('partials/_navbar') %>
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <!--ADD ACTION-->
+    <form action='/orgs/new' method='POST'>
+      <div class="form-group">
+        <h1 class="d-flex justify-content-center">Create a new organization:</h1>
+        <label for="org_name">Name of Organization:</label>
+        <input type="text" class="form-control" id="org_name" name="name" />
+      </div>
+      <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+  </div>
+</div>
+<%- include('partials/_footer') %>

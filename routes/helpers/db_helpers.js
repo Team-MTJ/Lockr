@@ -85,7 +85,6 @@ module.exports = (db) => {
   };
 
   /**
-
    * Get an array of orgs the user belongs to from the database
    * @param {string} id The id of the user.
    * @return {Promise<{}>} A promise to the user.
@@ -98,13 +97,12 @@ module.exports = (db) => {
         SELECT * FROM users
         JOIN membership ON user_id=users.id
         JOIN org on org_id=org.id
-        WHERE users.id=$1::integer
+        WHERE users.id=$1::integer AND is_active=true;
         `,
         [id]
       )
       .then((res) => {
         if (res.rows.length === 0) return null;
-        console.log(res.rows);
         return res.rows;
       })
       .catch((e) => {
@@ -117,16 +115,15 @@ module.exports = (db) => {
    * @param {integer} org The org id of the user.
    * @return {Promise<{}>} A promise to the user.
    */
-
   const getUsersByOrg = function (id) {
     return db
       .query(
         `
-     SELECT users.first_name, users.last_name, users.email FROM users
-      JOIN membership ON users.id = user_id
-      JOIN org ON org.id = org_id
-      WHERE org.id = $1
-     `,
+        SELECT users.first_name, users.last_name, users.email FROM users
+        JOIN membership ON users.id = user_id
+        JOIN org ON org.id = org_id
+        WHERE org.id = $1 AND is_active = true;
+        `,
         [id]
       )
       .then((res) => res.rows)
@@ -157,7 +154,68 @@ module.exports = (db) => {
         } else {
           return res.rows[0];
         }
-      });
+      })
+    }
+  /**
+   * Add a new org to the database.
+   * @param {name: string} org
+   * @param {name: string} user
+   * @return {Promise<{}>} A promise to the user.
+   */
+  const addOrg = function (org, user) {
+    return db
+      .query(
+        `
+        INSERT INTO org
+        (name)
+        VALUES
+        ($1)
+        RETURNING *;
+        `,
+        [org.name]
+      )
+      .then((data) => {
+        const newOrg = data.rows[0];
+        // Make membership entry
+        db.query(
+          `
+          INSERT INTO membership
+          (user_id, org_id, is_admin)
+          VALUES
+          ($1, $2, true)
+          RETURNING *;
+          `,
+          [user.id, newOrg.id]
+        )
+          .then((res) => res.rows[0])
+          .catch((e) => console.error(e));
+      })
+      .catch((e) => console.error(e));
+  };
+
+  /**
+   * Find passwords using org id and user id
+   * @param {name: integer} org_id
+   * @param {name: integer} user_id
+   * @return {Promise<{}>} A promise to the user.
+   */
+  const getPwdByOrgID = function (org_id, user_id) {
+    return db
+      .query(
+        `
+    SELECT pwd.* , membership.is_active FROM pwd
+    JOIN membership ON membership.org_id = pwd.org_id
+    WHERE membership.org_id = $1::integer
+    AND membership.user_id = $2::integer
+    AND membership.is_active = true;
+    `,
+        [org_id, user_id]
+      )
+      .then((res) => {
+        if (res.rows.length === 0) return null;
+        return res.rows;
+      })
+      .catch((e) => console.error(e));
   };
 
   return {
@@ -168,5 +226,7 @@ module.exports = (db) => {
     getUsersByOrg,
     getOrgsWithUserId,
     checkAuthGetPwd,
+    addOrg,
+    getPwdByOrgID,
   };
 };
