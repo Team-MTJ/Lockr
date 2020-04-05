@@ -15,9 +15,6 @@ module.exports = (db) => {
   //   .catch((e) => console.error(e));
   // });
 
-  router.get("passwords/new", (req, res) => {
-    
-  })
 
   return router;
 };

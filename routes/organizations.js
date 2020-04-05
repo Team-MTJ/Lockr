@@ -64,8 +64,30 @@ module.exports = (db) => {
     }
 
     router.post("/:org_id", (req, res) => {
-      
-    })
+      const org_id = req.params.org_id;
+      const {
+        website_title,
+        website_url,
+        website_username,
+        website_pwd,
+      } = req.body;
+
+      if (!(website_title || website_url || website_username || website_pwd)) {
+        return res.status(400).send("All fields must be filled in!");
+      } else {
+        dbHelpers
+          .addPwdToOrg(
+            org_id,
+            website_title,
+            website_url,
+            website_username,
+            website_pwd
+          )
+          .then(() => {
+            return res.redirect("/:org_id");
+          });
+      }
+    });
 
     //   dbHelpers
     //     .getUserWithId(req.session.userId)
