@@ -39,19 +39,25 @@ module.exports = (db) => {
     } else {
       dbHelpers.getUserWithId(req.session.userId).then((user) => {
         dbHelpers.getOrgsWithUserId(user.id).then((orgs) => {
-          dbHelpers.doesOrgExist(org_id).then((yesOrNo) => {
-            if (!yesOrNo) res.status(400).send("NO ORG");
-            dbHelpers.isUserAdmin(org_id, user.id).then((trueOrNot) => {
-              console.log(trueOrNot);
-              dbHelpers.getPwdByOrgID(org_id, user.id).then((pwds) => {
-                if (!pwds) {
-                  templateVars = { user, orgs, pwds: "", trueOrNot };
-                } else {
-                  templateVars = { user, orgs, pwds, trueOrNot };
-                  res.render("organization", templateVars);
-                }
+          dbHelpers.doesOrgExist(org_id).then((doesOrgExistTrueOrNot) => {
+            if (!doesOrgExistTrueOrNot) res.status(400).send("NO ORG");
+            dbHelpers
+              .isUserAdmin(org_id, user.id)
+              .then((isUserAdminTrueOrNot) => {
+                dbHelpers.getPwdByOrgID(org_id, user.id).then((pwds) => {
+                  if (!pwds) {
+                    templateVars = {
+                      user,
+                      orgs,
+                      pwds: "",
+                      isUserAdminTrueOrNot,
+                    };
+                  } else {
+                    templateVars = { user, orgs, pwds, isUserAdminTrueOrNot };
+                    res.render("organization", templateVars);
+                  }
+                });
               });
-            });
           });
         });
       });

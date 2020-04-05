@@ -221,9 +221,7 @@ module.exports = (db) => {
         [org_id, user_id]
       )
       .then((res) => {
-        console.log("res", res.rows);
         if (res.rows.length > 0) {
-          console.log("true");
           return true;
         }
 
