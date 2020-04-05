@@ -23,20 +23,38 @@ module.exports = (db) => {
 
   router.post("/new", (req, res) => {
     const org = req.body;
-    dbHelpers.getUserWithId(req.session.userId).then((user) => {      
+    dbHelpers.getUserWithId(req.session.userId).then((user) => {
       dbHelpers.addOrg(org, user).then(() => {
         return res.send(`Successfully created ${org.name}`);
       });
     });
   });
 
-  router.get("/:organization", (req, res) => {
-    res.send("organization");
+  router.get("/:org_id", (req, res) => {
+    const { org_id } = req.params;
+    if (!req.session.userId) {
+      res.status(400).send("please login");
+    } else {
+      dbHelpers
+        .getUserWithId(req.session.userId)
+        .then((user) => {
+          dbHelpers
+            .getOrgsWithUserId(user.id) // Get orgs
+            .then((orgs) => {
+              dbHelpers
+                .getPwdByOrgID(org_id, user.id)
+                .then((data) => {
+                  if (!data) res.status(400).send("NO ORG OR NOT ACTIVE");
+                  else {
+                    let templateVars = { data, user, orgs };
+                    res.render("organization", templateVars);
+                  }
+                })
+                .catch((e) => res.send(e));
+            });
+        })
+        .catch((e) => res.send(e));
+    }
   });
-
-  router.get("/:organization/manage", (req, res) => {
-    res.render("manage");
-  });
-
   return router;
 };

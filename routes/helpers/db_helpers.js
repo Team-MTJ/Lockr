@@ -167,6 +167,31 @@ module.exports = (db) => {
       .catch((e) => console.error(e));
   };
 
+  /**
+   * Find passwords using org id and user id
+   * @param {name: integer} org_id
+   * @param {name: integer} user_id
+   * @return {Promise<{}>} A promise to the user.
+   */
+  const getPwdByOrgID = function (org_id, user_id) {
+    return db
+      .query(
+        `
+    SELECT pwd.* , membership.is_active FROM pwd
+    JOIN membership ON membership.org_id = pwd.org_id
+    WHERE membership.org_id = $1::integer
+    AND membership.user_id = $2::integer
+    AND membership.is_active = true;
+    `,
+        [org_id, user_id]
+      )
+      .then((res) => {
+        if (res.rows.length === 0) return null;
+        return res.rows;
+      })
+      .catch((e) => console.error(e));
+  };
+
   return {
     getUserWithEmail,
     login,
@@ -175,5 +200,6 @@ module.exports = (db) => {
     getUsersByOrg,
     getOrgsWithUserId,
     addOrg,
+    getPwdByOrgID,
   };
 };
