@@ -64,7 +64,7 @@ module.exports = (db) => {
     }
 
     router.post("/:org_id", (req, res) => {
-      const org_id = req.params.org_id;
+      const { org_id } = req.params;
       const {
         website_title,
         website_url,
