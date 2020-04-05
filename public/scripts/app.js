@@ -7,15 +7,16 @@ $(() => {
       $("<div>").text(user.name).appendTo($("body"));
     }
   });
-  
+
   const $password = $("PASSWORD CARD PLACEHOLDER BUTTON");
   $password.on("click", function () {
     $.ajax({
-      url: "/password/:pwd",
+      url: "/passwords/:pwd_id",
       method: "GET",
       dataType: "json",
-      success: (data) => {
-        return data;
+      success: (pwd) => {
+        $("#PASSWORD INFO").html(pwd);
+        $("#MODAL DIV").modal("show");
       },
     });
   });
