@@ -31,7 +31,6 @@
         </h6>
         <p class="card-text">Username: <%= pwd.website_username%></p>
         <p class="card-text">Password: <%= pwd.website_pwd%></p>
-        <a href="/passwords/<%=pwd.id%>" class="btn btn-primary">GO</a>
         <a
           href="passwords/<%=pwd.id%>"
           data-toggle="modal"
@@ -54,7 +53,6 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="title"><%=pwd.website_title%></h5>
-            </button>
           </div>
           <div class="modal-body" id="pwd-info">
             <img src="https://cdn4.iconfinder.com/data/icons/core-ui-outlined/32/outlined_placeholder-512.png" style="width: 100px; height: auto"/>
