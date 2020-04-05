@@ -64,7 +64,8 @@
           <div class="modal-body" id="pwd-info">
             <img src="https://cdn4.iconfinder.com/data/icons/core-ui-outlined/32/outlined_placeholder-512.png" style="width: 100px; height: auto"/>
             <div><%= pwd.website_url%></div>
-            <input type="password" placeholder="<%= pwd.encrypted_pwd%>" disabled>
+            <input id="passwordBox" type="text" value="<%= pwd.encrypted_pwd%>">
+            <button id= "copy">Copy Password</button>
           </div>
           <div class="modal-footer">
             <button
