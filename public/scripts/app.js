@@ -11,10 +11,13 @@ $(() => {
 
 });
 
+// Copy to clipboard function for modal
 $("#copy").on("click", function() {
-  console.log("WTF")
+  // Remove disable to allow copy function
+  $('#passwordBox').prop("disabled", false);
   const $text = $("#passwordBox");
   $text.select();
   document.execCommand("copy");
-  alert("Copied the text: " + $text);
+  // Enable disable again
+  $('#passwordBox').prop("disabled", true);
 });
