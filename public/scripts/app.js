@@ -8,15 +8,15 @@ $(() => {
     }
   });
 
-  const $password = $("PASSWORD CARD PLACEHOLDER BUTTON");
+  const $password = $("#open-pwd");
   $password.on("click", function () {
     $.ajax({
       url: "/passwords/:pwd_id",
       method: "GET",
       dataType: "json",
       success: (pwd) => {
-        $("#PASSWORD INFO").html(pwd);
-        $("#MODAL DIV").modal("show");
+        $("#pwd-info").html(pwd);
+        $("#modal").modal("show");
       },
     });
   });

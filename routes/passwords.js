@@ -7,6 +7,7 @@ module.exports = (db) => {
 
   router.get("/:pwd_id", (req, res) => {
     const { userId } = req.session;
+    console.log(req.session);
     const password = req.params.pwd_id;
     dbHelpers.checkAuthGetPwd(userId, password) .then((data) => {
       res.json( {data});
