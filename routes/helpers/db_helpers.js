@@ -269,6 +269,61 @@ module.exports = (db) => {
       .catch((e) => console.log(e));
   };
 
+  /**
+   * Modify a password from the db given a new new_pwd object
+   * @param {{id: Number, website_title: String, website_url: String, website_username: String, website_pwd: String, category: String}} new_pwd The new pwd object
+   * @return {Promise<{}>} A promise to query the db
+   */
+  const modifyPwd = function (new_pwd) {
+    const queryParams = [];
+
+    let queryString = `
+    UPDATE pwd
+    SET 
+    `;
+
+    // Check which fields were passed in and need to be updated
+    if (new_pwd.website_title) {
+      queryParams.push(website_title);
+      queryString += `website_title=$${queryParams.length}, `;
+    }
+
+    if (new_pwd.website_url) {
+      queryParams.push(website_url);
+      queryString += `website_url=$${queryParams.length}, `;
+    }
+
+    if (new_pwd.website_username) {
+      queryParams.push(website_username);
+      queryString += `website_username=$${queryParams.length}, `;
+    }
+
+    if (new_pwd.website_pwd) {
+      queryParams.push(website_pwd);
+      queryString += `website_pwd=$${queryParams.length}, `;
+    }
+
+    if (new_pwd.category) {
+      queryParams.push(category);
+      queryString += `category=$${queryParams.length}, `;
+    }
+
+    // WHERE clause
+    queryParams.push(new_pwd.id);
+    queryString += `
+    WHERE id=$${queryParams.length}
+    RETURNING *;`;
+
+    return db
+      .query(queryString, queryParams)
+      .then((res) => {
+        return res.rows[0];
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return {
     getUserWithEmail,
     login,
@@ -282,5 +337,6 @@ module.exports = (db) => {
     doesOrgExist,
     isUserAdmin,
     addPwdToOrg,
+    modifyPwd,
   };
 };
