@@ -15,6 +15,7 @@ module.exports = (db) => {
 
       // Create a newPwd object from the form values passed in
       const newPwd = req.body;
+      newPwd.id = pwd_id;
 
       // Delete keys that were not passed in through the form
       for (const key of Object.keys(newPwd)) {
@@ -50,7 +51,7 @@ module.exports = (db) => {
   router.post("/new", (req, res) => {
     const org = req.body;
     dbHelpers.getUserWithId(req.session.userId).then((user) => {
-      dbHelpers.addOrg(org, user).then((data) => {        
+      dbHelpers.addOrg(org, user).then((data) => {
         return res.redirect(`/orgs/${data.org_id}`);
       });
     });
