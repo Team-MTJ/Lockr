@@ -90,7 +90,29 @@ module.exports = (db) => {
     });
 
     router.put(":org_id/:pwd_id", (req, res) => {
-      const { org_id, pwd_id } = req.body.params;
+      const { org_id, pwd_id } = req.params;
+      dbHelpers.isUserAdmin(org_id, req.session.userId).then((admin) => {
+        if (!admin) {
+          return res
+            .status(403)
+            .send("You are not authorized to change the password!");
+        }
+
+        // Create a newPwd object from the form values passed in
+        const newPwd = req.body;
+
+        // Delete keys that were not passed in through the form
+        for (const key of Object.keys(newPwd)) {
+          if (!newPwd[key]) {
+            delete newPwd[key];
+          }
+        }
+
+        dbHelpers
+          .modifyPwd(newPwd)
+          .then(res.redirect("orgs/${org_id"))
+          .catch((e) => res.send(e));
+      });
     });
     //   dbHelpers
     //     .getUserWithId(req.session.userId)
