@@ -13,6 +13,7 @@ $(() => {
   // $( ".inner" ).append( "<p>Test</p>" );
 
   $("#manageOrgs > a").on("click", function () {
+    // Get org_id from data-id in html
     const org_id = $(this).data("id");
     $.ajax({
       url: "/manage/org",
@@ -21,6 +22,7 @@ $(() => {
       data: { org_id },
       success: (data) => {
         const body = $("#manage-table").DataTable();
+        body.clear();
         data.forEach((member) => {
           body.row.add([
             member.first_name,
