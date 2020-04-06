@@ -21,17 +21,17 @@ module.exports = (db) => {
                 "You have no admin privileges in any organization that you belong to."
               );
           } else {
-            const templateVars = { user, orgs };
+            const templateVars = { user, orgs, adminOrgs };
             res.render("manage", templateVars);
           }
         });
       });
     });
   });
-  router.post("/foobar", (req, res) => {
-    // console.log(req.body);
+  
+  router.post("/org", (req, res) => {
+    console.log(req.body.org_id);
     dbHelpers.getUsersByOrg(req.body.org_id).then(users => {
-      console.log(users);
       res.json(users);
     })
   })

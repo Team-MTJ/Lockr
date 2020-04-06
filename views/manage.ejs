@@ -8,8 +8,8 @@
     Organizations
   </button>
   <div class="dropdown-menu" id="manageOrgs">
-    <% for (org of orgs) { %>
-      <a class="dropdown-item" data-id="<%= org.id%>" href="#"><%= org.name %></a>
+    <% for (org of adminOrgs) { %>
+      <a class="dropdown-item" data-id="<%= org.org_id%>" href="#<%= org.name%>"><%= org.name %></a>
       <% } %>
   </div>
 </div>
@@ -18,13 +18,22 @@
 <table class="table" id="manage-table">
   <thead class="thead-dark">
     <tr>
-      <th scope="col">Organization</th>
       <th scope="col">First Name</th>
       <th scope="col">Last Name</th>
-      <th scope="col">Is Active</th>
+      <th scope="col">Email</th>
     </tr>
   </thead>
   <tbody>
+    
+  </tbody>
+ 
+</table>
+
+
+<%-include('partials/_footer') %>
+
+
+<!--  <tbody>
     <tr>
       <th scope="row">1</th>
       <td>Mark</td>
@@ -43,8 +52,4 @@
       <td>the Bird</td>
       <td>@twitter</td>
     </tr>
-  </tbody>
-</table>
-
-
-<%-include('partials/_footer') %>
+  </tbody> -->
