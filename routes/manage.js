@@ -13,24 +13,27 @@ module.exports = (db) => {
         if (!orgs) res.redirect("/orgs/new");
         // if memberOfAnyOrgs -> check each for admin privileges and add org_id to array
         // Only want to display orgs where they have admin rights on the manage page
-        let orgsWhereUserIsAdmin = [];
-        orgs.forEach((row) => {
-          if (row.is_admin) {
-            orgsWhereUserIsAdmin.push(row);
+        dbHelpers.orgsWhereUserIsAdmin(user.id).then((adminOrgs) => {
+          if (adminOrgs.length === 0) {
+            return res
+              .status(400)
+              .send(
+                "You have no admin privileges in any organization that you belong to."
+              );
+          } else {
+            let userList = {};
+            // console.log(adminOrgs);
+
+            adminOrgs.forEach(org => {
+              dbHelpers.getUsersByOrg(org.org_id).then(org => {
+                
+              } 
+            )})
+              const templateVars = { user, userList, orgs };
+              res.render("manage", templateVars);
+
           }
         });
-        if (orgsWhereUserIsAdmin.length === 0) {
-          return res
-            .status(400)
-            .send(
-              "You have no admin privileges in any organization that you belong to."
-            );
-        } else {
-          console.log(orgsWhereUserIsAdmin)
-          dbHelpers.getUsersByOrg;
-          const templateVars = { user, orgsWhereUserIsAdmin, orgs };
-          res.render("manage", templateVars);
-        }
       });
     });
   });

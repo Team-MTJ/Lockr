@@ -8,8 +8,10 @@ $(() => {
     }
   });
 
-
 });
+
+  const manageTable = $('#manage-table > tbody');
+  console.log(manageTable);
 
 // Copy to clipboard function for modal
 $(".copy").on("click", function() {
