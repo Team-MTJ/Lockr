@@ -1,4 +1,5 @@
 $(() => {
+  // Dynamically create membership table depending on organization clicked in dropdown menu
   $("#manageOrgs > a").on("click", function () {
     // Get org_id from data-id in html
     const org_id = $(this).data("id");
