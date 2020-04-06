@@ -14,7 +14,7 @@ $(() => {
 // Copy to clipboard function for modal
 $(".copy").on("click", function() {
   // Remove disable to allow copy function
-  const $passwordBox = $(".copy").siblings(".passwordBox");
+  const $passwordBox = $(".copy").parents().siblings(".passwordBox");
   $passwordBox.prop("disabled", false);
   $passwordBox.select();
   document.execCommand("copy");
