@@ -1,14 +1,13 @@
-$(() => {
-  $.ajax({
-    method: "GET",
-    url: "/api/users",
-  }).done((users) => {
-    for (user of users) {
-      $("<div>").text(user.name).appendTo($("body"));
-    }
-  });
-});
-
+// $(() => {
+//   $.ajax({
+//     method: "GET",
+//     url: "/api/users",
+//   }).done((users) => {
+//     for (user of users) {
+//       $("<div>").text(user.name).appendTo($("body"));
+//     }
+//   });
+// });
 // Copy to clipboard function for modal
 $(".copy").on("click", function () {
   // Remove disable to allow copy function
@@ -21,7 +20,7 @@ $(".copy").on("click", function () {
 });
 
 //Display value on slide
-$("#password_length").on("slide", function (slideEvt) {
-  alert(slideEvt);
-  $("#length_span").text(slideEvt.value);
+
+$("#password_length").on("input change", function () {
+  $("#length_span").html($("#password_length").val());
 });

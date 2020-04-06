@@ -29,3 +29,18 @@ const generateRandomPassword = (options) => {
 
   return password;
 };
+let includeNumber;
+let includeSymbol;
+let slideNumber;
+$("#submitGenerate").on("click", (data) => {
+  includeNumber = $("#includeNumbers").is(":checked");
+  includeSymbol = $("#includeSymbols").is(":checked");
+  slideNumber = $("#password_length").val();
+  let options = {
+    includeNumbers: includeNumber,
+    includeSymbols: includeSymbol,
+    length: slideNumber,
+  };
+  let generatedPassword = generateRandomPassword(options);
+  $("#new_pwd").val(generatedPassword);
+});

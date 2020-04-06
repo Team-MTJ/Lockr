@@ -102,7 +102,7 @@
             <h5 class="modal-title" id="title">Store New Password</h5>
           </div>
           <div class="modal-body" id="pwd-info">
-            <form method="POST">
+            <form method="POST" id="store_new">
               <div class="form-group">
                 <label for="formGroupExampleInput">Website Name</label>
                 <input
@@ -160,27 +160,25 @@
                 class="collapse border border-dark rounded"
                 id="generate_options"
               >
-                <form>
+                <form id="generate_password">
                   <div class="form-group">
-                    <label for="password_length"
-                      >Password Length: <span id="length_span">9</span></label
-                    >
+                    <label for="password_length">Password Length</label>
                     <input
                       type="range"
                       class="custom-range"
                       id="password_length"
                       min="8"
                       max="20"
-                    />
+                    /><span id="length_span">14</span>
                   </div>
                   <div class="form-check form-check-inline">
                     <input
                       class="form-check-input"
                       type="checkbox"
-                      id="inlineCheckbox1"
-                      value="option1"
+                      id="includeNumbers"
+                      value="includeNumbers"
                     />
-                    <label class="form-check-label" for="inlineCheckbox1"
+                    <label class="form-check-label" for="includeNumbers"
                       >Include Numbers</label
                     >
                   </div>
@@ -188,23 +186,25 @@
                     <input
                       class="form-check-input"
                       type="checkbox"
-                      id="inlineCheckbox2"
-                      value="option2"
+                      id="includeSymbols"
+                      value="includeSymbols"
                     />
-                    <label class="form-check-label" for="inlineCheckbox2"
+                    <label class="form-check-label" for="includeSymbols"
                       >Include Special Characters</label
                     >
                   </div>
                   <div class="form-group">
-                    <a class="btn btn-light btn-sm">
+                    <button
+                      class="btn btn-light btn-sm"
+                      form="generate_password"
+                      type="submit"
+                      id="submitGenerate"
+                    >
                       GENERATE
-                    </a>
+                    </button>
                   </div>
                 </form>
               </div>
-              <button class="btn btn-primary" type="submit">
-                Store
-              </button>
             </form>
           </div>
           <div class="modal-footer">
@@ -214,6 +214,9 @@
               data-dismiss="modal"
             >
               Close
+            </button>
+            <button class="btn btn-primary" type="submit" form="store_new">
+              Store
             </button>
           </div>
         </div>
