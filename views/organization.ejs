@@ -1,8 +1,8 @@
 <%- include('partials/_header') %> <%- include('partials/_navbar') %>
-<div style="padding-top: 40px;">
-  <div class="card-columns">
+<div class="container">
+  <div class="row row-cols-4">
     <% if(isUserAdminTrueOrNot) { %>
-    <div class="card bg-light mb-3 text-center">
+    <div class="card col mx-3 mt-4 bg-light mb-3 text-center">
       <img
         src="https://cdn4.iconfinder.com/data/icons/core-ui-outlined/32/outlined_placeholder-512.png"
         style="width: 100px; height: auto;"
@@ -23,7 +23,7 @@
       </div>
     </div>
     <% } %> <% if (pwds) { pwds.forEach((pwd) => { %>
-    <div class="card bg-light mb-3 text-center">
+    <div class="card col mx-3 mt-4 bg-light mb-3 text-center">
       <img
         src="https://cdn4.iconfinder.com/data/icons/core-ui-outlined/32/outlined_placeholder-512.png"
         style="width: 100px; height: auto;"
