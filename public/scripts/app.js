@@ -1,17 +1,4 @@
 $(() => {
-  // const manageTable = $("#manage-table > tbody");
-
-  // function loadTable() {
-  //   $.ajax({
-  //     url: "/manage",
-  //     method: "GET",
-  //     dataType: "JSON",
-  //     success: (response) => {},
-  //   });
-  // }
-
-  // $( ".inner" ).append( "<p>Test</p>" );
-
   $("#manageOrgs > a").on("click", function () {
     // Get org_id from data-id in html
     const org_id = $(this).data("id");
@@ -24,22 +11,24 @@ $(() => {
         const body = $("#manage-table").DataTable();
         body.clear();
         data.forEach((member) => {
-          body.row.add([
-            member.first_name,
-            member.last_name,
-            member.email,
-            `<tr>
+          body.row
+            .add([
+              member.first_name,
+              member.last_name,
+              member.email,
+              `<tr>
                <td>
-               <button class="btn btn-info" type="button" id="make-admin" >Make Admin</button> 
-               <button class="btn btn-danger" type ="button" id="remove-member">Remove Member</button>
+               <button class="btn btn-info" type="button" id="make-admin">Make Admin</button> 
+               <button class="btn btn-danger" type="button" id="remove-member">Remove Member</button>
                </td>
-             </tr>`
-          ]).draw(false);
-        })
+             </tr>`,
+            ])
+            .draw(false);
+        });
       },
     });
   });
-  
+
   // Copy to clipboard function for modal
   $(".copy").on("click", function () {
     // Remove disable to allow copy function

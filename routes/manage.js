@@ -11,7 +11,6 @@ module.exports = (db) => {
       dbHelpers.getOrgsWithUserId(user.id).then((orgs) => {
         // If user has no orgs they're a part of of, redirect to "Create new org"
         if (!orgs) res.redirect("/orgs/new");
-        // if memberOfAnyOrgs -> check each for admin privileges and add org_id to array
         // Only want to display orgs where they have admin rights on the manage page
         dbHelpers.orgsWhereUserIsAdmin(user.id).then((adminOrgs) => {
           if (adminOrgs.length === 0) {
@@ -36,23 +35,5 @@ module.exports = (db) => {
     })
   })
 
-
-
   return router;
 };
-
-/* else {
-          let users = [];
-          orgsWhereUserIsAdmin.forEach(org => {
-            users.push(dbHelpers.getUsersByOrg(org.org_id))
-          })
-          console.log(users);
-        } */
-
-/*             let userList = {};
-            // console.log(adminOrgs);
-
-            adminOrgs.forEach(org => {
-              dbHelpers.getUsersByOrg(org.org_id).then(org => {
-                
-              }  */

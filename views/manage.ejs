@@ -1,20 +1,22 @@
-
 <%- include('partials/_header') %> <%- include('partials/_navbar') %>
 <h1>Manage Organizations</h1>
 
-
-<div class="dropdown" id ="manageDropdown">
-  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+<div class="dropdown" id="manageDropdown">
+  <button
+    type="button"
+    class="btn btn-primary btn-lg dropdown-toggle"
+    data-toggle="dropdown"
+  >
     Organizations
   </button>
   <div class="dropdown-menu" id="manageOrgs">
     <% for (org of adminOrgs) { %>
-      <a class="dropdown-item" data-id="<%= org.org_id%>" href="#<%= org.name%>"><%= org.name %></a>
-      <% } %>
+    <a class="dropdown-item" data-id="<%= org.org_id%>" href="#<%= org.name%>"
+      ><%= org.name %></a
+    >
+    <% } %>
   </div>
 </div>
-
-
 <table class="table" id="manage-table">
   <thead class="thead-dark">
     <tr>
@@ -24,32 +26,6 @@
       <th scope="col">Make Admin / Remove Member</th>
     </tr>
   </thead>
-  <tbody>
-  </tbody>
- 
+  <tbody></tbody>
 </table>
-
-
 <%-include('partials/_footer') %>
-
-
-<!--  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody> -->
