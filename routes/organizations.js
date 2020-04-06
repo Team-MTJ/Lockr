@@ -89,6 +89,9 @@ module.exports = (db) => {
       }
     });
 
+    router.put(":org_id/:pwd_id", (req, res) => {
+      const { org_id, pwd_id } = req.body.params;
+    });
     //   dbHelpers
     //     .getUserWithId(req.session.userId)
     //     .then((user) => {
