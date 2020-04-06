@@ -53,7 +53,7 @@ module.exports = (db) => {
                       isUserAdminTrueOrNot,
                     };
                   } else {
-                    templateVars = { user, orgs, pwds, isUserAdminTrueOrNot };
+                    templateVars = { user, orgs, pwds, isUserAdminTrueOrNot, org_id };
                     res.render("organization", templateVars);
                   }
                 });
@@ -72,7 +72,7 @@ module.exports = (db) => {
         website_pwd,
       } = req.body;
 
-      if (!(website_title || website_url || website_username || website_pwd)) {
+      if (!(website_title && website_url && website_username && website_pwd)) {
         return res.status(400).send("All fields must be filled in!");
       } else {
         dbHelpers
@@ -84,7 +84,7 @@ module.exports = (db) => {
             website_pwd
           )
           .then(() => {
-            return res.redirect("/:org_id");
+            return res.redirect(`/orgs/${org_id}`);
           });
       }
     });

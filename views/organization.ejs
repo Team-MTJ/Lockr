@@ -100,7 +100,7 @@
             <h5 class="modal-title" id="title">Store New Password</h5>
           </div>
           <div class="modal-body" id="pwd-info">
-            <form method="POST" action>
+            <form action="/orgs/<%= org_id %>" method="POST">
               <div class="form-group">
                 <label for="formGroupExampleInput">Website Name</label>
                 <input
@@ -127,7 +127,7 @@
                   <input
                     type="text"
                     class="form-control"
-                    name="website_title"
+                    name="website_username"
                     id="new_username"
                     placeholder="Username"
                   />
