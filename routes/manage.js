@@ -29,7 +29,6 @@ module.exports = (db) => {
   });
   
   router.post("/org", (req, res) => {
-    console.log(req.body.org_id);
     dbHelpers.getUsersByOrg(req.body.org_id).then(users => {
       res.json(users);
     })

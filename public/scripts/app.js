@@ -17,11 +17,14 @@ $(() => {
               member.last_name,
               member.email,
               `<tr>
-               <td>
-               <button class="btn btn-info" type="button" id="make-admin">Make Admin</button> 
-               <button class="btn btn-danger" type="button" id="remove-member">Remove Member</button>
-               </td>
-             </tr>`,
+                <td>
+                <button class="btn btn-info" type="button" id="make-admin">Make Admin</button> 
+                </td>
+               </tr>`,
+              `<tr>
+                <button class="btn btn-danger" type="button" id="remove-member">Remove Member</button>
+                </td>
+              </tr>`,
             ])
             .draw(false);
         });
