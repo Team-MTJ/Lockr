@@ -53,7 +53,7 @@ module.exports = (db) => {
                       isUserAdminTrueOrNot,
                     };
                   } else {
-                    templateVars = { user, orgs, pwds, isUserAdminTrueOrNot, org_id };
+                    templateVars = { user, orgs, pwds, isUserAdminTrueOrNot };
                     res.render("organization", templateVars);
                   }
                 });
