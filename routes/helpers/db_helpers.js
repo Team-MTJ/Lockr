@@ -274,7 +274,7 @@ module.exports = (db) => {
    * @param {{id: Number, website_title: String, website_url: String, website_username: String, website_pwd: String, category: String}} new_pwd The new pwd object
    * @return {Promise<{}>} A promise to query the db
    */
-  const modifyPwd = function (new_pwd) {
+  const modifyPwd = function (newPwd) {
     const queryParams = [];
 
     let queryString = `
@@ -283,28 +283,28 @@ module.exports = (db) => {
     `;
 
     // Check which fields were passed in and need to be updated
-    if (new_pwd.website_title) {
-      queryParams.push(new_pwd.website_title);
+    if (newPwd.website_title) {
+      queryParams.push(newPwd.website_title);
       queryString += `website_title=$${queryParams.length}, `;
     }
 
-    if (new_pwd.website_url) {
-      queryParams.push(new_pwd.website_url);
+    if (newPwd.website_url) {
+      queryParams.push(newPwd.website_url);
       queryString += `website_url=$${queryParams.length}, `;
     }
 
-    if (new_pwd.website_username) {
-      queryParams.push(new_pwd.website_username);
+    if (newPwd.website_username) {
+      queryParams.push(newPwd.website_username);
       queryString += `website_username=$${queryParams.length}, `;
     }
 
-    if (new_pwd.website_pwd) {
-      queryParams.push(new_pwd.website_pwd);
+    if (newPwd.website_pwd) {
+      queryParams.push(newPwd.website_pwd);
       queryString += `website_pwd=$${queryParams.length}, `;
     }
 
-    if (new_pwd.category) {
-      queryParams.push(new_pwd.category);
+    if (newPwd.category) {
+      queryParams.push(newPwd.category);
       queryString += `category=$${queryParams.length}, `;
     }
 
@@ -312,7 +312,7 @@ module.exports = (db) => {
     queryString = queryString.slice(0, -2);
 
     // WHERE clause
-    queryParams.push(new_pwd.id);
+    queryParams.push(newPwd.id);
     queryString += `
     WHERE id=$${queryParams.length}
     RETURNING *;`;
