@@ -7,12 +7,10 @@ $(() => {
       $("<div>").text(user.name).appendTo($("body"));
     }
   });
-
-
 });
 
 // Copy to clipboard function for modal
-$(".copy").on("click", function() {
+$(".copy").on("click", function () {
   // Remove disable to allow copy function
   const $passwordBox = $(".copy").parents().siblings(".passwordBox");
   $passwordBox.prop("disabled", false);
@@ -20,4 +18,10 @@ $(".copy").on("click", function() {
   document.execCommand("copy");
   // Enable "disable" again
   $passwordBox.prop("disabled", true);
+});
+
+//Display value on slide
+$("#password_length").on("slide", function (slideEvt) {
+  alert(slideEvt);
+  $("#length_span").text(slideEvt.value);
 });
