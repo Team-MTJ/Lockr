@@ -28,15 +28,18 @@ $(() => {
       },
     });
   });
+});
 
-  // Copy to clipboard function for modal
-  $(".copy").on("click", function () {
-    // Remove disable to allow copy function
-    const $passwordBox = $(".copy").parents().siblings(".passwordBox");
-    $passwordBox.prop("disabled", false);
-    $passwordBox.select();
-    document.execCommand("copy");
-    // Enable "disable" again
-    $passwordBox.prop("disabled", true);
-  });
+// Copy to clipboard function for modal
+$(".copy").on("click", function (event) {
+  // Stop the copy button from submitting a PUT request
+  event.preventDefault();
+
+  // Remove disable to allow copy function
+  const $passwordBox = $(".copy").parents().siblings(".passwordBox");
+  $passwordBox.prop("disabled", false);
+  $passwordBox.select();
+  document.execCommand("copy");
+  // Enable "disable" again
+  $passwordBox.prop("disabled", true);
 });
