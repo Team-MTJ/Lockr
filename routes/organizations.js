@@ -26,7 +26,9 @@ module.exports = (db) => {
 
       dbHelpers
         .modifyPwd(newPwd)
-        .then(res.redirect(`orgs/${org_id}`))
+        .then(() => {
+          res.redirect(`/orgs/${org_id}`);
+        })
         .catch((e) => res.send(e));
     });
   });
