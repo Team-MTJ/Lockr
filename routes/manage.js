@@ -11,23 +11,14 @@ module.exports = (db) => {
       dbHelpers.getOrgsWithUserId(user.id).then((orgs) => {
         // If user has no orgs they're a part of of, redirect to "Create new org"
         if (!orgs) res.redirect("/orgs/new");
-        // if memberOfAnyOrgs -> check each for admin privileges and add to array
+        // if memberOfAnyOrgs -> check each for admin privileges and add org_id to array
         // Only want to display orgs where they have admin rights on the manage page
         let orgsWhereUserIsAdmin = [];
-        // console.log(orgs);
         orgs.forEach((row) => {
-          // console.log("***", row, "***")
-          // console.log("ORG ID", row.org_id)
-          // console.log("USER ID", row.user_id)
           if (row.is_admin) {
             orgsWhereUserIsAdmin.push(row);
           }
-          // dbHelpers.isUserAdmin(row.org_id, row.user_id).then(adminOrNot => {
-          //   orgsWhereUserIsAdmin.push(adminOrNot);
-          // })
         });
-        console.log(orgsWhereUserIsAdmin);
-        // console.log(orgsWhereUserIsAdmin);
         if (orgsWhereUserIsAdmin.length === 0) {
           return res
             .status(400)
@@ -35,7 +26,8 @@ module.exports = (db) => {
               "You have no admin privileges in any organization that you belong to."
             );
         } else {
-          dbHelpers.getUsersByOrg
+          console.log(orgsWhereUserIsAdmin)
+          dbHelpers.getUsersByOrg;
           const templateVars = { user, orgsWhereUserIsAdmin, orgs };
           res.render("manage", templateVars);
         }
@@ -44,3 +36,11 @@ module.exports = (db) => {
   });
   return router;
 };
+
+/* else {
+          let users = [];
+          orgsWhereUserIsAdmin.forEach(org => {
+            users.push(dbHelpers.getUsersByOrg(org.org_id))
+          })
+          console.log(users);
+        } */
