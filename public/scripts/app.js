@@ -7,12 +7,13 @@ $(() => {
       $("<div>").text(user.name).appendTo($("body"));
     }
   });
-
-
 });
 
 // Copy to clipboard function for modal
-$(".copy").on("click", function() {
+$(".copy").on("click", function (event) {
+  // Stop the copy button from submitting a PUT request
+  event.preventDefault();
+
   // Remove disable to allow copy function
   const $passwordBox = $(".copy").parents().siblings(".passwordBox");
   $passwordBox.prop("disabled", false);
