@@ -21,22 +21,23 @@ module.exports = (db) => {
                 "You have no admin privileges in any organization that you belong to."
               );
           } else {
-            let userList = {};
-            // console.log(adminOrgs);
-
-            adminOrgs.forEach(org => {
-              dbHelpers.getUsersByOrg(org.org_id).then(org => {
-                
-              } 
-            )})
-              const templateVars = { user, userList, orgs };
-              res.render("manage", templateVars);
-
+            const templateVars = { user, orgs };
+            res.render("manage", templateVars);
           }
         });
       });
     });
   });
+  router.post("/foobar", (req, res) => {
+    // console.log(req.body);
+    dbHelpers.getUsersByOrg(req.body.org_id).then(users => {
+      console.log(users);
+      res.json(users);
+    })
+  })
+
+
+
   return router;
 };
 
@@ -47,3 +48,11 @@ module.exports = (db) => {
           })
           console.log(users);
         } */
+
+/*             let userList = {};
+            // console.log(adminOrgs);
+
+            adminOrgs.forEach(org => {
+              dbHelpers.getUsersByOrg(org.org_id).then(org => {
+                
+              }  */

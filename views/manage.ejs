@@ -7,9 +7,9 @@
   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
     Organizations
   </button>
-  <div class="dropdown-menu">
+  <div class="dropdown-menu" id="manageOrgs">
     <% for (org of orgs) { %>
-      <a class="dropdown-item" href="/orgs/<%= org.id%>"><%= org.name %></a>
+      <a class="dropdown-item" data-id="<%= org.id%>" href="#"><%= org.name %></a>
       <% } %>
   </div>
 </div>
