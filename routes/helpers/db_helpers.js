@@ -279,34 +279,37 @@ module.exports = (db) => {
 
     let queryString = `
     UPDATE pwd
-    SET 
+    SET
     `;
 
     // Check which fields were passed in and need to be updated
     if (new_pwd.website_title) {
-      queryParams.push(website_title);
+      queryParams.push(new_pwd.website_title);
       queryString += `website_title=$${queryParams.length}, `;
     }
 
     if (new_pwd.website_url) {
-      queryParams.push(website_url);
+      queryParams.push(new_pwd.website_url);
       queryString += `website_url=$${queryParams.length}, `;
     }
 
     if (new_pwd.website_username) {
-      queryParams.push(website_username);
+      queryParams.push(new_pwd.website_username);
       queryString += `website_username=$${queryParams.length}, `;
     }
 
     if (new_pwd.website_pwd) {
-      queryParams.push(website_pwd);
+      queryParams.push(new_pwd.website_pwd);
       queryString += `website_pwd=$${queryParams.length}, `;
     }
 
     if (new_pwd.category) {
-      queryParams.push(category);
+      queryParams.push(new_pwd.category);
       queryString += `category=$${queryParams.length}, `;
     }
+
+    // Remove last comma
+    queryString = queryString.slice(0, -2);
 
     // WHERE clause
     queryParams.push(new_pwd.id);
