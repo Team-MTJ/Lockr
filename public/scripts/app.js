@@ -27,33 +27,19 @@ $(() => {
           body.row.add([
             member.first_name,
             member.last_name,
-            member.email
+            member.email,
+            `<tr>
+               <td>
+               <button class="btn btn-info" type="button" id="make-admin" >Make Admin</button> 
+               <button class="btn btn-danger" type ="button" id="remove-member">Remove Member</button>
+               </td>
+             </tr>`
           ]).draw(false);
         })
       },
     });
   });
-
-  /*         t.row.add( [
-            counter +'.1',
-            counter +'.2',
-            counter +'.3',
-            counter +'.4',
-            counter +'.5'
-        ] ).draw( false ); */
-
-  /*           const markup = `
-          <tr>
-            <td>${member.first_name}</td>
-          </tr>
-          <tr>
-            <td>${member.last_name}</td>
-          </tr>
-          <tr>
-            <td>${member.email}</td>
-          </tr>
-          `
-          $("#manage-table > tbody").append(markup) */
+  
   // Copy to clipboard function for modal
   $(".copy").on("click", function () {
     // Remove disable to allow copy function
