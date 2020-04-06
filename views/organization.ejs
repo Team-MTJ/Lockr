@@ -70,7 +70,9 @@
               type="text"
               value="<%= pwd.website_pwd%>"
             />
+            <% if(isUserAdminTrueOrNot) { %>
             <button id="change">Change Password</button>
+            <% } %>
             <button class="copy">Copy Password</button>
           </div>
           <div class="modal-footer">
