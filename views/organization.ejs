@@ -53,7 +53,7 @@
       aria-hidden="true"
     >
       <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
+        <form class="modal-content" action='/orgs/<%=pwd.org_id%>/<%=pwd.id%>?_method=PUT' method='POST'>
           <div class="modal-header">
             <h5 class="modal-title" id="title"><%=pwd.website_title%></h5>
           </div>
@@ -69,6 +69,7 @@
               class="passwordBox"
               type="text"
               value="<%= pwd.website_pwd%>"
+              name="website_pwd"
             />
             <% if(isUserAdminTrueOrNot) { %>
             <div><button class="change">Change Password</button></div>
@@ -85,7 +86,7 @@
             </button>
             <button type="button" class="btn btn-primary">Save changes</button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
     <% }); } %>

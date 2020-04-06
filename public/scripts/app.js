@@ -1,17 +1,8 @@
-// $(() => {
-//   $.ajax({
-//     method: "GET",
-//     url: "/api/users",
-//   }).done((users) => {
-//     for (user of users) {
-//       $("<div>").text(user.name).appendTo($("body"));
-//     }
-//   });
-// });
 // Copy to clipboard function for modal
-$(".copy").on("click", function () {
+const $passwordBox = $(".copy").parents().siblings(".passwordBox");
+$(".copy").on("click", function (event) {
+  // Stop the copy button from submitting a PUT request
   // Remove disable to allow copy function
-  const $passwordBox = $(".copy").parents().siblings(".passwordBox");
   $passwordBox.prop("disabled", false);
   $passwordBox.select();
   document.execCommand("copy");
@@ -20,7 +11,11 @@ $(".copy").on("click", function () {
 });
 
 //Display value on slide
+$(".password_length").on("input change", function () {
+  $(".length_span").html($(".password_length").val());
+});
 
-$("#password_length").on("input change", function () {
-  $("#length_span").html($("#password_length").val());
+$(".change").on("click", () => {
+  console.log("click");
+  $passwordBox.prop("disabled", false);
 });
