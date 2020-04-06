@@ -2,43 +2,45 @@
 <div class="container">
   <div class="row row-cols-4">
     <% if(isUserAdminTrueOrNot) { %>
-    <div
-      class="card col- mx-3 mt-4 bg-light mb-3 text-center"
-      style="min-width: 20rem;"
-    >
-      <img src="#" class="card-img-top" alt="#" />
+    <div class="pwd-card card col mx-3 mt-4 bg-light mb-3 text-center">
+      <img
+        src="https://cdn4.iconfinder.com/data/icons/core-ui-outlined/32/outlined_placeholder-512.png"
+        class="card-img-top pwd-img"
+        alt="#"
+      />
       <div class="card-body">
-        <h5 class="card-title"></h5>
-        <h6 class="card-subtitle mb-2 text-muted"></h6>
-        <p class="card-text">CREATE PASSWORD</p>
+        <h5 class="card-title">Store New Password</h5>
+      </div>
+      <div class="card-footer">
         <a
-          href="/passwords/new"
+          data-toggle="modal"
+          data-target="#modal_makeNewPassword"
           class="btn btn-primary"
-          style="margin-top: 50px;"
-          >CREATE</a
+          id="open-pwd"
+          >Store</a
         >
       </div>
     </div>
     <% } %> <% if (pwds) { pwds.forEach((pwd) => { %>
-    <div
-      class="card col- mx-3 mt-4 bg-light mb-3 text-center"
-      style="min-width: 20rem;"
-    >
-      <img src="#" class="card-img-top" alt="#" />
+    <div class="pwd-card card col mx-3 mt-4 bg-light mb-3 text-center">
+      <img
+        src="https://cdn4.iconfinder.com/data/icons/core-ui-outlined/32/outlined_placeholder-512.png"
+        class="card-img-top pwd-img"
+        alt="#"
+      />
       <div class="card-body">
         <h5 class="card-title"><%= pwd.website_title%></h5>
-        <h6 class="card-subtitle mb-2 text-muted">
-          URL: <%= pwd.website_url%>
-        </h6>
-        <p class="card-text">Username: <%= pwd.website_username%></p>
-        <p class="card-text">Password: <%= pwd.website_pwd%></p>
+        <small class="card-subtitle mb-2 text-muted">
+          <%= pwd.website_url%>
+        </small>
+      </div>
+      <div class="card-footer">
         <a
-          href="passwords/<%=pwd.id%>"
           data-toggle="modal"
           data-target="#modal_<%=pwd.id%>"
           class="btn btn-primary"
           id="open-pwd"
-          >GO</a
+          >Check</a
         >
       </div>
     </div>
@@ -56,12 +58,20 @@
             <h5 class="modal-title" id="title"><%=pwd.website_title%></h5>
           </div>
           <div class="modal-body" id="pwd-info">
-            <img src="https://cdn4.iconfinder.com/data/icons/core-ui-outlined/32/outlined_placeholder-512.png" style="width: 100px; height: auto"/>
+            <img
+              src="https://cdn4.iconfinder.com/data/icons/core-ui-outlined/32/outlined_placeholder-512.png"
+              class="card-img-top pwd-img"
+            />
             <div><%= pwd.website_url%></div>
-            <div><%=pwd.website_username%></div>
-            <input disabled class="passwordBox" type="text" value="<%= pwd.website_pwd%>">
+            <div><strong>Username: <%=pwd.website_username%></strong></div>
+            <input
+              disabled
+              class="passwordBox"
+              type="text"
+              value="<%= pwd.website_pwd%>"
+            />
             <button id="change">Change Password</button>
-            <button class= "copy">Copy Password</button>
+            <button class="copy">Copy Password</button>
           </div>
           <div class="modal-footer">
             <button
@@ -77,6 +87,77 @@
       </div>
     </div>
     <% }); } %>
+    <div
+      class="modal fade"
+      id="modal_makeNewPassword"
+      tabindex="-1"
+      aria-labelledby="Password"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="title">Store New Password</h5>
+          </div>
+          <div class="modal-body" id="pwd-info">
+            <form method="POST">
+              <div class="form-group">
+                <label for="formGroupExampleInput">Website Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="new_title"
+                  name="website_title"
+                  placeholder="Website Name"
+                />
+              </div>
+              <div class="form-group">
+                <label for="formGroupExampleInput">Website URL</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="website_url"
+                  id="new_url"
+                  placeholder="https://"
+                />
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="formGroupExampleInput">Username</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="website_username"
+                    id="new_username"
+                    placeholder="Username"
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="formGroupExampleInput">Password</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="website_pwd"
+                    id="new_pwd"
+                    placeholder="Password"
+                  />
+                </div>
+              </div>
+              <button class="btn btn-primary" type="submit">Store</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
