@@ -11,8 +11,8 @@ $(() => {
       success: (data) => {
         $(".add-member").empty();
         $(".add-member").append(
-          `<form class="add-member" action="/manage/new" method="POST" type="submit">
-            <button data-org=${org_id} class="btn btn-primary">Add Member</button>
+          `<form data-org=${org_id} class="add-member" action="/manage/${org_id}" method="POST" type="submit">
+            <button class="btn btn-primary">Add Member</button>
             <input type="email" placeholder="Email" name="newuser">
           </form>`
         );

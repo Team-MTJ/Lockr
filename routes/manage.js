@@ -34,12 +34,14 @@ module.exports = (db) => {
     })
   })
 
-  router.post("/new", (req, res) => {
+  router.post("/:org_id", (req, res) => {
     const { newuser } = req.body;
+    const { org_id } = req.params;
     dbHelpers.getUserWithEmail(newuser).then(userExists => {
       if (!userExists) res.status(400).send("This user does not exist.")
+      dbHelpers.addUserToOrg(userExists.id, org_id)
 
-      console.log(userExists);
+     
     })
 
   })
