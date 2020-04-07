@@ -38,8 +38,10 @@ module.exports = (db) => {
     const { newuser } = req.body;
     dbHelpers.getUserWithEmail(newuser).then(userExists => {
       if (!userExists) res.status(400).send("This user does not exist.")
+
+      console.log(userExists);
     })
-    
+
   })
 
   return router;
