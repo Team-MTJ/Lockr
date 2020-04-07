@@ -47,25 +47,20 @@ $(".submitGenerate").on("click", (data) => {
 // LINE 94 to 101
 
 $(".passGen").on("click", (event) => {
-  console.log("Clicked");
   const $passwordBox = $(event.target).parent().siblings(".passwordBox");
-  console.log($passwordBox.val());
   const $length = $(event.target).siblings(".passLength");
   const $numberBool = $(event.target).siblings(".passNumber");
   const $symbolBool = $(event.target).siblings(".passSymbol");
   let includeNumber = $numberBool.is(":checked");
-  console.log(includeNumber);
   let includeSymbol = $symbolBool.is(":checked");
-  console.log(includeSymbol);
   let slideNumber = $length.val();
-  console.log(slideNumber);
   let options = {
     includeNumbers: includeNumber,
     includeSymbols: includeSymbol,
     length: slideNumber,
   };
   let generatedPassword = generateRandomPassword(options);
-  $passwordBox.prop("disabled", true);
+  $passwordBox.prop("disabled", false);
   $passwordBox.val(generatedPassword);
 });
 
