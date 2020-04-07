@@ -36,13 +36,9 @@ module.exports = (db) => {
 
   // Add new member to org
   router.post("/orgs/:org_id", (req, res) => {
-    console.log("PARAMS", req.body)
     const { newuser } = req.body;
     const { org_id } = req.params;
     const { userId } = req.session;
-    console.log("user", newuser);
-    console.log("org", org_id);
-    console.log("userID", userId);
 
     dbHelpers.isUserAdmin(org_id, userId).then((admin) => {
       if (!admin)
