@@ -5,7 +5,7 @@
     <% if(isUserAdminTrueOrNot) { %>
     <div class="pwd-card card col mx-3 mt-4 bg-light mb-3 text-center">
       <img
-        src="https://cdn4.iconfinder.com/data/icons/core-ui-outlined/32/outlined_placeholder-512.png"
+        src="https://i.pinimg.com/originals/88/73/6f/88736f07866842e65214827bc30a3256.png"
         class="card-img-top pwd-img"
         alt="#"
       />
@@ -30,11 +30,8 @@
     const hostName = urlArray[urlArray.length-2]+'.'+urlArray[urlArray.length-1];
     %>
     <div class="pwd-card card col mx-3 mt-4 bg-light mb-3 text-center">
-      <img
-        src="//logo.clearbit.com/<%=hostName%>"
-        class="card-img-top pwd-img"
-        alt="#"
-      />
+     
+      <object class="card-img-top pwd-img" data="//logo.clearbit.com/<%=hostName%>" type="image/png"></object>
       <div class="card-body">
         <h5 class="card-title"><%= pwd.website_title%></h5>
         <small class="card-subtitle mb-2 text-muted">
