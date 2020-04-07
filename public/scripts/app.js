@@ -54,8 +54,8 @@ $(".password_length").on("input change", function () {
 });
 
 // Display value on slide for password edit
-$(".passLength").on("input change", function () {
-  $(".length_span").html($(".passLength").val());
+$(".passLength").on("input change", function (event) {
+  $(event.target).siblings(".lengthSpan").html($(event.target).val());
 });
 
 $(".change").on("click", () => {
