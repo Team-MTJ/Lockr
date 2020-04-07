@@ -320,7 +320,6 @@ module.exports = (db) => {
     return db
       .query(queryString, queryParams)
       .then((res) => {
-        console.log(res);
         return res.rows[0];
       })
       .catch((error) => {

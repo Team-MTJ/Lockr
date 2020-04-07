@@ -29,13 +29,11 @@ const generateRandomPassword = (options) => {
 
   return password;
 };
-let includeNumber;
-let includeSymbol;
-let slideNumber;
+
 $(".submitGenerate").on("click", (data) => {
-  includeNumber = $(".includeNumbers").is(":checked");
-  includeSymbol = $(".includeSymbols").is(":checked");
-  slideNumber = $(".password_length").val();
+  let includeNumber = $(".includeNumbers").is(":checked");
+  let includeSymbol = $(".includeSymbols").is(":checked");
+  let slideNumber = $(".password_length").val();
   let options = {
     includeNumbers: includeNumber,
     includeSymbols: includeSymbol,
@@ -43,4 +41,28 @@ $(".submitGenerate").on("click", (data) => {
   };
   let generatedPassword = generateRandomPassword(options);
   $(".new_pwd").val(generatedPassword);
+});
+
+// const $passGen = $(".slideG").children(".passGen");
+// LINE 94 to 101
+$("#passGen").on("click", () => {
+  console.log("Clicked");
+  const $passBox = $(this).parent().siblings(".passwordBox");
+  const $length = $(this).parent().find(".passLength");
+  const $numberBool = $(this).parent().find(".passNumber");
+  const $symbolBool = $(this).parent().find(".passSymbol");
+  let includeNumber = $numberBool.is(":checked");
+  console.log(includeNumber);
+  let includeSymbol = $symbolBool.is(":checked");
+  console.log(includeSymbol);
+  let slideNumber = $length.val();
+  console.log(slideNumber);
+  let options = {
+    includeNumbers: includeNumber,
+    includeSymbols: includeSymbol,
+    length: slideNumber,
+  };
+  let generatedPassword = generateRandomPassword(options);
+  $passBox.prop("disabled", true);
+  $passBox.val(generatedPassword);
 });
