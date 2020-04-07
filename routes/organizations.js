@@ -15,6 +15,7 @@ module.exports = (db) => {
 
       // Create a newPwd object from the form values passed in
       const newPwd = req.body;
+      console.log(req.body);
       newPwd.id = pwd_id;
 
       // Delete keys that were not passed in through the form

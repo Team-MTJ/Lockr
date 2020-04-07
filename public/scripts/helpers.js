@@ -48,11 +48,11 @@ $(".submitGenerate").on("click", (data) => {
 
 $(".passGen").on("click", (event) => {
   console.log("Clicked");
-  const $passwordBox = $(".passGen").parent().siblings(".passwordBox");
+  const $passwordBox = $(event.target).parent().siblings(".passwordBox");
   console.log($passwordBox.val());
-  const $length = $(".passGen").siblings(".passLength");
-  const $numberBool = $(".passGen").siblings(".passNumber");
-  const $symbolBool = $(".passGen").siblings(".passSymbol");
+  const $length = $(event.target).siblings(".passLength");
+  const $numberBool = $(event.target).siblings(".passNumber");
+  const $symbolBool = $(event.target).siblings(".passSymbol");
   let includeNumber = $numberBool.is(":checked");
   console.log(includeNumber);
   let includeSymbol = $symbolBool.is(":checked");

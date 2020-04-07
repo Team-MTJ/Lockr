@@ -40,7 +40,7 @@ $(".copy").on("click", function (event) {
   // Stop the copy button from submitting a PUT request
   event.preventDefault();
   // Remove disable to allow copy function
-  const $passwordBox = $(".copy").parents().siblings(".passwordBox");
+  const $passwordBox = $(event.target).parents().siblings(".passwordBox");
   $passwordBox.prop("disabled", false);
   $passwordBox.select();
   document.execCommand("copy");
@@ -54,11 +54,11 @@ $(".password_length").on("input change", function () {
 });
 
 $(".change").on("click", () => {
-  const $passwordBox = $(".copy").parents().siblings(".passwordBox");
+  const $passwordBox = $(event.target).parents().siblings(".passwordBox");
   $passwordBox.prop("disabled", false);
 });
 
 $(".close-modal").on("click", () => {
-  const $passwordBox = $(".copy").parents().siblings(".passwordBox");
+  const $passwordBox = $(event.target).parents().siblings(".passwordBox");
   $passwordBox.prop("disabled", true);
 });
