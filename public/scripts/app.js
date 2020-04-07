@@ -11,14 +11,13 @@ $(() => {
       success: (data) => {
         $(".add-member").empty();
         $(".add-member").append(
-          `<form action="POST" type="submit">
-            <button data-org=${org_id} id="add-member" class="btn btn-primary">Add Member</button>
-            <input type="email" placeholder="Email" name="newuser-email">
+          `<form class="add-member" action="/manage/new" method="POST" type="submit">
+            <button data-org=${org_id} class="btn btn-primary">Add Member</button>
+            <input type="email" placeholder="Email" name="newuser">
           </form>`
         );
         const body = $("#manage-table").DataTable();
         body.clear();
-        // body.row.add([`<button id="add-member" class="btn btn-primary">Add Member</button>`, "", "", "", "",]).draw(false);
         data.forEach((member) => {
           body.row
             .add([

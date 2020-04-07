@@ -34,5 +34,12 @@ module.exports = (db) => {
     })
   })
 
+  router.post("/new", (req, res) => {
+    const { newuser } = req.body;
+    dbHelpers.getUserWithEmail(newuser).then(ifExist => {
+      console.log(ifExist);
+    })
+  })
+
   return router;
 };
