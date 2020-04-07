@@ -25,10 +25,13 @@
     <% } %>
 
     <!-- CARD FOR INDIVIDUAL COMPANY-->
-    <% if (pwds) { pwds.forEach((pwd) => { %>
+    <% if (pwds) { pwds.forEach((pwd) => { 
+    const urlArray = pwd.website_url.split('.');
+    const hostName = urlArray[urlArray.length-2]+'.'+urlArray[urlArray.length-1];
+    %>
     <div class="pwd-card card col mx-3 mt-4 bg-light mb-3 text-center">
       <img
-        src="https://cdn4.iconfinder.com/data/icons/core-ui-outlined/32/outlined_placeholder-512.png"
+        src="//logo.clearbit.com/<%=hostName%>"
         class="card-img-top pwd-img"
         alt="#"
       />
