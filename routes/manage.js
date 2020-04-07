@@ -30,6 +30,11 @@ module.exports = (db) => {
 
   router.post("/orgs", (req, res) => {
     dbHelpers.getUsersByOrg(req.body.org_id).then((users) => {
+      currentUser = req.session.userId;
+      users.forEach((user) => {
+        user["currentUser"] = currentUser;
+      });
+      console.log(users);
       res.json(users);
     });
   });

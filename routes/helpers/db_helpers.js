@@ -119,7 +119,7 @@ module.exports = (db) => {
     return db
       .query(
         `
-        SELECT users.first_name, users.last_name, users.email, membership.is_admin FROM users
+        SELECT users.first_name, users.last_name, users.email, membership.is_admin, users.id FROM users
         JOIN membership ON users.id = user_id
         JOIN org ON org.id = org_id
         WHERE org.id = $1 AND is_active = true;

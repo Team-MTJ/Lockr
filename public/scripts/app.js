@@ -16,9 +16,10 @@ $(() => {
         const body = $("#manage-table").DataTable();
         body.clear();
         data.forEach((member) => {
-          let textHTML = "";
+          let adminHTML = "";
+          let removeHTML = "";
           if (member.is_admin) {
-            textHTML = `<tr>
+            adminHTML = `<tr>
             <td>
             <input disabled type="hidden" class="to-delete-email" value="${member.email}" />
             <input disabled type="hidden" class="org-to-delete-from" value="${org_id}" />
@@ -26,7 +27,7 @@ $(() => {
             </td>
            </tr>`;
           } else {
-            textHTML = `<tr>
+            adminHTML = `<tr>
             <td>
             <input disabled type="hidden" class="to-update-email" value="${member.email}" />
             <input disabled type="hidden" class="org-to-update-from" value="${org_id}" />
@@ -34,18 +35,26 @@ $(() => {
             </td>
            </tr>`;
           }
+          if (member.id === member.currentUser) {
+            removeHTML = `<tr>
+
+            </td>
+            </tr>`;
+          } else {
+            removeHTML = `<tr>
+            <input type="hidden" class="to-delete-email" value="${member.email}" />
+            <input type="hidden" class="org-to-delete-from" value="${org_id}" />
+            <button class="remove-member btn btn-danger" type="submit" id="remove-member">Remove Member</button>
+            </td>
+          </tr>`;
+          }
           body.row
             .add([
               member.first_name,
               member.last_name,
               member.email,
-              textHTML,
-              `<tr>
-                <input type="hidden" class="to-delete-email" value="${member.email}" />
-                <input type="hidden" class="org-to-delete-from" value="${org_id}" />
-                <button class="remove-member btn btn-danger" type="submit" id="remove-member">Remove Member</button>
-                </td>
-              </tr>`, //<----- Added two hidden disabled input to obtain the email and org_id
+              adminHTML,
+              removeHTML,
             ])
             .draw(false);
         });
