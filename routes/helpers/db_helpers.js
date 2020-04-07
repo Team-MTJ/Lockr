@@ -349,6 +349,24 @@ module.exports = (db) => {
       });
   };
 
+  const deletePwd = function (pwdId) {
+    return db
+      .query(
+        `
+        DELETE FROM pwd
+        WHERE id=$1
+        RETURNING *;
+        `,
+        [pwdId]
+      )
+      .then((res) => {
+        return res.rows[0];
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return {
     getUserWithEmail,
     login,
@@ -364,5 +382,6 @@ module.exports = (db) => {
     addPwdToOrg,
     orgsWhereUserIsAdmin,
     modifyPwd,
+    deletePwd,
   };
 };
