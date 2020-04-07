@@ -38,13 +38,13 @@ $(() => {
   }
 
   // Dynamically create membership table depending on organization clicked in dropdown menu
-  $("#manageOrgs > a").on("click", function () {
+  $("#manage-orgs > a").on("click", function () {
     // Get org_id from data-id in html
     const org_id = $(this).data("id");
     updateManagePage(org_id);
   });
 
-  // Change document
+  // Add new member & 
   $(".add-member").on("click", ".member-form > button", function (e) {
     e.preventDefault();
     const org_id = $(".member-form").data("id");
