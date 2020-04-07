@@ -1,5 +1,28 @@
 <%- include('partials/_header') %> <%- include('partials/_navbar') %>
 <div class="container">
+  <!-- Filter bar -->
+  <div class="row justify-content-md-center">
+    <form class="form-inline" id="filter-options">
+      <input
+        class="form-control mr-sm-2"
+        type="search"
+        placeholder="Filter by website title..."
+        aria-label="Search"
+        id="title-filter"
+      />
+      <span>or</span>
+      <select id="select-category" class="form-control">
+        <option selected value="choose">Filter by category:</option>
+        <option value="showall">Show All</option>
+        <option value="business">Business</option>
+        <option value="educational">Educational</option>
+        <option value="entertainment">Entertainment</option>
+        <option value="shopping">Shopping</option>
+        <option value="social">Social</option>
+        <option value="sports">Sports</option>
+      </select>
+    </form>
+  </div>
   <div class="row row-cols-4">
     <!-- CARD FOR STORING NEW PASSWORD-->
     <% if(isUserAdminTrueOrNot) { %>
@@ -25,13 +48,19 @@
     <% } %>
 
     <!-- CARD FOR INDIVIDUAL COMPANY-->
-    <% if (pwds) { pwds.forEach((pwd) => { 
-    const urlArray = pwd.website_url.split('.');
-    const hostName = urlArray[urlArray.length-2]+'.'+urlArray[urlArray.length-1];
-    %>
-    <div class="pwd-card card col mx-3 mt-4 bg-light mb-3 text-center">
-     
-      <object class="card-img-top pwd-img" data="//logo.clearbit.com/<%=hostName%>" type="image/png"></object>
+    <% if (pwds) { pwds.forEach((pwd) => { const urlArray =
+    pwd.website_url.split('.'); const hostName =
+    urlArray[urlArray.length-2]+'.'+urlArray[urlArray.length-1]; %>
+    <div
+      class="pwd-card card col mx-3 mt-4 bg-light mb-3 text-center"
+      title="<%= pwd.website_title %>"
+      category="<%=pwd.category%>"
+    >
+      <object
+        class="card-img-top pwd-img"
+        data="//logo.clearbit.com/<%=hostName%>"
+        type="image/png"
+      ></object>
       <div class="card-body">
         <h5 class="card-title"><%= pwd.website_title%></h5>
         <small class="card-subtitle mb-2 text-muted">
@@ -67,7 +96,11 @@
             <h5 class="modal-title"><%=pwd.website_title%></h5>
           </div>
           <div class="modal-body pwd-info">
-            <object class="card-img-top pwd-img" data="//logo.clearbit.com/<%=hostName%>" type="image/png"></object>
+            <object
+              class="card-img-top pwd-img"
+              data="//logo.clearbit.com/<%=hostName%>"
+              type="image/png"
+            ></object>
             <div><%= pwd.website_url%></div>
             <div><strong>Username: <%=pwd.website_username%></strong></div>
             <input
