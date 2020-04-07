@@ -5,3 +5,56 @@
 .modal-header {
   margin: 0 auto;
 }
+
+.pwd-img {
+  width: 100px;
+  height: auto;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.pwd-card {
+  width: 250px;
+  min-width: 250px;
+  max-width: 250px;
+}
+
+#generate_password {
+  margin-top: 5px;
+}
+
+.copy {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.change_generate {
+  margin-top: 5px;
+  display: none;
+}
+
+.change_generate input[type="checkbox"] {
+  margin-right: 20px;
+}
+
+object {
+  position: relative;
+  float: left;
+  display: block;
+  width: 100px;
+  margin: auto;
+}
+
+object::after {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  content: "";
+  background-image: url("https://i.pinimg.com/originals/88/73/6f/88736f07866842e65214827bc30a3256.png");
+  background-size: 100px 100px;
+}
+
+.modal .pwd-img{
+margin-left: 50px;
+}
