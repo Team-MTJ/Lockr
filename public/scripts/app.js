@@ -76,7 +76,7 @@ $(() => {
       $(".pwd-card").addClass("hidden");
 
       // Show cards that match the search term
-      // TODO
+      $(`.pwd-card[title^='${searchTerm}']`).removeClass("hidden");
     } else {
       // Show every card if field is empty
       $(".pwd-card").removeClass("hidden");
