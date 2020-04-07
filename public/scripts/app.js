@@ -1,4 +1,7 @@
 $(() => {
+  $("#manage-table").DataTable({
+    "order": [[3, "desc"]]
+  });
   // Dynamically create membership table depending on organization clicked in dropdown menu
   $("#manageOrgs > a").on("click", function () {
     // Get org_id from data-id in html
@@ -11,6 +14,7 @@ $(() => {
       success: (data) => {
         const body = $("#manage-table").DataTable();
         body.clear();
+        body.row.add([`<button id="add-member" class="btn btn-primary">Add Member</button>`, "", "", "", "",]).draw(false);
         data.forEach((member) => {
           body.row
             .add([
@@ -25,7 +29,7 @@ $(() => {
               `<tr>
                 <button class="btn btn-danger" type="button" id="remove-member">Remove Member</button>
                 </td>
-              </tr>`,
+              </tr>`
             ])
             .draw(false);
         });
@@ -33,6 +37,10 @@ $(() => {
     });
   });
 });
+
+$("#add-member").on("click", () => {
+  
+})
 
 // Copy to clipboard function for modal
 $(".copy").on("click", function (event) {
