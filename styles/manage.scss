@@ -1,4 +1,5 @@
-h1, #manageDropdown {
+h1,
+#manageDropdown {
   text-align: center;
 }
 
@@ -20,6 +21,10 @@ h1 {
 
 .add-member {
   text-align: center;
-  transform: translateY(1.8em);
+  margin-bottom: 30px;
   z-index: -10;
+}
+
+.member-form {
+  justify-content: center;
 }

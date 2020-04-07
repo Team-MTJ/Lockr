@@ -8,9 +8,9 @@ $(() => {
       success: (data) => {
         $(".add-member").empty();
         $(".add-member").append(
-          `<form data-id=${org_id} class="member-form" action="/manage/orgs/${org_id}" method="POST" type="submit">
+          `<form data-id=${org_id} class="member-form form-inline" action="/manage/orgs/${org_id}" method="POST" type="submit">            
+            <input type="email" placeholder="Email" name="newuser" class="form-control">
             <button class="btn btn-primary">Add Member</button>
-            <input type="email" placeholder="Email" name="newuser">
           </form>`
         );
         const body = $("#manage-table").DataTable();
