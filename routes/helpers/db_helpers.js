@@ -210,7 +210,8 @@ module.exports = (db) => {
     JOIN membership ON membership.org_id = pwd.org_id
     WHERE membership.org_id = $1::integer
     AND membership.user_id = $2::integer
-    AND membership.is_active = true;
+    AND membership.is_active = true
+    ORDER BY website_title;
     `,
         [org_id, user_id]
       )
