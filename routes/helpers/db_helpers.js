@@ -110,7 +110,7 @@ module.exports = (db) => {
       });
   };
 
-  /** 
+  /**
   /* Get a list of users from the given organization id.
    * @param {integer} org The org id of the user.
    * @return {Promise<{}>} A promise to the user.
@@ -140,7 +140,7 @@ module.exports = (db) => {
     return db
       .query(
         `
-      SELECT * FROM users 
+      SELECT * FROM users
       JOIN membership ON users.id = user_id
       JOIN org ON org.id = membership.org_id
       JOIN pwd ON pwd.org_id = org.id

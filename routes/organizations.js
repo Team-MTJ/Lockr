@@ -15,6 +15,7 @@ module.exports = (db) => {
 
       // Create a newPwd object from the form values passed in
       const newPwd = req.body;
+      console.log(req.body);
       newPwd.id = pwd_id;
 
       // Delete keys that were not passed in through the form
@@ -26,7 +27,9 @@ module.exports = (db) => {
 
       dbHelpers
         .modifyPwd(newPwd)
-        .then(res.redirect(`orgs/${org_id}`))
+        .then(() => {
+          res.redirect(`/orgs/${org_id}`);
+        })
         .catch((e) => res.send(e));
     });
   });
@@ -114,28 +117,6 @@ module.exports = (db) => {
           });
       }
     });
-
-    //   dbHelpers
-    //     .getUserWithId(req.session.userId)
-    //     .then((user) => {
-    //       db.doesOrgExist
-    //       dbHelpers
-    //         .getOrgsWithUserId(user.id) // Get orgs
-    //         .then((orgs) => {
-    //           dbHelpers
-    //             .getPwdByOrgID(org_id, user.id)
-    //             .then((data) => {
-    //               if (!data) res.status(400).send("NO ORG OR NOT ACTIVE");
-    //               else {
-    //                 let templateVars = { pwds: data, user, orgs };
-    //                 res.render("organization", templateVars);
-    //               }
-    //             })
-    //             .catch((e) => res.send(e));
-    //         });
-    //     })
-    //     .catch((e) => res.send(e));
-    // }
   });
   return router;
 };
