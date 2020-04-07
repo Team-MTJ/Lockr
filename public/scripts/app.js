@@ -68,4 +68,18 @@ $(() => {
     const $passwordBox = $(event.target).parents().siblings(".passwordBox");
     $passwordBox.prop("disabled", true);
   });
+
+  $("#title-filter").on("keyup", (event) => {
+    const searchTerm = $("#title-filter").val();
+    if (searchTerm) {
+      // Hide every card first
+      $(".pwd-card").addClass("hidden");
+
+      // Show cards that match the search term
+      // TODO
+    } else {
+      // Show every card if field is empty
+      $(".pwd-card").removeClass("hidden");
+    }
+  });
 });
