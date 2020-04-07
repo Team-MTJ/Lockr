@@ -30,10 +30,49 @@ module.exports = (db) => {
 
   router.post("/orgs", (req, res) => {
     dbHelpers.getUsersByOrg(req.body.org_id).then((users) => {
+      currentUser = req.session.userId;
+      users.forEach((user) => {
+        user["currentUser"] = currentUser;
+      });
       res.json(users);
     });
   });
-
+  //DELETE BASED ON email and org_id
+  router.delete("/:org_id/:email", (req, res) => {
+    const userId = req.session.userId;
+    const orgId = req.params.org_id;
+    const deleteUserEmail = req.params.email;
+    //check if user is admin
+    dbHelpers.isUserAdmin(orgId, userId).then((admin) => {
+      if (!admin) {
+        res.status(401).send("not authorized");
+      }
+      dbHelpers
+        .removeUserFromOrg(orgId, deleteUserEmail)
+        .then(() => {
+          res.redirect("/manage");
+        })
+        .catch((e) => console.error(e));
+    });
+  });
+  // UPDATE ADMIN
+  router.put("/:org_id/:email", (req, res) => {
+    const userId = req.session.userId;
+    const orgId = req.params.org_id;
+    const updateUserEmail = req.params.email;
+    //check if user is admin
+    dbHelpers.isUserAdmin(orgId, userId).then((admin) => {
+      if (!admin) {
+        res.status(401).send("not authorized");
+      }
+      dbHelpers
+        .makeUserAdmin(orgId, updateUserEmail)
+        .then(() => {
+          res.redirect("/manage");
+        })
+        .catch((e) => console.error(e));
+    });
+  });
   // Add new member to org
   router.post("/orgs/:org_id", (req, res) => {
     const { newuser } = req.body;

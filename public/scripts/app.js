@@ -9,7 +9,7 @@ $(() => {
       success: (data) => {
         $(".add-member").empty();
         $(".add-member").append(
-          `<form data-id=${org_id} class="member-form form-inline" action="/manage/orgs/${org_id}" method="POST" type="submit">            
+          `<form data-id=${org_id} class="member-form form-inline" action="/manage/orgs/${org_id}" method="POST" type="submit">
             <input type="email" placeholder="Email" name="newuser" class="form-control">
             <button class="btn btn-primary">Add Member</button>
           </form>`
@@ -17,20 +17,45 @@ $(() => {
         const body = $("#manage-table").DataTable();
         body.clear();
         data.forEach((member) => {
+          let adminHTML = "";
+          let removeHTML = "";
+          if (member.is_admin) {
+            adminHTML = `<tr>
+            <td>
+            <input disabled type="hidden" class="to-delete-email" value="${member.email}" />
+            <input disabled type="hidden" class="org-to-delete-from" value="${org_id}" />
+            <button class="btn btn-info" type="button" id="make-admin" disabled >Already Admin</button>
+            </td>
+           </tr>`;
+          } else {
+            adminHTML = `<tr>
+            <td>
+            <input disabled type="hidden" class="to-update-email" value="${member.email}" />
+            <input disabled type="hidden" class="org-to-update-from" value="${org_id}" />
+            <button class="make-admin btn btn-info" type="button" id="make-admin">Make Admin</button>
+            </td>
+           </tr>`;
+          }
+          if (member.id === member.currentUser) {
+            removeHTML = `<tr>
+
+            </td>
+            </tr>`;
+          } else {
+            removeHTML = `<tr>
+            <input type="hidden" class="to-delete-email" value="${member.email}" />
+            <input type="hidden" class="org-to-delete-from" value="${org_id}" />
+            <button class="remove-member btn btn-danger" type="submit" id="remove-member">Remove Member</button>
+            </td>
+          </tr>`;
+          }
           body.row
             .add([
               member.first_name,
               member.last_name,
               member.email,
-              `<tr>
-                <td>
-                <button class="btn btn-info" type="button" id="make-admin">Make Admin</button>
-                </td>
-               </tr>`,
-              `<tr>
-                <button class="btn btn-danger" type="button" id="remove-member">Remove Member</button>
-                </td>
-              </tr>`,
+              adminHTML,
+              removeHTML,
             ])
             .draw(false);
         });
@@ -43,6 +68,28 @@ $(() => {
     // Get org_id from data-id in html
     const org_id = $(this).data("id");
     updateManagePage(org_id);
+  });
+  //----------------------------------------
+  //DELETE MEMBER
+  $(document).on("click", ".remove-member", function (event) {
+    const org_id = $(event.target).siblings(".org-to-delete-from").val();
+    const toDeleteEmail = $(event.target).siblings(".to-delete-email").val();
+    console.log(org_id);
+    console.log(toDeleteEmail);
+    $.post(`/manage/${org_id}/${toDeleteEmail}?_method=DELETE`, function () {
+      updateManagePage(org_id); //REFRESH TABLE
+    });
+  });
+
+  // Update is_admin
+  $(document).on("click", ".make-admin", function (event) {
+    const org_id = $(event.target).siblings(".org-to-update-from").val();
+    const toUpdateEmail = $(event.target).siblings(".to-update-email").val();
+    console.log(org_id);
+    console.log(toUpdateEmail);
+    $.post(`/manage/${org_id}/${toUpdateEmail}?_method=PUT`, function () {
+      updateManagePage(org_id); //REFRESH TABLE
+    });
   });
 
   // Add new member & refresh table; show errors if request does not meet criteria
@@ -82,6 +129,21 @@ $(() => {
     $passwordBox.prop("disabled", true);
   });
 
+  // Add new member &
+  $(".add-member").on("click", ".member-form > button", function (e) {
+    e.preventDefault();
+    const org_id = $(".member-form").data("id");
+    console.log(org_id);
+    $.ajax({
+      url: `/manage/orgs/${org_id}`,
+      method: "POST",
+      data: $(".member-form").serialize(),
+      success: () => {
+        updateManagePage(org_id);
+      },
+    });
+  });
+
   // Display value on slide for new password modal
   $(".password_length").on("input change", function () {
     $(".length_span").html($(".password_length").val());
@@ -97,7 +159,7 @@ $(() => {
     $passwordBox.prop("disabled", false);
 
     // Slide down the generate password box
-    $(event.target).parents().siblings(".change_generate").slideDown();
+    $(event.target).parents().siblings(".change_generate").slideToggle();
   });
 
   $(".close-modal").on("click", () => {
