@@ -38,10 +38,6 @@ $(() => {
   });
 });
 
-$("#add-member").on("click", () => {
-  
-})
-
 // Copy to clipboard function for modal
 $(".copy").on("click", function (event) {
   // Stop the copy button from submitting a PUT request
