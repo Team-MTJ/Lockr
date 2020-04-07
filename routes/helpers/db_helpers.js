@@ -354,7 +354,6 @@ module.exports = (db) => {
     `,
         [user_id, org_id]
       )
-      .then((res) => res.row[0])
       .catch((e) => console.error(e));
   };
 

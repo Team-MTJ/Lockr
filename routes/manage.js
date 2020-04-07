@@ -51,7 +51,7 @@ module.exports = (db) => {
           if (member)
             return res
               .status(400)
-              .alert("This user is already a member of this organization!");
+              .send("This user is already a member of this organization!");
           dbHelpers.addUserToOrg(userExists.id, org_id).then((newUser) => {
             res.send(newUser);
           });
