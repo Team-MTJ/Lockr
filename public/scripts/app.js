@@ -58,40 +58,75 @@ $(() => {
       },
     });
   });
-});
 
-// Copy to clipboard function for modal
-$(".copy").on("click", function (event) {
-  // Stop the copy button from submitting a PUT request
-  event.preventDefault();
-  // Remove disable to allow copy function
-  const $passwordBox = $(event.target).parents().siblings(".passwordBox");
-  $passwordBox.prop("disabled", false);
-  $passwordBox.select();
-  document.execCommand("copy");
-  // Enable "disable" again
-  $passwordBox.prop("disabled", true);
-});
+  // Copy to clipboard function for modal
+  $(".copy").on("click", function (event) {
+    // Stop the copy button from submitting a PUT request
+    event.preventDefault();
+    // Remove disable to allow copy function
+    const $passwordBox = $(event.target).parents().siblings(".passwordBox");
+    $passwordBox.prop("disabled", false);
+    $passwordBox.select();
+    document.execCommand("copy");
+    // Enable "disable" again
+    $passwordBox.prop("disabled", true);
+  });
 
-// Display value on slide for new password modal
-$(".password_length").on("input change", function () {
-  $(".length_span").html($(".password_length").val());
-});
+  // Display value on slide for new password modal
+  $(".password_length").on("input change", function () {
+    $(".length_span").html($(".password_length").val());
+  });
 
-// Display value on slide for edit password modal
-$(".passLength").on("input change", function (event) {
-  $(event.target).siblings(".lengthSpan").html($(event.target).val());
-});
+  // Display value on slide for edit password modal
+  $(".passLength").on("input change", function (event) {
+    $(event.target).siblings(".lengthSpan").html($(event.target).val());
+  });
 
-$(".change").on("click", () => {
-  const $passwordBox = $(event.target).parents().siblings(".passwordBox");
-  $passwordBox.prop("disabled", false);
+  $(".change").on("click", () => {
+    const $passwordBox = $(event.target).parents().siblings(".passwordBox");
+    $passwordBox.prop("disabled", false);
 
-  // Slide down the generate password box
-  $(event.target).parents().siblings(".change_generate").slideDown();
-});
+    // Slide down the generate password box
+    $(event.target).parents().siblings(".change_generate").slideDown();
+  });
 
-$(".close-modal").on("click", () => {
-  const $passwordBox = $(event.target).parents().siblings(".passwordBox");
-  $passwordBox.prop("disabled", true);
+  $(".close-modal").on("click", () => {
+    const $passwordBox = $(event.target).parents().siblings(".passwordBox");
+    $passwordBox.prop("disabled", true);
+  });
+
+  // Typing into title filter
+  $("#title-filter").on("keyup", (event) => {
+    // Reset category selector when typing starts
+    $("#select-category").val("choose");
+
+    const searchTerm = $("#title-filter").val();
+    if (searchTerm) {
+      // Hide every card first
+      $(".pwd-card").addClass("hidden");
+
+      // Show cards that match the search term
+      $(`.pwd-card[title^='${searchTerm}' i]`).removeClass("hidden");
+    } else {
+      // Show every card if field is empty
+      $(".pwd-card").removeClass("hidden");
+    }
+  });
+
+  // Selecting category
+  $("#select-category").change((event) => {
+    // Reset title search box
+    $("#title-filter").val("");
+
+    const category = $(event.target).children("option:selected").val();
+    if (category === "showall" || category === "choose") {
+      $(".pwd-card").removeClass("hidden");
+    } else {
+      // Hide every card first
+      $(".pwd-card").addClass("hidden");
+
+      // Show cards that match the category
+      $(`.pwd-card[category='${category}']`).removeClass("hidden");
+    }
+  });
 });
