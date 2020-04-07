@@ -1,14 +1,18 @@
 $(() => {
-  // Dynamically create membership table depending on organization clicked in dropdown menu
-  $("#manageOrgs > a").on("click", function () {
-    // Get org_id from data-id in html
-    const org_id = $(this).data("id");
+  function updateManagePage(org_id) {
     $.ajax({
-      url: "/manage/org",
+      url: "/manage/orgs",
       method: "POST",
       dataType: "JSON",
       data: { org_id },
       success: (data) => {
+        $(".add-member").empty();
+        $(".add-member").append(
+          `<form data-id=${org_id} class="member-form form-inline" action="/manage/orgs/${org_id}" method="POST" type="submit">            
+            <input type="email" placeholder="Email" name="newuser" class="form-control">
+            <button class="btn btn-primary">Add Member</button>
+          </form>`
+        );
         const body = $("#manage-table").DataTable();
         body.clear();
         data.forEach((member) => {
@@ -29,6 +33,28 @@ $(() => {
             ])
             .draw(false);
         });
+      },
+    });
+  }
+
+  // Dynamically create membership table depending on organization clicked in dropdown menu
+  $("#manage-orgs > a").on("click", function () {
+    // Get org_id from data-id in html
+    const org_id = $(this).data("id");
+    updateManagePage(org_id);
+  });
+
+  // Add new member & 
+  $(".add-member").on("click", ".member-form > button", function (e) {
+    e.preventDefault();
+    const org_id = $(".member-form").data("id");
+    console.log(org_id);
+    $.ajax({
+      url: `/manage/orgs/${org_id}`,
+      method: "POST",
+      data: $(".member-form").serialize(),
+      success: () => {
+        updateManagePage(org_id);
       },
     });
   });

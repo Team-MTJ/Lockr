@@ -9,7 +9,7 @@
   >
     Organizations
   </button>
-  <div class="dropdown-menu" id="manageOrgs">
+  <div class="dropdown-menu" id="manage-orgs">
     <% for (org of adminOrgs) { %>
     <a class="dropdown-item" data-id="<%= org.org_id%>" href="#<%= org.name%>"
       ><%= org.name %></a
@@ -17,6 +17,8 @@
     <% } %>
   </div>
 </div>
+
+<div class="add-member"></div>
 <table class="table" id="manage-table">
   <thead class="thead-dark">
     <tr>
@@ -27,6 +29,7 @@
       <th scope="col">Remove Member</th>
     </tr>
   </thead>
-  <tbody></tbody>
+  <tbody>
+  </tbody>
 </table>
 <%-include('partials/_footer') %>
