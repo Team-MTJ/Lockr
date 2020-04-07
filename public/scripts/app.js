@@ -8,7 +8,7 @@ $(() => {
       success: (data) => {
         $(".add-member").empty();
         $(".add-member").append(
-          `<form data-org=${org_id} class="add-member" action="/manage/${org_id}" method="POST" type="submit">
+          `<form data-id=${org_id} class="add-member" action="/manage/${org_id}" method="POST" type="submit">
             <button class="btn btn-primary">Add Member</button>
             <input type="email" placeholder="Email" name="newuser">
           </form>`
@@ -44,8 +44,9 @@ $(() => {
     updateManagePage("/manage/org", org_id);
   });
 
-  $("#add-member").on("click", () => {
-    
+  $(".add-member").on("click", () => {
+    const org_id = $(this).data("id");
+    updateManagePage("/manage/:org_id", org_id);
   });
 
   // // Dynamically create membership table depending on organization clicked in dropdown menu
