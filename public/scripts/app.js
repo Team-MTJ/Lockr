@@ -48,7 +48,6 @@ $(() => {
   $(".add-member").on("click", ".member-form > button", function (e) {
     e.preventDefault();
     const org_id = $(".member-form").data("id");
-    console.log(org_id);
     $.ajax({
       url: `/manage/orgs/${org_id}`,
       method: "POST",
