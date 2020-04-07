@@ -270,16 +270,23 @@ module.exports = (db) => {
       .catch((e) => console.error(e));
   };
 
-  const addPwdToOrg = function (org, title, url, username, password) {
-    // Category not added yet (not sure about functionality with it)
-    const values = [org, title, url, username, password];
-    return db
-      .query(
-        `
+  const addPwdToOrg = function (org, title, url, username, password, category) {
+    const values = [org, title, url, username, password, category];
+    let queryString = "";
+
+    // Change queryString depending on if category was given
+    if (!category) {
+      values.pop();
+      queryString = `
     INSERT INTO pwd (org_id, website_title, website_url, website_username, website_pwd) VALUES ($1, $2, $3, $4, $5) RETURNING *;
-    `,
-        values
-      )
+    `;
+    } else {
+      queryString = `
+    INSERT INTO pwd (org_id, website_title, website_url, website_username, website_pwd, category) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;
+    `;
+    }
+    return db
+      .query(queryString, values)
       .then((res) => res.rows[0])
       .catch((e) => console.log(e));
   };
@@ -368,6 +375,24 @@ module.exports = (db) => {
       });
   };
 
+  const deletePwd = function (pwdId) {
+    return db
+      .query(
+        `
+        DELETE FROM pwd
+        WHERE id=$1
+        RETURNING *;
+        `,
+        [pwdId]
+      )
+      .then((res) => {
+        return res.rows[0];
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const addUserToOrg = function (user_id, org_id) {
     return db
       .query(
@@ -441,6 +466,7 @@ module.exports = (db) => {
     orgsWhereUserIsAdmin,
     modifyPwd,
     removeUserFromOrg,
+    deletePwd,
     addUserToOrg,
     isUserMemberOfOrg,
     makeUserAdmin,

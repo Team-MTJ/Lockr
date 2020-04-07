@@ -34,6 +34,24 @@ module.exports = (db) => {
     });
   });
 
+  router.delete("/:org_id/:pwd_id", (req, res) => {
+    const { org_id, pwd_id } = req.params;
+    dbHelpers.isUserAdmin(org_id, req.session.userId).then((admin) => {
+      if (!admin) {
+        return res
+          .status(403)
+          .send("You are not authorized to delete the password!");
+      }
+
+      dbHelpers
+        .deletePwd(pwd_id)
+        .then(() => {
+          res.redirect(`/orgs/${org_id}`);
+        })
+        .catch((e) => res.send(e));
+    });
+  });
+  
   router.get("/new", (req, res) => {
     dbHelpers
       .getUserWithId(req.session.userId) // Get user id
@@ -99,6 +117,7 @@ module.exports = (db) => {
         website_url,
         website_username,
         website_pwd,
+        category,
       } = req.body;
 
       if (!(website_title && website_url && website_username && website_pwd)) {
@@ -110,7 +129,8 @@ module.exports = (db) => {
             website_title,
             website_url,
             website_username,
-            website_pwd
+            website_pwd,
+            category
           )
           .then(() => {
             return res.redirect(`/orgs/${org_id}`);
