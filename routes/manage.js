@@ -36,12 +36,14 @@ module.exports = (db) => {
 
   // Add new member to org
   router.post("/orgs/:org_id", (req, res) => {
+    console.log("PARAMS", req.body)
     const { newuser } = req.body;
     const { org_id } = req.params;
     const { userId } = req.session;
+    console.log("user", newuser);
+    console.log("org", org_id);
+    console.log("userID", userId);
 
-    console.log("USER", newuser);
-    console.log("ORG", org_id)
     dbHelpers.isUserAdmin(org_id, userId).then((admin) => {
       if (!admin)
         return res
@@ -49,12 +51,12 @@ module.exports = (db) => {
           .send("You are not authorized to add members to this organization.");
       dbHelpers.getUserWithEmail(newuser).then((userExists) => {
         if (!userExists) res.status(400).send("This user does not exist.");
-        dbHelpers.isUserMemberOfOrg(userId, org_id).then((member) => {
+        dbHelpers.isUserMemberOfOrg(userExists.id, org_id).then((member) => {
           if (member)
             return res
               .status(400)
-              .send("This user is already a member of this organization!");
-          dbHelpers.addUserToOrg(userId, org_id).then((newUser) => {
+              .alert("This user is already a member of this organization!");
+          dbHelpers.addUserToOrg(userExists.id, org_id).then((newUser) => {
             res.send(newUser);
           });
         });
