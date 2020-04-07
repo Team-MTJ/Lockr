@@ -16,18 +16,30 @@ $(() => {
         const body = $("#manage-table").DataTable();
         body.clear();
         data.forEach((member) => {
+          let textHTML = "";
+          if (member.is_admin) {
+            textHTML = `<tr>
+            <td>
+            <input disabled type="hidden" class="to-delete-email" value="${member.email}" />
+            <input disabled type="hidden" class="org-to-delete-from" value="${org_id}" />
+            <button class="btn btn-info" type="button" id="make-admin" disabled >Already Admin</button>
+            </td>
+           </tr>`;
+          } else {
+            textHTML = `<tr>
+            <td>
+            <input disabled type="hidden" class="to-delete-email" value="${member.email}" />
+            <input disabled type="hidden" class="org-to-delete-from" value="${org_id}" />
+            <button class="btn btn-info" type="button" id="make-admin">Make Admin</button>
+            </td>
+           </tr>`;
+          }
           body.row
             .add([
               member.first_name,
               member.last_name,
               member.email,
-              `<tr>
-                <td>
-                <input disabled type="hidden" class="to-delete-email" value="${member.email}" />
-                <input disabled type="hidden" class="org-to-delete-from" value="${org_id}" />
-                <button class="btn btn-info" type="button" id="make-admin">Make Admin</button>
-                </td>
-               </tr>`,
+              textHTML,
               `<tr>
                 <input type="hidden" class="to-delete-email" value="${member.email}" />
                 <input type="hidden" class="org-to-delete-from" value="${org_id}" />
@@ -55,7 +67,7 @@ $(() => {
     console.log(org_id);
     console.log(toDeleteEmail);
     $.post(`/manage/${org_id}/${toDeleteEmail}?_method=DELETE`, function () {
-      updateManagePage(org_id);
+      updateManagePage(org_id); //REFRESH TABLE
     });
   });
 
