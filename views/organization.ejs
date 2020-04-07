@@ -148,6 +148,14 @@
             >
               Close
             </button>
+            <button
+              type="submit"
+              class="btn btn-danger"
+              formaction="/orgs/<%=pwd.org_id%>/<%=pwd.id%>?_method=DELETE"
+              method="POST"
+            >
+              Delete
+            </button>
             <button type="submit" class="btn btn-primary">Save changes</button>
           </div>
         </form>
