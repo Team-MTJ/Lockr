@@ -34,6 +34,7 @@ module.exports = (db) => {
     });
   });
 
+  // Add new member to org
   router.post("/:org_id", (req, res) => {
     const { newuser } = req.body;
     const { org_id } = req.params;
@@ -42,20 +43,19 @@ module.exports = (db) => {
         res
           .status(403)
           .send("You are not authorized to add members to this organization.");
-
       dbHelpers.getUserWithEmail(newuser).then((userExists) => {
         if (!userExists) res.status(400).send("This user does not exist.");
-
         dbHelpers.isUserMemberOfOrg(newuser, org_id).then((member) => {
           if (member)
             res
               .status(400)
               .send("This user is already a member of this organization!");
-
-          dbHelpers.addUserToOrg(newuser, org_id).then((newUser) => {});
+          dbHelpers.addUserToOrg(newuser, org_id).then(() => {
+            dbHelpers.getUsersByOrg(org_id).then((users) => {
+              res.json(users);
+            });
+          });
         });
-
-        console.log(userExists);
       });
     });
   });
