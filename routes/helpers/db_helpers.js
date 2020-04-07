@@ -256,26 +256,37 @@ module.exports = (db) => {
       });
   };
 
-  const orgsWhereUserIsAdmin = function(user_id) {
-    return db.query(`
-      SELECT org.name, org_id FROM membership
-      JOIN org ON org_id = org.id
-      WHERE is_admin = true AND user_id = $1;
-    `, [user_id])
-    .then(res => res.rows)
-    .catch((e) => console.error(e));
-  }
-
-  const addPwdToOrg = function (org, title, url, username, password) {
-    // Category not added yet (not sure about functionality with it)
-    const values = [org, title, url, username, password];
+  const orgsWhereUserIsAdmin = function (user_id) {
     return db
       .query(
         `
-    INSERT INTO pwd (org_id, website_title, website_url, website_username, website_pwd) VALUES ($1, $2, $3, $4, $5) RETURNING *;
+      SELECT org.name, org_id FROM membership
+      JOIN org ON org_id = org.id
+      WHERE is_admin = true AND user_id = $1;
     `,
-        values
+        [user_id]
       )
+      .then((res) => res.rows)
+      .catch((e) => console.error(e));
+  };
+
+  const addPwdToOrg = function (org, title, url, username, password, category) {
+    const values = [org, title, url, username, password, category];
+    let queryString = "";
+
+    // Change queryString depending on if category was given
+    if (!category) {
+      values.pop();
+      queryString = `
+    INSERT INTO pwd (org_id, website_title, website_url, website_username, website_pwd) VALUES ($1, $2, $3, $4, $5) RETURNING *;
+    `;
+    } else {
+      queryString = `
+    INSERT INTO pwd (org_id, website_title, website_url, website_username, website_pwd, category) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;
+    `;
+    }
+    return db
+      .query(queryString, values)
       .then((res) => res.rows[0])
       .catch((e) => console.log(e));
   };
@@ -352,6 +363,6 @@ module.exports = (db) => {
     isUserAdmin,
     addPwdToOrg,
     orgsWhereUserIsAdmin,
-    modifyPwd
+    modifyPwd,
   };
 };

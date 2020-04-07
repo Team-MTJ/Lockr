@@ -99,6 +99,7 @@ module.exports = (db) => {
         website_url,
         website_username,
         website_pwd,
+        category
       } = req.body;
 
       if (!(website_title && website_url && website_username && website_pwd)) {
@@ -110,7 +111,8 @@ module.exports = (db) => {
             website_title,
             website_url,
             website_username,
-            website_pwd
+            website_pwd,
+            category
           )
           .then(() => {
             return res.redirect(`/orgs/${org_id}`);
