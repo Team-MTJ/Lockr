@@ -19,7 +19,7 @@ $(() => {
               member.email,
               `<tr>
                 <td>
-                <button class="btn btn-info" type="button" id="make-admin">Make Admin</button> 
+                <button class="btn btn-info" type="button" id="make-admin">Make Admin</button>
                 </td>
                </tr>`,
               `<tr>
@@ -54,9 +54,11 @@ $(".password_length").on("input change", function () {
 });
 
 $(".change").on("click", () => {
+  const $passwordBox = $(".copy").parents().siblings(".passwordBox");
   $passwordBox.prop("disabled", false);
 });
 
 $(".close-modal").on("click", () => {
+  const $passwordBox = $(".copy").parents().siblings(".passwordBox");
   $passwordBox.prop("disabled", true);
 });

@@ -45,12 +45,14 @@ $(".submitGenerate").on("click", (data) => {
 
 // const $passGen = $(".slideG").children(".passGen");
 // LINE 94 to 101
-$("#passGen").on("click", () => {
+
+$(".passGen").on("click", (event) => {
   console.log("Clicked");
-  const $passBox = $(this).parent().siblings(".passwordBox");
-  const $length = $(this).parent().find(".passLength");
-  const $numberBool = $(this).parent().find(".passNumber");
-  const $symbolBool = $(this).parent().find(".passSymbol");
+  const $passwordBox = $(".passGen").parent().siblings(".passwordBox");
+  console.log($passwordBox.val());
+  const $length = $(".passGen").siblings(".passLength");
+  const $numberBool = $(".passGen").siblings(".passNumber");
+  const $symbolBool = $(".passGen").siblings(".passSymbol");
   let includeNumber = $numberBool.is(":checked");
   console.log(includeNumber);
   let includeSymbol = $symbolBool.is(":checked");
@@ -63,6 +65,25 @@ $("#passGen").on("click", () => {
     length: slideNumber,
   };
   let generatedPassword = generateRandomPassword(options);
-  $passBox.prop("disabled", true);
-  $passBox.val(generatedPassword);
+  $passwordBox.prop("disabled", true);
+  $passwordBox.val(generatedPassword);
 });
+
+// const slideGHTML = `
+// <div class="slideG">
+// <input type="text" class="passLength" /><span>LEngth</span>
+// <input type="checkbox" class="passNumber" /><span>Number</span>
+// <input type="checkbox" class="passSymbol" /><span>symbol</span>
+// <a class="passGen btn btn-secondary btn-sm" id="passGen">GEN</a>
+// </div>
+// `;
+
+// $(".modal").on("hidden.bs.modal", function (e) {
+//   const $slideG = $(".modal")
+//     .children(".modal-dialog")
+//     .children(".modal-content")
+//     .children(".modal-body")
+//     .children(".slideG");
+//   console.log($slideG.html());
+//   $slideG.html(slideGHTML);
+// });
