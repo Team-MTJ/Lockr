@@ -74,8 +74,6 @@ $(() => {
   $(document).on("click", ".remove-member", function (event) {
     const org_id = $(event.target).siblings(".org-to-delete-from").val();
     const toDeleteEmail = $(event.target).siblings(".to-delete-email").val();
-    console.log(org_id);
-    console.log(toDeleteEmail);
     $.post(`/manage/${org_id}/${toDeleteEmail}?_method=DELETE`, function () {
       updateManagePage(org_id); //REFRESH TABLE
     });
