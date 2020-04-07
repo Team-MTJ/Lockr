@@ -27,12 +27,29 @@ module.exports = (db) => {
       });
     });
   });
-  
-  router.post("/org", (req, res) => {
-    dbHelpers.getUsersByOrg(req.body.org_id).then(users => {
-      res.json(users);
-    })
-  })
 
+  router.post("/org", (req, res) => {
+    dbHelpers.getUsersByOrg(req.body.org_id).then((users) => {
+      res.json(users);
+    });
+  });
+  //DELETE BASED ON email and org_id
+  router.delete("/:org_id/:email", (req, res) => {
+    const userId = req.session.userId;
+    const orgId = req.params.org_id;
+    const deleteUserEmail = req.params.email;
+    //check if user is admin
+    dbHelpers.isUserAdmin(orgId, userId).then((admin) => {
+      if (!admin) {
+        res.status(401).send("not authorized");
+      }
+      dbHelpers
+        .removeUserFromOrg(orgId, deleteUserEmail)
+        .then(() => {
+          res.redirect("/manage");
+        })
+        .catch((e) => console.error(e));
+    });
+  });
   return router;
 };

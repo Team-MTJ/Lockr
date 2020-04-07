@@ -23,7 +23,9 @@ $(() => {
                 </td>
                </tr>`,
               `<tr>
-                <button class="btn btn-danger" type="button" id="remove-member">Remove Member</button>
+                <form method="POST" action="/manage/${org_id}/${member.email}?_method=DELETE">
+                <button class="btn btn-danger" type="submit" id="remove-member">Remove Member</button>
+                </form>
                 </td>
               </tr>`,
             ])
@@ -32,8 +34,10 @@ $(() => {
       },
     });
   });
+  //----------------------------------------
 });
 
+//
 // Copy to clipboard function for modal
 $(".copy").on("click", function (event) {
   // Stop the copy button from submitting a PUT request
