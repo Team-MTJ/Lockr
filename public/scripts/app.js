@@ -28,9 +28,9 @@ $(() => {
           } else {
             textHTML = `<tr>
             <td>
-            <input disabled type="hidden" class="to-delete-email" value="${member.email}" />
-            <input disabled type="hidden" class="org-to-delete-from" value="${org_id}" />
-            <button class="btn btn-info" type="button" id="make-admin">Make Admin</button>
+            <input disabled type="hidden" class="to-update-email" value="${member.email}" />
+            <input disabled type="hidden" class="org-to-update-from" value="${org_id}" />
+            <button class="make-admin btn btn-info" type="button" id="make-admin">Make Admin</button>
             </td>
            </tr>`;
           }
@@ -71,7 +71,17 @@ $(() => {
     });
   });
 
-  //
+  // Update is_admin
+  $(document).on("click", ".make-admin", function (event) {
+    const org_id = $(event.target).siblings(".org-to-update-from").val();
+    const toUpdateEmail = $(event.target).siblings(".to-update-email").val();
+    console.log(org_id);
+    console.log(toUpdateEmail);
+    $.post(`/manage/${org_id}/${toUpdateEmail}?_method=PUT`, function () {
+      updateManagePage(org_id); //REFRESH TABLE
+    });
+  });
+
   // Copy to clipboard function for modal
   $(".copy").on("click", function (event) {
     // Stop the copy button from submitting a PUT request

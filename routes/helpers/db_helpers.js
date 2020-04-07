@@ -399,6 +399,32 @@ module.exports = (db) => {
       .catch((e) => console.error(e));
   };
 
+  const makeUserAdmin = function (org_id, email) {
+    return db
+      .query(
+        `
+      SELECT id  FROM users
+      WHERE email = $1;
+
+      `,
+        [email]
+      )
+      .then((res) => {
+        const userID = res.rows[0].id;
+        db.query(
+          `
+        UPDATE membership
+        SET is_admin = true
+        WHERE org_id = $1
+        AND user_id = $2;
+        `,
+          [org_id, userID]
+        )
+          .then((res) => res.rows[0])
+          .catch((e) => console.error(e));
+      });
+  };
+
   return {
     getUserWithEmail,
     login,
@@ -417,5 +443,6 @@ module.exports = (db) => {
     removeUserFromOrg,
     addUserToOrg,
     isUserMemberOfOrg,
+    makeUserAdmin,
   };
 };
