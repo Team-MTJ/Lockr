@@ -71,6 +71,9 @@ $(() => {
 
   // Typing into title filter
   $("#title-filter").on("keyup", (event) => {
+    // Reset category selector when typing starts
+    $("#select-category").val("choose");
+
     const searchTerm = $("#title-filter").val();
     if (searchTerm) {
       // Hide every card first
@@ -86,8 +89,11 @@ $(() => {
 
   // Selecting category
   $("#select-category").change((event) => {
+    // Reset title search box
+    $("#title-filter").val("");
+
     const category = $(event.target).children("option:selected").val();
-    if (category === "showall") {
+    if (category === "showall" || category === "choose") {
       $(".pwd-card").removeClass("hidden");
     } else {
       // Hide every card first
