@@ -17,6 +17,7 @@
   width: 250px;
   min-width: 250px;
   max-width: 250px;
+  background-color: white !important;
 }
 
 #generate_password {
@@ -55,6 +56,17 @@ object::after {
   background-size: 100px 100px;
 }
 
-.modal .pwd-img{
-margin-left: 50px;
+.modal .pwd-img {
+  margin-left: 50px;
+}
+
+.hidden {
+  display: none;
+}
+
+#filter-options {
+  span {
+    margin-left: 10px;
+    margin-right: 20px;
+  }
 }
