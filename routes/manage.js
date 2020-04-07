@@ -44,13 +44,13 @@ module.exports = (db) => {
       if (!admin)
         return res
           .status(403)
-          .send("You are not authorized to add members to this organization.");
+          .send("You are not authorized to add members to this organization.").redirect("/");
       dbHelpers.getUserWithEmail(newuser).then((userExists) => {
         if (!userExists) res.status(400).send("This user does not exist.");
         dbHelpers.isUserMemberOfOrg(userExists.id, org_id).then((member) => {
           if (member)
             return res
-              .status(400)
+              .status(418)
               .send("This user is already a member of this organization!");
           dbHelpers.addUserToOrg(userExists.id, org_id).then((newUser) => {
             res.send(newUser);

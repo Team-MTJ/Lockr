@@ -9,7 +9,7 @@ h1 {
 }
 
 #manageDropdown {
-  padding: 1em 1em 7.5em;
+  padding: 1em 1em 5em;
 }
 
 #manage-table {
@@ -21,10 +21,17 @@ h1 {
 
 .add-member {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 2em;
   z-index: -10;
 }
 
 .member-form {
   justify-content: center;
+  margin-top: 1em;
+  transform: translateY(2em);
+}
+
+.alert-danger {
+  text-align: center;
+  transform: translateY(1em);
 }
