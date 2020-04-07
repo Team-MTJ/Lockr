@@ -3,7 +3,6 @@ $(() => {
   $("#manageOrgs > a").on("click", function () {
     // Get org_id from data-id in html
     const org_id = $(this).data("id");
-
     $.ajax({
       url: "/manage/org",
       method: "POST",
@@ -11,7 +10,12 @@ $(() => {
       data: { org_id },
       success: (data) => {
         $(".add-member").empty();
-        $(".add-member").append(`<button data-org=${org_id} id="add-member" class="btn btn-primary">Add Member</button>`)
+        $(".add-member").append(
+          `<form action="POST" type="submit">
+            <button data-org=${org_id} id="add-member" class="btn btn-primary">Add Member</button>
+            <input type="email" placeholder="Email" name="newuser-email">
+          </form>`
+        );
         const body = $("#manage-table").DataTable();
         body.clear();
         // body.row.add([`<button id="add-member" class="btn btn-primary">Add Member</button>`, "", "", "", "",]).draw(false);
@@ -29,7 +33,7 @@ $(() => {
               `<tr>
                 <button class="btn btn-danger" type="button" id="remove-member">Remove Member</button>
                 </td>
-              </tr>`
+              </tr>`,
             ])
             .draw(false);
         });
@@ -38,9 +42,7 @@ $(() => {
   });
 });
 
-$("#add-member").on("click", () => {
-  
-})
+$("#add-member").on("click", () => {});
 
 // Copy to clipboard function for modal
 $(".copy").on("click", function (event) {
