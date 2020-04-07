@@ -23,9 +23,8 @@ $(() => {
                 </td>
                </tr>`,
               `<tr>
-                <form method="POST" action="/manage/${org_id}/${member.email}?_method=DELETE">
-                <button class="btn btn-danger" type="submit" id="remove-member">Remove Member</button>
-                </form>
+                <input type="hidden" value="${member.email}" />
+                <button class="remove-member btn btn-danger" type="submit" id="remove-member">Remove Member</button>
                 </td>
               </tr>`,
             ])
@@ -35,6 +34,15 @@ $(() => {
     });
   });
   //----------------------------------------
+  $(document).on("click", ".remove-member", function (event) {
+    const org_id = $("#manageOrgs > a").data("id");
+    const toDeleteEmail = $(event.target).siblings("input").val();
+    console.log(org_id);
+    console.log(toDeleteEmail);
+    $.post(`/manage/${org_id}/${toDeleteEmail}?_method=DELETE`, function () {
+      console.log("okay");
+    });
+  });
 });
 
 //
@@ -66,7 +74,7 @@ $(".change").on("click", () => {
   $passwordBox.prop("disabled", false);
 
   // Slide down the generate password box
-  $(event.target).parents().siblings(".change_generate").slideDown();
+  $(event.target).parents().siblings(".change_generate").slideToggle();
 });
 
 $(".close-modal").on("click", () => {
