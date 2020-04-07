@@ -19,14 +19,17 @@ $(() => {
               member.email,
               `<tr>
                 <td>
+                <input disabled type="hidden" class="to-delete-email" value="${member.email}" />
+                <input disabled type="hidden" class="org-to-delete-from" value="${org_id}" />
                 <button class="btn btn-info" type="button" id="make-admin">Make Admin</button>
                 </td>
                </tr>`,
               `<tr>
-                <input type="hidden" value="${member.email}" />
+                <input type="hidden" class="to-delete-email" value="${member.email}" />
+                <input type="hidden" class="org-to-delete-from" value="${org_id}" />
                 <button class="remove-member btn btn-danger" type="submit" id="remove-member">Remove Member</button>
                 </td>
-              </tr>`,
+              </tr>`, //<----- Added two hidden disabled input to obtain the email and org_id
             ])
             .draw(false);
         });
@@ -35,13 +38,13 @@ $(() => {
   });
   //----------------------------------------
   $(document).on("click", ".remove-member", function (event) {
-    const org_id = $("#manageOrgs > a").data("id");
-    const toDeleteEmail = $(event.target).siblings("input").val();
+    const org_id = $(event.target).siblings(".org-to-delete-from").val();
+    const toDeleteEmail = $(event.target).siblings(".to-delete-email").val();
     console.log(org_id);
     console.log(toDeleteEmail);
-    $.post(`/manage/${org_id}/${toDeleteEmail}?_method=DELETE`, function () {
-      console.log("okay");
-    });
+    // $.post(`/manage/${org_id}/${toDeleteEmail}?_method=DELETE`, function () {
+    //   console.log("okay");
+    // });
   });
 });
 
