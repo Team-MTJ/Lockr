@@ -69,6 +69,7 @@ $(() => {
     $passwordBox.prop("disabled", true);
   });
 
+  // Typing into title filter
   $("#title-filter").on("keyup", (event) => {
     const searchTerm = $("#title-filter").val();
     if (searchTerm) {
@@ -80,6 +81,20 @@ $(() => {
     } else {
       // Show every card if field is empty
       $(".pwd-card").removeClass("hidden");
+    }
+  });
+
+  // Selecting category
+  $("#select-category").change((event) => {
+    const category = $(event.target).children("option:selected").val();
+    if (category === "showall") {
+      $(".pwd-card").removeClass("hidden");
+    } else {
+      // Hide every card first
+      $(".pwd-card").addClass("hidden");
+
+      // Show cards that match the category
+      $(`.pwd-card[category='${category}']`).removeClass("hidden");
     }
   });
 });
