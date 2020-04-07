@@ -27,28 +27,38 @@ module.exports = (db) => {
       });
     });
   });
-  
+
   router.post("/org", (req, res) => {
-    dbHelpers.getUsersByOrg(req.body.org_id).then(users => {
+    dbHelpers.getUsersByOrg(req.body.org_id).then((users) => {
       res.json(users);
-    })
-  })
+    });
+  });
 
   router.post("/:org_id", (req, res) => {
     const { newuser } = req.body;
     const { org_id } = req.params;
-    dbHelpers.isUserAdmin(org_id, req.session.userId).then(admin => {
-      if (!admin) res.status(403).send("You are not authorized to add members to this organization.");
+    dbHelpers.isUserAdmin(org_id, req.session.userId).then((admin) => {
+      if (!admin)
+        res
+          .status(403)
+          .send("You are not authorized to add members to this organization.");
 
-      dbHelpers.getUserWithEmail(newuser).then(userExists => {
+      dbHelpers.getUserWithEmail(newuser).then((userExists) => {
         if (!userExists) res.status(400).send("This user does not exist.");
 
-        
-      })
-    })
+        dbHelpers.isUserMemberOfOrg(newuser, org_id).then((member) => {
+          if (member)
+            res
+              .status(400)
+              .send("This user is already a member of this organization!");
 
+          dbHelpers.addUserToOrg(newuser, org_id).then((newUser) => {});
+        });
 
-  })
+        console.log(userExists);
+      });
+    });
+  });
 
   return router;
 };
