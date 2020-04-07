@@ -172,16 +172,6 @@
           <div class="modal-body" id="pwd-info">
             <form method="POST" id="store_new">
               <div class="form-group">
-                <label for="formGroupExampleInput">Website Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="new_title"
-                  name="website_title"
-                  placeholder="Website Name"
-                />
-              </div>
-              <div class="form-group">
                 <label for="formGroupExampleInput">Website URL</label>
                 <input
                   type="text"
@@ -190,6 +180,30 @@
                   id="new_url"
                   placeholder="https://"
                 />
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="formGroupExampleInput">Website Title</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="new_title"
+                    name="website_title"
+                    placeholder="Website Name"
+                  />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="formGroupExampleInput">Website Category</label>
+                  <select class="select-category form-control" name="category">
+                    <option selected value="">Select a category:</option>                    
+                    <option value="business">Business</option>
+                    <option value="educational">Educational</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="shopping">Shopping</option>
+                    <option value="social">Social</option>
+                    <option value="sports">Sports</option>
+                  </select>
+                </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
