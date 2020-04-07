@@ -6,7 +6,29 @@
   margin: 0 auto;
 }
 
+.pwd-img {
+  width: 100px;
+  height: auto;
+  margin: auto;
+}
+
+.pwd-card {
+  width: 250px;
+  min-width: 250px;
+  max-width: 250px;
+}
+
+#generate_password {
+  margin-top: 5px;
+}
+
+.copy {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .change_generate {
+  margin-top: 5px;
   display: none;
 }
 
