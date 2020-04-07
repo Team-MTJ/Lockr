@@ -35,7 +35,6 @@ $(() => {
 });
 
 // Copy to clipboard function for modal
-
 $(".copy").on("click", function (event) {
   // Stop the copy button from submitting a PUT request
   event.preventDefault();
@@ -48,12 +47,12 @@ $(".copy").on("click", function (event) {
   $passwordBox.prop("disabled", true);
 });
 
-//Display value on slide
+// Display value on slide for new password modal
 $(".password_length").on("input change", function () {
   $(".length_span").html($(".password_length").val());
 });
 
-// Display value on slide for password edit
+// Display value on slide for edit password modal
 $(".passLength").on("input change", function (event) {
   $(event.target).siblings(".lengthSpan").html($(event.target).val());
 });
@@ -61,6 +60,9 @@ $(".passLength").on("input change", function (event) {
 $(".change").on("click", () => {
   const $passwordBox = $(event.target).parents().siblings(".passwordBox");
   $passwordBox.prop("disabled", false);
+
+  // Slide down the generate password box
+  $(event.target).parents().siblings(".change_generate").slideDown();
 });
 
 $(".close-modal").on("click", () => {
