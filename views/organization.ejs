@@ -29,8 +29,7 @@
     const urlArray = pwd.website_url.split('.');
     const hostName = urlArray[urlArray.length-2]+'.'+urlArray[urlArray.length-1];
     %>
-    <div class="pwd-card card col mx-3 mt-4 bg-light mb-3 text-center">
-     
+    <div class="pwd-card card col mx-3 mt-4 bg-light mb-3 text-center" title="<%= pwd.website_title %>" category="<%=pwd.category%>">
       <object class="card-img-top pwd-img" data="//logo.clearbit.com/<%=hostName%>" type="image/png"></object>
       <div class="card-body">
         <h5 class="card-title"><%= pwd.website_title%></h5>
