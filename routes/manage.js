@@ -28,32 +28,34 @@ module.exports = (db) => {
     });
   });
 
-  router.post("/org", (req, res) => {
+  router.post("/orgs", (req, res) => {
     dbHelpers.getUsersByOrg(req.body.org_id).then((users) => {
       res.json(users);
     });
   });
 
   // Add new member to org
-  router.post("/:org_id", (req, res) => {
+  router.post("/orgs/:org_id", (req, res) => {
     const { newuser } = req.body;
     const { org_id } = req.params;
-    dbHelpers.isUserAdmin(org_id, req.session.userId).then((admin) => {
+    const { userId } = req.session;
+
+    console.log("USER", newuser);
+    console.log("ORG", org_id)
+    dbHelpers.isUserAdmin(org_id, userId).then((admin) => {
       if (!admin)
-        res
+        return res
           .status(403)
           .send("You are not authorized to add members to this organization.");
       dbHelpers.getUserWithEmail(newuser).then((userExists) => {
         if (!userExists) res.status(400).send("This user does not exist.");
-        dbHelpers.isUserMemberOfOrg(newuser, org_id).then((member) => {
+        dbHelpers.isUserMemberOfOrg(userId, org_id).then((member) => {
           if (member)
-            res
+            return res
               .status(400)
               .send("This user is already a member of this organization!");
-          dbHelpers.addUserToOrg(newuser, org_id).then(() => {
-            dbHelpers.getUsersByOrg(org_id).then((users) => {
-              res.json(users);
-            });
+          dbHelpers.addUserToOrg(userId, org_id).then((newUser) => {
+            res.send(newUser);
           });
         });
       });
