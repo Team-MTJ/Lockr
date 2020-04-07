@@ -116,28 +116,6 @@ module.exports = (db) => {
           });
       }
     });
-
-    //   dbHelpers
-    //     .getUserWithId(req.session.userId)
-    //     .then((user) => {
-    //       db.doesOrgExist
-    //       dbHelpers
-    //         .getOrgsWithUserId(user.id) // Get orgs
-    //         .then((orgs) => {
-    //           dbHelpers
-    //             .getPwdByOrgID(org_id, user.id)
-    //             .then((data) => {
-    //               if (!data) res.status(400).send("NO ORG OR NOT ACTIVE");
-    //               else {
-    //                 let templateVars = { pwds: data, user, orgs };
-    //                 res.render("organization", templateVars);
-    //               }
-    //             })
-    //             .catch((e) => res.send(e));
-    //         });
-    //     })
-    //     .catch((e) => res.send(e));
-    // }
   });
   return router;
 };

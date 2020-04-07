@@ -35,9 +35,10 @@ $(() => {
 });
 
 // Copy to clipboard function for modal
-const $passwordBox = $(".copy").parents().siblings(".passwordBox");
+
 $(".copy").on("click", function (event) {
   // Stop the copy button from submitting a PUT request
+  event.preventDefault();
   // Remove disable to allow copy function
   $passwordBox.prop("disabled", false);
   $passwordBox.select();
@@ -52,6 +53,9 @@ $(".password_length").on("input change", function () {
 });
 
 $(".change").on("click", () => {
-  console.log("click");
   $passwordBox.prop("disabled", false);
+});
+
+$(".close-modal").on("click", () => {
+  $passwordBox.prop("disabled", true);
 });
