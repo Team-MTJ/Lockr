@@ -119,7 +119,7 @@ module.exports = (db) => {
     return db
       .query(
         `
-        SELECT users.first_name, users.last_name, users.email FROM users
+        SELECT users.first_name, users.last_name, users.email, membership.is_admin, users.id FROM users
         JOIN membership ON users.id = user_id
         JOIN org ON org.id = org_id
         WHERE org.id = $1 AND is_active = true;
@@ -349,6 +349,32 @@ module.exports = (db) => {
       });
   };
 
+  const removeUserFromOrg = function (org_id, email) {
+    return db
+      .query(
+        `
+        SELECT id  FROM users
+        WHERE email = $1;
+
+        `,
+        [email]
+      )
+      .then((res) => {
+        const userID = res.rows[0].id;
+        db.query(
+          `
+          DELETE FROM membership
+          WHERE org_id = $1
+          AND user_id = $2
+          RETURNING *;
+          `,
+          [org_id, userID]
+        )
+          .then((res) => res.rows[0])
+          .catch((e) => console.error(e));
+      });
+  };
+
   const deletePwd = function (pwdId) {
     return db
       .query(
@@ -398,6 +424,32 @@ module.exports = (db) => {
       .catch((e) => console.error(e));
   };
 
+  const makeUserAdmin = function (org_id, email) {
+    return db
+      .query(
+        `
+      SELECT id  FROM users
+      WHERE email = $1;
+
+      `,
+        [email]
+      )
+      .then((res) => {
+        const userID = res.rows[0].id;
+        db.query(
+          `
+        UPDATE membership
+        SET is_admin = true
+        WHERE org_id = $1
+        AND user_id = $2;
+        `,
+          [org_id, userID]
+        )
+          .then((res) => res.rows[0])
+          .catch((e) => console.error(e));
+      });
+  };
+
   return {
     getUserWithEmail,
     login,
@@ -413,8 +465,10 @@ module.exports = (db) => {
     addPwdToOrg,
     orgsWhereUserIsAdmin,
     modifyPwd,
+    removeUserFromOrg,
     deletePwd,
     addUserToOrg,
     isUserMemberOfOrg,
+    makeUserAdmin,
   };
 };
