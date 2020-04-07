@@ -8,11 +8,11 @@ module.exports = (db) => {
     if (!req.session.userId)
       return res.status(400).send("You must be logged in to continue.");
     dbHelpers.getUserWithId(req.session.userId).then((user) => {
-      dbHelpers.getOrgsWithUserId(user.id).then((orgs) => {
+      dbHelpers.getOrgsWithUserId(req.session.userId).then((orgs) => {
         // If user has no orgs they're a part of of, redirect to "Create new org"
         if (!orgs) res.redirect("/orgs/new");
         // Only want to display orgs where they have admin rights on the manage page
-        dbHelpers.orgsWhereUserIsAdmin(user.id).then((adminOrgs) => {
+        dbHelpers.orgsWhereUserIsAdmin(req.session.userId).then((adminOrgs) => {
           if (adminOrgs.length === 0) {
             return res
               .status(400)
@@ -37,12 +37,16 @@ module.exports = (db) => {
   router.post("/:org_id", (req, res) => {
     const { newuser } = req.body;
     const { org_id } = req.params;
-    dbHelpers.getUserWithEmail(newuser).then(userExists => {
-      if (!userExists) res.status(400).send("This user does not exist.")
-      dbHelpers.addUserToOrg(userExists.id, org_id)
+    dbHelpers.isUserAdmin(org_id, req.session.userId).then(admin => {
+      if (!admin) res.status(403).send("You are not authorized to add members to this organization.");
 
-     
+      dbHelpers.getUserWithEmail(newuser).then(userExists => {
+        if (!userExists) res.status(400).send("This user does not exist.");
+
+        
+      })
     })
+
 
   })
 

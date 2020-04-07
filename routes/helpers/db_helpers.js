@@ -358,6 +358,22 @@ module.exports = (db) => {
       .catch((e) => console.error(e));
   };
 
+  const isUserMemberOfOrg = function (user_id, org_id) {
+    return db
+      .query(
+        `
+      SELECT user_id, org_id FROM membership
+      WHERE user_id = $1 AND org_id = $2;
+    `,
+        [user_id, org_id]
+      )
+      .then((res) => {
+        if (res.rows.length > 0) return true;
+        return false;
+      })
+      .catch((e) => console.error(e));
+  };
+
   return {
     getUserWithEmail,
     login,
@@ -373,6 +389,7 @@ module.exports = (db) => {
     addPwdToOrg,
     orgsWhereUserIsAdmin,
     modifyPwd,
-    addUserToOrg
+    addUserToOrg,
+    isUserMemberOfOrg,
   };
 };
