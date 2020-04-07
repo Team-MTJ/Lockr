@@ -1,4 +1,5 @@
 $(() => {
+  // AJAX request function to create user table for organization
   function updateManagePage(org_id) {
     $.ajax({
       url: "/manage/orgs",
@@ -44,7 +45,7 @@ $(() => {
     updateManagePage(org_id);
   });
 
-  // Add new member & 
+  // Add new member & refresh table; show errors if request does not meet criteria
   $(".add-member").on("click", ".member-form > button", function (e) {
     e.preventDefault();
     const org_id = $(".member-form").data("id");
@@ -62,7 +63,7 @@ $(() => {
         }
       },
       success: () => {
-        $(".alert-danger").fadeOut(500)
+        $(".alert-danger").fadeOut(300)
         updateManagePage(org_id);
       },
     });
