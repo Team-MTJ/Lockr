@@ -34,7 +34,6 @@ module.exports = (db) => {
       users.forEach((user) => {
         user["currentUser"] = currentUser;
       });
-      console.log(users);
       res.json(users);
     });
   });
