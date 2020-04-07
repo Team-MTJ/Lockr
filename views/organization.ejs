@@ -43,7 +43,7 @@
           data-toggle="modal"
           data-target="#modal_<%=pwd.id%>"
           class="btn btn-primary"
-          id="open-pwd"
+          class="open-pwd"
           >Check</a
         >
       </div>
@@ -64,9 +64,9 @@
           method="POST"
         >
           <div class="modal-header">
-            <h5 class="modal-title" id="title"><%=pwd.website_title%></h5>
+            <h5 class="modal-title"><%=pwd.website_title%></h5>
           </div>
-          <div class="modal-body" id="pwd-info">
+          <div class="modal-body pwd-info">
             <object class="card-img-top pwd-img" data="//logo.clearbit.com/<%=hostName%>" type="image/png"></object>
             <div><%= pwd.website_url%></div>
             <div><strong>Username: <%=pwd.website_username%></strong></div>
