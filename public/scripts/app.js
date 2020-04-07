@@ -53,6 +53,11 @@ $(".password_length").on("input change", function () {
   $(".length_span").html($(".password_length").val());
 });
 
+// Display value on slide for password edit
+$(".passLength").on("input change", function () {
+  $(".length_span").html($(".passLength").val());
+});
+
 $(".change").on("click", () => {
   const $passwordBox = $(event.target).parents().siblings(".passwordBox");
   $passwordBox.prop("disabled", false);

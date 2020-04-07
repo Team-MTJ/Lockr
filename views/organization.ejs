@@ -93,8 +93,15 @@
 
             <!-----------------STUCK----------------->
             <div class="change_generate border border-black">
-              <span>Length: </span
-              ><input type="range" class="passLength" min="8" max="20" />
+              <div class="form-group">
+                <label for="passLength">Password Length</label>
+                <input
+                  type="range"
+                  class="passLength custom-range"
+                  min="8"
+                  max="20"
+                /><span class="length_span">14</span>
+              </div>
               <input type="checkbox" class="passNumber" /><span
                 >Include Numbers:</span
               >

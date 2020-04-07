@@ -48,7 +48,7 @@ $(".submitGenerate").on("click", (data) => {
 
 $(".passGen").on("click", (event) => {
   const $passwordBox = $(event.target).parent().siblings(".passwordBox");
-  const $length = $(event.target).siblings(".passLength");
+  const $length = $(event.target).siblings().children(".passLength");
   const $numberBool = $(event.target).siblings(".passNumber");
   const $symbolBool = $(event.target).siblings(".passSymbol");
   let includeNumber = $numberBool.is(":checked");
