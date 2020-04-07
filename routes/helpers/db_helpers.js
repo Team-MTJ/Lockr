@@ -255,6 +255,16 @@ module.exports = (db) => {
       });
   };
 
+  const orgsWhereUserIsAdmin = function(user_id) {
+    return db.query(`
+      SELECT org.name, org_id FROM membership
+      JOIN org ON org_id = org.id
+      WHERE is_admin = true AND user_id = $1;
+    `, [user_id])
+    .then(res => res.rows)
+    .catch((e) => console.error(e));
+  }
+
   const addPwdToOrg = function (org, title, url, username, password) {
     // Category not added yet (not sure about functionality with it)
     const values = [org, title, url, username, password];
@@ -341,6 +351,7 @@ module.exports = (db) => {
     doesOrgExist,
     isUserAdmin,
     addPwdToOrg,
-    modifyPwd,
+    orgsWhereUserIsAdmin,
+    modifyPwd
   };
 };

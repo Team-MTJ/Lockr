@@ -50,6 +50,7 @@ const widgetsRoutes = require("./routes/widgets");
 const passwordRoutes = require("./routes/passwords");
 const indexRoutes = require("./routes/index");
 const organizationRoutes = require("./routes/organizations");
+const manageRoutes = require("./routes/manage");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -60,6 +61,7 @@ app.use("/widgets", widgetsRoutes(db));
 app.use("/", indexRoutes(db));
 app.use("/password", passwordRoutes(db));
 app.use("/orgs", organizationRoutes(db));
+app.use("/manage", manageRoutes(db));
 
 // Home page
 // Warning: avoid creating more routes in this file!

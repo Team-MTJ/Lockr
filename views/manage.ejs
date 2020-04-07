@@ -1,0 +1,32 @@
+<%- include('partials/_header') %> <%- include('partials/_navbar') %>
+<h1>Manage Organizations</h1>
+
+<div class="dropdown" id="manageDropdown">
+  <button
+    type="button"
+    class="btn btn-primary btn-lg dropdown-toggle"
+    data-toggle="dropdown"
+  >
+    Organizations
+  </button>
+  <div class="dropdown-menu" id="manageOrgs">
+    <% for (org of adminOrgs) { %>
+    <a class="dropdown-item" data-id="<%= org.org_id%>" href="#<%= org.name%>"
+      ><%= org.name %></a
+    >
+    <% } %>
+  </div>
+</div>
+<table class="table" id="manage-table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Make Admin</th>
+      <th scope="col">Remove Member</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+<%-include('partials/_footer') %>

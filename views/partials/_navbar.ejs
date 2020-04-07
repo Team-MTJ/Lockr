@@ -31,6 +31,9 @@
       </form>
     </ul>
     <ul class="navbar-nav ml-auto">
+      <li class="nav-item"> 
+        <a class="nav-link" href="/manage">Manage Organizations</a>
+      </li>
       <li class="nav-item dropdown">
         <a
           class="nav-link dropdown-toggle"
@@ -47,7 +50,9 @@
           <% if (orgs) { for (org of orgs) { %>
           <a class="dropdown-item" href="/orgs/<%= org.id%>"><%= org.name %></a>
           <% }} %>
-          <a class="dropdown-item" href="/orgs/new">Create an organization...</a>
+          <a class="dropdown-item" href="/orgs/new"
+            >Create an organization...</a
+          >
         </div>
       </li>
       <form class="form-inline" method="POST" action="/logout">
