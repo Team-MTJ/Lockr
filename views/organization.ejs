@@ -1,10 +1,11 @@
 <%- include('partials/_header') %> <%- include('partials/_navbar') %>
 <div class="container">
   <div class="row row-cols-4">
+    <!-- CARD FOR STORING NEW PASSWORD-->
     <% if(isUserAdminTrueOrNot) { %>
     <div class="pwd-card card col mx-3 mt-4 bg-light mb-3 text-center">
       <img
-        src="https://cdn4.iconfinder.com/data/icons/core-ui-outlined/32/outlined_placeholder-512.png"
+        src="https://i.pinimg.com/originals/88/73/6f/88736f07866842e65214827bc30a3256.png"
         class="card-img-top pwd-img"
         alt="#"
       />
@@ -21,13 +22,16 @@
         >
       </div>
     </div>
-    <% } %> <% if (pwds) { pwds.forEach((pwd) => { %>
+    <% } %>
+
+    <!-- CARD FOR INDIVIDUAL COMPANY-->
+    <% if (pwds) { pwds.forEach((pwd) => { 
+    const urlArray = pwd.website_url.split('.');
+    const hostName = urlArray[urlArray.length-2]+'.'+urlArray[urlArray.length-1];
+    %>
     <div class="pwd-card card col mx-3 mt-4 bg-light mb-3 text-center">
-      <img
-        src="https://cdn4.iconfinder.com/data/icons/core-ui-outlined/32/outlined_placeholder-512.png"
-        class="card-img-top pwd-img"
-        alt="#"
-      />
+     
+      <object class="card-img-top pwd-img" data="//logo.clearbit.com/<%=hostName%>" type="image/png"></object>
       <div class="card-body">
         <h5 class="card-title"><%= pwd.website_title%></h5>
         <small class="card-subtitle mb-2 text-muted">
@@ -39,12 +43,13 @@
           data-toggle="modal"
           data-target="#modal_<%=pwd.id%>"
           class="btn btn-primary"
-          id="open-pwd"
+          class="open-pwd"
           >Check</a
         >
       </div>
     </div>
 
+    <!--MODAL FOR INDVIDUAL COMPANIES-->
     <div
       class="modal fade"
       id="modal_<%=pwd.id%>"
@@ -53,15 +58,16 @@
       aria-hidden="true"
     >
       <div class="modal-dialog modal-dialog-centered" role="document">
-        <form class="modal-content" action='/orgs/<%=pwd.org_id%>/<%=pwd.id%>?_method=PUT' method='POST'>
+        <form
+          class="modal-content"
+          action="/orgs/<%=pwd.org_id%>/<%=pwd.id%>?_method=PUT"
+          method="POST"
+        >
           <div class="modal-header">
-            <h5 class="modal-title" id="title"><%=pwd.website_title%></h5>
+            <h5 class="modal-title"><%=pwd.website_title%></h5>
           </div>
-          <div class="modal-body" id="pwd-info">
-            <img
-              src="https://cdn4.iconfinder.com/data/icons/core-ui-outlined/32/outlined_placeholder-512.png"
-              class="card-img-top pwd-img"
-            />
+          <div class="modal-body pwd-info">
+            <object class="card-img-top pwd-img" data="//logo.clearbit.com/<%=hostName%>" type="image/png"></object>
             <div><%= pwd.website_url%></div>
             <div><strong>Username: <%=pwd.website_username%></strong></div>
             <input
@@ -71,25 +77,53 @@
               value="<%= pwd.website_pwd%>"
               name="website_pwd"
             />
+            <div>
+              <a class="copy btn btn-secondary btn-sm" role="button"
+                >Copy Password</a
+              >
+            </div>
             <% if(isUserAdminTrueOrNot) { %>
-            <div><button class="change">Change Password</button></div>
+            <div>
+              <a class="change btn btn-secondary btn-sm">Change Password</a>
+            </div>
             <% } %>
-            <div><button class="copy">Copy Password</button></div>
+
+            <!-----------------STUCK----------------->
+            <div class="change_generate border border-black">
+              <div class="form-group">
+                <label>Password Length</label>
+                <input
+                  type="range"
+                  class="passLength custom-range"
+                  min="8"
+                  max="20"
+                /><span class="lengthSpan">14</span>
+              </div>
+              <span>Include Numbers: </span>
+              <input type="checkbox" class="passNumber" />
+              <span>Include Symbols: </span>
+              <input type="checkbox" class="passSymbol" />
+              <a class="passGen btn btn-secondary btn-sm">Generate</a>
+            </div>
+            <!----------------------------------------->
           </div>
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary"
+              class="close-modal btn btn-secondary"
               data-dismiss="modal"
             >
               Close
             </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
           </div>
         </form>
       </div>
     </div>
+
     <% }); } %>
+
+    <!--MODAL FOR MAKING STORING NEW PASSWORD-->
     <div
       class="modal fade"
       id="modal_makeNewPassword"
@@ -103,7 +137,7 @@
             <h5 class="modal-title" id="title">Store New Password</h5>
           </div>
           <div class="modal-body" id="pwd-info">
-            <form method="POST">
+            <form method="POST" id="store_new">
               <div class="form-group">
                 <label for="formGroupExampleInput">Website Name</label>
                 <input
@@ -139,14 +173,24 @@
                   <label for="formGroupExampleInput">Password</label>
                   <input
                     type="text"
-                    class="form-control"
+                    class="new_pwd form-control"
                     name="website_pwd"
-                    id="new_pwd"
                     placeholder="Password"
                   />
+                  <a
+                    id="generate_password"
+                    class="btn btn-secondary btn-sm"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target=".generate_options"
+                    aria-expanded="false"
+                    aria-controls="generate_options"
+                  >
+                    Generate Password
+                  </a>
                 </div>
               </div>
-              <button class="btn btn-primary" type="submit">Store</button>
+              <%-include('partials/_generatePasswordOptions.ejs')%>
             </form>
           </div>
           <div class="modal-footer">
@@ -156,6 +200,9 @@
               data-dismiss="modal"
             >
               Close
+            </button>
+            <button class="btn btn-primary" type="submit" form="store_new">
+              Store
             </button>
           </div>
         </div>

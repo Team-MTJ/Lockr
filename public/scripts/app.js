@@ -26,7 +26,7 @@ $(() => {
               member.email,
               `<tr>
                 <td>
-                <button class="btn btn-info" type="button" id="make-admin">Make Admin</button> 
+                <button class="btn btn-info" type="button" id="make-admin">Make Admin</button>
                 </td>
                </tr>`,
               `<tr>
@@ -47,12 +47,34 @@ $("#add-member").on("click", () => {});
 $(".copy").on("click", function (event) {
   // Stop the copy button from submitting a PUT request
   event.preventDefault();
-
   // Remove disable to allow copy function
-  const $passwordBox = $(".copy").parents().siblings(".passwordBox");
+  const $passwordBox = $(event.target).parents().siblings(".passwordBox");
   $passwordBox.prop("disabled", false);
   $passwordBox.select();
   document.execCommand("copy");
   // Enable "disable" again
+  $passwordBox.prop("disabled", true);
+});
+
+// Display value on slide for new password modal
+$(".password_length").on("input change", function () {
+  $(".length_span").html($(".password_length").val());
+});
+
+// Display value on slide for edit password modal
+$(".passLength").on("input change", function (event) {
+  $(event.target).siblings(".lengthSpan").html($(event.target).val());
+});
+
+$(".change").on("click", () => {
+  const $passwordBox = $(event.target).parents().siblings(".passwordBox");
+  $passwordBox.prop("disabled", false);
+
+  // Slide down the generate password box
+  $(event.target).parents().siblings(".change_generate").slideDown();
+});
+
+$(".close-modal").on("click", () => {
+  const $passwordBox = $(event.target).parents().siblings(".passwordBox");
   $passwordBox.prop("disabled", true);
 });
