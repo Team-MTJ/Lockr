@@ -6,10 +6,20 @@
       <input
         class="form-control mr-sm-2"
         type="search"
-        placeholder="Filter by title..."
+        placeholder="Filter by website title..."
         aria-label="Search"
         id="title-filter"
       />
+      <span>or</span>
+      <select id="select-category" class="form-control">
+        <option selected value="showall">Filter by category:</option>
+        <option value="showall">Show All</option>
+        <option value="Business">Business</option>
+        <option value="Educational">Educational</option>
+        <option value="Entertainment">Entertainment</option>
+        <option value="Social">Social</option>
+        <option value="Sports">Sports</option>
+      </select>
     </form>
   </div>
   <div class="row row-cols-4">

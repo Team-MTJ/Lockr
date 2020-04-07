@@ -62,3 +62,10 @@ object::after {
 .hidden {
   display: none;
 }
+
+#filter-options {
+  span {
+    margin-left: 10px;
+    margin-right: 20px;
+  }
+}
