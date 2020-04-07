@@ -29,9 +29,16 @@ h1 {
   justify-content: center;
   margin-top: 1em;
   transform: translateY(2em);
+  button {
+    margin-left: 0.5em;
+  }
 }
 
 .alert-danger {
   text-align: center;
   transform: translateY(1em);
+}
+
+.form-control {
+  margin-right: 0.5em;
 }
