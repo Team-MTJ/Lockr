@@ -51,7 +51,7 @@ module.exports = (db) => {
         .catch((e) => res.send(e));
     });
   });
-  
+
   router.get("/new", (req, res) => {
     dbHelpers
       .getUserWithId(req.session.userId) // Get user id
@@ -80,63 +80,67 @@ module.exports = (db) => {
 
   router.get("/:org_id", (req, res) => {
     const { org_id } = req.params;
+    let cookieUserID = "";
     let templateVars = {};
     if (!req.session.userId) {
       res.status(400).send("please login");
     } else {
-      dbHelpers.getUserWithId(req.session.userId).then((user) => {
-        dbHelpers.getOrgsWithUserId(user.id).then((orgs) => {
-          dbHelpers.doesOrgExist(org_id).then((doesOrgExistTrueOrNot) => {
-            if (!doesOrgExistTrueOrNot) res.status(400).send("NO ORG");
-            dbHelpers
-              .isUserAdmin(org_id, user.id)
-              .then((isUserAdminTrueOrNot) => {
-                dbHelpers.getPwdByOrgID(org_id, user.id).then((pwds) => {
-                  if (!pwds) {
-                    templateVars = {
-                      user,
-                      orgs,
-                      pwds: "",
-                      isUserAdminTrueOrNot,
-                    };
-                  } else {
-                    templateVars = { user, orgs, pwds, isUserAdminTrueOrNot };
-                    res.render("organization", templateVars);
-                  }
-                });
-              });
-          });
+      dbHelpers
+        .getUserWithId(req.session.userId)
+        .then((user) => {
+          templateVars["user"] = user;
+          cookieUserID = user.id;
+          return dbHelpers.getOrgsWithUserId(user.id);
+        })
+        .then((orgs) => {
+          templateVars["orgs"] = orgs;
+          return dbHelpers.doesOrgExist(org_id);
+        })
+        .then((doesOrgExistTrueOrNot) => {
+          if (!doesOrgExistTrueOrNot) res.status(400).send("NO ORG");
+          return dbHelpers.isUserAdmin(org_id, cookieUserID);
+        })
+        .then((isUserAdminTrueOrNot) => {
+          templateVars["isUserAdminTrueOrNot"] = isUserAdminTrueOrNot;
+          return dbHelpers.getPwdByOrgID(org_id, cookieUserID);
+        })
+        .then((pwds) => {
+          if (!pwds) {
+            templateVars["pwds"] = "";
+          } else {
+            templateVars["pwds"] = pwds;
+            res.render("organization", templateVars);
+          }
         });
-      });
     }
+  });
 
-    router.post("/:org_id", (req, res) => {
-      const { org_id } = req.params;
-      const {
-        website_title,
-        website_url,
-        website_username,
-        website_pwd,
-        category,
-      } = req.body;
+  router.post("/:org_id", (req, res) => {
+    const { org_id } = req.params;
+    const {
+      website_title,
+      website_url,
+      website_username,
+      website_pwd,
+      category,
+    } = req.body;
 
-      if (!(website_title && website_url && website_username && website_pwd)) {
-        return res.status(400).send("All fields must be filled in!");
-      } else {
-        dbHelpers
-          .addPwdToOrg(
-            org_id,
-            website_title,
-            website_url,
-            website_username,
-            website_pwd,
-            category
-          )
-          .then(() => {
-            return res.redirect(`/orgs/${org_id}`);
-          });
-      }
-    });
+    if (!(website_title && website_url && website_username && website_pwd)) {
+      return res.status(400).send("All fields must be filled in!");
+    } else {
+      dbHelpers
+        .addPwdToOrg(
+          org_id,
+          website_title,
+          website_url,
+          website_username,
+          website_pwd,
+          category
+        )
+        .then(() => {
+          return res.redirect(`/orgs/${org_id}`);
+        });
+    }
   });
   return router;
 };
