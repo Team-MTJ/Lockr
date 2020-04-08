@@ -3,8 +3,6 @@
 body {
   background-color: #eee;
   padding-top: 60px;
-  // font-family: 'Open Sans', sans-serif;
-  // font-family: 'Catamaran', sans-serif;
   font-family: 'Montserrat', sans-serif;
 
   .not-logo {
@@ -13,10 +11,26 @@ body {
 }
 
 .container {
-  padding-top: 40px;
+  margin-top: 6em;
+}
+
+.card {
+  border: 1px solid rgba(0,0,0,.125)
+}
+
+.card-footer {
+  // border: 1px solid rgba(0,0,0,.125);
+  // border-bottom: none;
+  // background-color: rgba(0,0,0,.03);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.048), transparent 70%);
+  // background: linear-gradient(to left, rgba(0,0,0,.03), transparent 10%);
 }
 
 
+
+// .pwd-card {
+//   background-clip: content-box;
+// }
 
 
 
