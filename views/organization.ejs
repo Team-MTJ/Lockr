@@ -49,7 +49,7 @@
 
     <!-- CARD FOR INDIVIDUAL COMPANY-->
     <% if (pwds) { pwds.forEach((pwd) => { const urlArray =
-    pwd.website_url.split('.'); const hostName =
+    pwd.website_url.split(/\.|\/\//); const hostName =
     urlArray[urlArray.length-2]+'.'+urlArray[urlArray.length-1]; %>
     <div
       class="pwd-card card col mx-3 mt-4 bg-light mb-3 text-center"
@@ -101,7 +101,11 @@
               data="//logo.clearbit.com/<%=hostName%>"
               type="image/png"
             ></object>
-            <div><%= pwd.website_url%></div>
+            <div>
+              <a href="<%= pwd.website_url%>" target="_blank"
+                ><%= pwd.website_url%></a
+              >
+            </div>
             <div><strong>Username: <%=pwd.website_username%></strong></div>
             <input
               disabled
@@ -188,7 +192,7 @@
                   class="form-control"
                   name="website_url"
                   id="new_url"
-                  placeholder="https://"
+                  placeholder="http://"
                 />
               </div>
               <div class="form-row">
