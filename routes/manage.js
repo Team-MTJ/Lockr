@@ -85,7 +85,7 @@ module.exports = (db) => {
           .status(403)
           .send("You are not authorized to add members to this organization.").redirect("/");
       dbHelpers.getUserWithEmail(newuser).then((userExists) => {
-        if (!userExists) res.status(400).send("This user does not exist.");
+        if (!userExists) return res.status(400).send("This user does not exist.");
         dbHelpers.isUserMemberOfOrg(userExists.id, org_id).then((member) => {
           if (member)
             return res
