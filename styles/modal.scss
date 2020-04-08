@@ -11,7 +11,8 @@
       margin-top: 1em;
     }
   }
-  .change_generate > .passGen, #generate_password {
+  .change_generate > .passGen,
+  #generate_password {
     color: white;
   }
 }
@@ -36,7 +37,7 @@
 }
 
 #generate_password {
-  margin-top: 1.5em
+  margin-top: 1.5em;
 }
 
 .copy {
@@ -97,4 +98,16 @@ object::after {
 
 .dropdown-item {
   width: 93%;
+}
+
+.pwned-major {
+  background-color: mistyrose !important;
+}
+
+.pwned-moderate {
+  background-color: lemonchiffon !important;
+}
+
+.pwned-minor {
+  background-color: ivory !important;
 }
