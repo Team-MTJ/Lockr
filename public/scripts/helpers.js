@@ -41,6 +41,7 @@ $(".submitGenerate").on("click", (data) => {
   };
   let generatedPassword = generateRandomPassword(options);
   $(".new_pwd").val(generatedPassword);
+  addPwnedAttributeToPasswordBox($(".new_pwd"));
 });
 
 // const $passGen = $(".slideG").children(".passGen");
@@ -62,6 +63,7 @@ $(".passGen").on("click", (event) => {
   let generatedPassword = generateRandomPassword(options);
   $passwordBox.prop("disabled", false);
   $passwordBox.val(generatedPassword);
+  addPwnedAttributeToPasswordBox($passwordBox);
 });
 
 // const slideGHTML = `
