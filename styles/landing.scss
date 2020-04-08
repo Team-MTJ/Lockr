@@ -28,8 +28,11 @@
       margin-bottom: 1.5em;
       span {
         color: white;
-        padding: 20%;
+        padding: 10% 20% 20%;
         text-align: center;
+      }
+      #idea + span {
+        padding: 20%;
       }
       #key,
       #shield,
