@@ -11,6 +11,9 @@
       margin-top: 1em;
     }
   }
+  .change_generate > .passGen, #generate_password {
+    color: white;
+  }
 }
 
 .modal-header {
@@ -33,7 +36,7 @@
 }
 
 #generate_password {
-  margin-top: 5px;
+  margin-top: 1.5em
 }
 
 .copy {
@@ -90,14 +93,6 @@ object::after {
 
 .modal-footer {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.082), transparent 80%);
-}
-
-.modal-body > .change_generate > .passGen, #generate_password {
-  color: white;
-}
-
-#generate_password {
-  margin-top: 1.5em
 }
 
 .dropdown-item {

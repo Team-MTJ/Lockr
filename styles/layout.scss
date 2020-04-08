@@ -20,3 +20,11 @@ body {
     font-size: 1.2em;
   }
 }
+
+.entry-form {
+  font-size: 1.2em;
+  margin-top: 6.5em;
+  .login, .register {
+    margin-bottom: 1em;
+  }
+}
