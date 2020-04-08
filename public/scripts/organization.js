@@ -22,6 +22,7 @@ const addPwnedAttributeToPasswordBox = function ($passwordBox) {
       // Change timespwned attribute on the input class
       if (indexOfPassword === -1) {
         $passwordBox.attr("timespwned", 0);
+        addPwnageLvlClass($passwordBox); // Adds pwd-card class
         return 0;
       } else {
         const timesPwned = rows[indexOfPassword + 1];
@@ -81,6 +82,11 @@ $(() => {
 
   // Changes timespwned as passwordBox is being modified
   $(".passwordBox").on("keyup", function () {
+    addPwnedAttributeToPasswordBox($(this));
+  });
+
+  // Change the new password modal box upon entering password
+  $("#new_pwd_input").on("keyup", function () {
     addPwnedAttributeToPasswordBox($(this));
   });
 });
