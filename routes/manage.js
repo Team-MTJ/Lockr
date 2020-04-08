@@ -3,36 +3,6 @@ const router = express.Router();
 
 module.exports = (db) => {
   const dbHelpers = require("./helpers/db_helpers")(db);
-  /* 
-  dbHelpers
-  .getUserWithId(req.session.userId)
-  .catch((e) => e)
-  .then((user) => {
-    templateVars["user"] = user;
-    cookieUserID = user.id;
-    return dbHelpers.getOrgsWithUserId(user.id).catch((e) => e);
-  })
-  .then((orgs) => {
-    templateVars["orgs"] = orgs;
-    return dbHelpers.doesOrgExist(org_id).catch((e) => e);
-  })
-  .then((doesOrgExistTrueOrNot) => {
-    if (!doesOrgExistTrueOrNot) res.status(400).send("NO ORG");
-    return dbHelpers.isUserAdmin(org_id, cookieUserID).catch((e) => e);
-  })
-  .then((isUserAdminTrueOrNot) => {
-    templateVars["isUserAdminTrueOrNot"] = isUserAdminTrueOrNot;
-    return dbHelpers.getPwdByOrgID(org_id, cookieUserID).catch((e) => e);
-  })
-  .then((pwds) => {
-    if (!pwds) {
-      templateVars["pwds"] = "";
-    } else {
-      templateVars["pwds"] = pwds;
-      res.render("organization", templateVars);
-    }
-  })
-  .catch((e) => e); */
 
   router.get("/", (req, res) => {
     if (!req.session.userId)
@@ -119,26 +89,33 @@ module.exports = (db) => {
     const { org_id } = req.params;
     const { userId } = req.session;
 
-    dbHelpers.isUserAdmin(org_id, userId).then((admin) => {
-      if (!admin)
-        return res
-          .status(403)
-          .send("You are not authorized to add members to this organization.")
-          .redirect("/");
-      dbHelpers.getUserWithEmail(newuser).then((userExists) => {
+    dbHelpers
+      .isUserAdmin(org_id, userId)
+      .then((admin) => {
+        if (!admin)
+          return res
+            .status(403)
+            .send("You are not authorized to add members to this organization.")
+            .redirect("/");
+        return dbHelpers.getUserWithEmail(newuser).catch((e) => e);
+      })
+      .then((userExists) => {
         if (!userExists)
           return res.status(400).send("This user does not exist.");
-        dbHelpers.isUserMemberOfOrg(userExists.id, org_id).then((member) => {
-          if (member)
-            return res
-              .status(418)
-              .send("This user is already a member of this organization!");
-          dbHelpers.addUserToOrg(userExists.id, org_id).then((newUser) => {
-            res.send(newUser);
-          });
-        });
+        return dbHelpers
+          .isUserMemberOfOrg(userExists.id, org_id)
+          .catch((e) => e);
+      })
+      .then((member) => {
+        if (member)
+          return res
+            .status(418)
+            .send("This user is already a member of this organization!");
+        return dbHelpers.addUserToOrg(userExists.id, org_id).catch((e) => e);
+      })
+      .then((newUser) => {
+        res.send(newUser);
       });
-    });
   });
 
   return router;
