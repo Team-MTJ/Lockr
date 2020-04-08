@@ -44,16 +44,25 @@ const addPwnageLvlClass = function ($passwordBox) {
   const id = $modal.attr("id").split("_")[1];
   $card = $(`#card_${id}`);
 
+  // Removes existing classes first
+  $modal
+    .find(".modal-content")
+    .removeClass("pwned-major pwned-moderate pwned-minor");
+  $card.removeClass("pwned-major pwned-moderate pwned-minor");
+
   // Add classes according to the timespwned value
   const timesPwned = Number($passwordBox.attr("timespwned"));
   const majorThreshold = 100000;
   const moderateThreshold = 1000;
-  const minorThreshold = 0;
+  const minorThreshold = 3;
   if (timesPwned > majorThreshold) {
+    $modal.find(".modal-content").addClass("pwned-major");
     $card.addClass("pwned-major");
   } else if (timesPwned > moderateThreshold) {
+    $modal.find(".modal-content").addClass("pwned-moderate");
     $card.addClass("pwned-moderate");
   } else if (timesPwned > minorThreshold) {
+    $modal.find(".modal-content").addClass("pwned-minor");
     $card.addClass("pwned-minor");
   }
 };
@@ -61,7 +70,7 @@ const addPwnageLvlClass = function ($passwordBox) {
 $(() => {
   // Add timespwned='number' to all .passwordBox <inputs> upon page load
   $(".passwordBox").each(function () {
-    addPwnedAttributeToPasswordBox($(this));    
+    addPwnedAttributeToPasswordBox($(this));
   });
 
   // Test code for changing of attribute when change password button is clicked
