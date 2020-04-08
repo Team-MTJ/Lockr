@@ -270,7 +270,21 @@ module.exports = (db) => {
       .catch((e) => console.error(e));
   };
 
+  // Fixes omission of http:// at the beginning of urls
+  const fixUrl = function (url) {
+    const urlArray = url.split("://");
+    if (urlArray[0] !== "http" || urlArray[0] !== "https") {
+      if (urlArray.length === 1) {
+        urlArray.unshift("http");
+      } else {
+        urlArray[0] = "http"; // In case http was misspelled
+      }
+    }
+    return urlArray.join("://");
+  };
+
   const addPwdToOrg = function (org, title, url, username, password, category) {
+    url = fixUrl(url);
     const values = [org, title, url, username, password, category];
     let queryString = "";
 
