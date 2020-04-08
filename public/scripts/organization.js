@@ -1,6 +1,8 @@
 // Client-side javascript loaded into only organization.ejs
 /**
- * Adds attribute timespwned=number to each .passWordBox <input> using haveibeenpwned API upon opening a modal
+ * Adds attribute timespwned=number to each .passWordBox <input> using
+ * haveibeenpwned API upon opening a modal. Also updates the corresponding
+ * pwd-card to add a class indicating level of pwnage.
  * @param {String} password The password to check
  * @return {Number} How many times pwned according to API
  */
@@ -24,6 +26,7 @@ const addPwnedAttributeToPasswordBox = function ($passwordBox) {
       } else {
         const timesPwned = rows[indexOfPassword + 1];
         $passwordBox.attr("timespwned", timesPwned);
+        addPwnageLvlClass($passwordBox); // Adds pwd-card class
         return timesPwned;
       }
     },
@@ -33,10 +36,32 @@ const addPwnedAttributeToPasswordBox = function ($passwordBox) {
   });
 };
 
+// Change the class of the pwd card according to the timespwned attribute
+// of passwordBox in its modal, using jQuery tree traversal
+const addPwnageLvlClass = function ($passwordBox) {
+  // Use the modal_id to get the card_id
+  $modal = $passwordBox.closest(".modal");
+  const id = $modal.attr("id").split("_")[1];
+  $card = $(`#card_${id}`);
+
+  // Add classes according to the timespwned value
+  const timesPwned = Number($passwordBox.attr("timespwned"));
+  const majorThreshold = 100000;
+  const moderateThreshold = 1000;
+  const minorThreshold = 0;
+  if (timesPwned > majorThreshold) {
+    $card.addClass("pwned-major");
+  } else if (timesPwned > moderateThreshold) {
+    $card.addClass("pwned-moderate");
+  } else if (timesPwned > minorThreshold) {
+    $card.addClass("pwned-minor");
+  }
+};
+
 $(() => {
   // Add timespwned='number' to all .passwordBox <inputs> upon page load
   $(".passwordBox").each(function () {
-    addPwnedAttributeToPasswordBox($(this));
+    addPwnedAttributeToPasswordBox($(this));    
   });
 
   // Test code for changing of attribute when change password button is clicked
