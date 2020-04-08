@@ -464,6 +464,15 @@ module.exports = (db) => {
       });
   };
 
+  const getMasterkeyFromOrg = function (org_id) {
+    return db.query(`
+      SELECT masterkey FROM org 
+      WHERE id = $1;
+    `, [org_id])
+    .then(res => res.rows[0])
+    .catch(e => console.error(e));
+  }
+
   return {
     getUserWithEmail,
     login,
@@ -484,5 +493,6 @@ module.exports = (db) => {
     addUserToOrg,
     isUserMemberOfOrg,
     makeUserAdmin,
+    getMasterkeyFromOrg
   };
 };
