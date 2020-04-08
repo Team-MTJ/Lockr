@@ -3,8 +3,9 @@
 body {
   background-color: #eee;
   padding-top: 60px;
+  font-family: 'Open Sans', sans-serif;
 
-  h1 {
+  .not-logo {
     color: #244751;
   }
 }
@@ -12,5 +13,14 @@ body {
 .container {
   padding-top: 40px;
 }
+
+h1 {
+  margin: 0.5em 0.3em;
+  font-family: 'Unica One', cursive;
+}
+
+
+
+
 
 
