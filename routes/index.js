@@ -5,17 +5,17 @@ module.exports = (db) => {
   const dbHelpers = require("./helpers/db_helpers")(db);
 
   router.get("/", (req, res) => {
+    let user;
     dbHelpers
       .getUserWithId(req.session.userId) // Get user id
-      .then((user) => {
-        if (!user) return res.render("index", { user: null });
-        
-        dbHelpers
-          .getOrgsWithUserId(user.id) // Get orgs
-          .then((orgs) => {
-            const templateVars = { user, orgs };
-            return res.render("index", templateVars);
-          });
+      .then((userScoped) => {
+        if (!userScoped) return res.render("index", { user: null });
+        user = userScoped;
+        return dbHelpers.getOrgsWithUserId(userScoped.id); // Get orgs
+      })
+      .then((orgs) => {
+        const templateVars = { user, orgs };
+        return res.render("index", templateVars);
       });
   });
 
