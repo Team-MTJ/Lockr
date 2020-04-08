@@ -1,7 +1,7 @@
 #landing {
-  background-image: url("../imgs/landing-background.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-image: url("../imgs/landing-background.jpg"), url("../imgs/landing-background-low-res.jpg");
+  background-size: cover, cover;
+  background-repeat: no-repeat, no-repeat;
   justify-content: center;
   align-items: center;
   display: flex;
