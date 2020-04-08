@@ -127,21 +127,6 @@ $(() => {
     $passwordBox.prop("disabled", true);
   });
 
-  // Add new member &
-  $(".add-member").on("click", ".member-form > button", function (e) {
-    e.preventDefault();
-    const org_id = $(".member-form").data("id");
-    console.log(org_id);
-    $.ajax({
-      url: `/manage/orgs/${org_id}`,
-      method: "POST",
-      data: $(".member-form").serialize(),
-      success: () => {
-        updateManagePage(org_id);
-      },
-    });
-  });
-
   // Display value on slide for new password modal
   $(".password_length").on("input change", function () {
     $(".length_span").html($(".password_length").val());
