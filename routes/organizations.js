@@ -1,5 +1,18 @@
 const express = require("express");
 const router = express.Router();
+const CryptoJS = require("crypto-js");
+
+const encryptWithAES = (text) => {
+  const passphrase = "123";
+  return CryptoJS.AES.encrypt(text, passphrase).toString();
+};
+
+const decryptWithAES = (ciphertext) => {
+  const passphrase = "123";
+  const bytes = CryptoJS.AES.decrypt(ciphertext, passphrase);
+  const originalText = bytes.toString(CryptoJS.enc.Utf8);
+  return originalText;
+};
 
 module.exports = (db) => {
   const dbHelpers = require("./helpers/db_helpers")(db);
@@ -109,6 +122,10 @@ module.exports = (db) => {
           if (!pwds) {
             templateVars["pwds"] = "";
           } else {
+            pwds.forEach((pwd) => {
+              console.log(pwd["website_pwd"]);
+              pwd["website_pwd"] = decryptWithAES(pwd["website_pwd"]);
+            });
             templateVars["pwds"] = pwds;
             res.render("organization", templateVars);
           }
@@ -126,7 +143,7 @@ module.exports = (db) => {
       website_pwd,
       category,
     } = req.body;
-
+    const encryptPass = encryptWithAES(website_pwd);
     if (!(website_title && website_url && website_username && website_pwd)) {
       return res.status(400).send("All fields must be filled in!");
     } else {
@@ -136,7 +153,7 @@ module.exports = (db) => {
           website_title,
           website_url,
           website_username,
-          website_pwd,
+          encryptPass,
           category
         )
         .then(() => {
