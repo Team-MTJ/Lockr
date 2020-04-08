@@ -87,22 +87,23 @@ module.exports = (db) => {
     } else {
       dbHelpers
         .getUserWithId(req.session.userId)
+        .catch((e) => e)
         .then((user) => {
           templateVars["user"] = user;
           cookieUserID = user.id;
-          return dbHelpers.getOrgsWithUserId(user.id);
+          return dbHelpers.getOrgsWithUserId(user.id).catch((e) => e);
         })
         .then((orgs) => {
           templateVars["orgs"] = orgs;
-          return dbHelpers.doesOrgExist(org_id);
+          return dbHelpers.doesOrgExist(org_id).catch((e) => e);
         })
         .then((doesOrgExistTrueOrNot) => {
           if (!doesOrgExistTrueOrNot) res.status(400).send("NO ORG");
-          return dbHelpers.isUserAdmin(org_id, cookieUserID);
+          return dbHelpers.isUserAdmin(org_id, cookieUserID).catch((e) => e);
         })
         .then((isUserAdminTrueOrNot) => {
           templateVars["isUserAdminTrueOrNot"] = isUserAdminTrueOrNot;
-          return dbHelpers.getPwdByOrgID(org_id, cookieUserID);
+          return dbHelpers.getPwdByOrgID(org_id, cookieUserID).catch((e) => e);
         })
         .then((pwds) => {
           if (!pwds) {
@@ -111,7 +112,8 @@ module.exports = (db) => {
             templateVars["pwds"] = pwds;
             res.render("organization", templateVars);
           }
-        });
+        })
+        .catch((e) => e);
     }
   });
 
