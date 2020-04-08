@@ -38,7 +38,7 @@ $(() => {
           }
           if (member.id === member.currentUser) {
             removeHTML = `<tr>
-
+            <td>
             </td>
             </tr>`;
           } else {
@@ -94,21 +94,27 @@ $(() => {
   $(".add-member").on("click", ".member-form > button", function (e) {
     e.preventDefault();
     const org_id = $(".member-form").data("id");
-    $(".alert-danger").fadeOut(300)
+    $(".alert-danger").fadeOut(300);
     $.ajax({
       url: `/manage/orgs/${org_id}`,
       method: "POST",
       data: $(".member-form").serialize(),
       statusCode: {
         400: () => {
-          $(".alert-danger").empty().fadeIn(400).append("This user does not exist.")
+          $(".alert-danger")
+            .empty()
+            .fadeIn(400)
+            .append("This user does not exist.");
         },
         418: () => {
-          $(".alert-danger").empty().fadeIn(400).append("This user is already a member of the organization!")
-        }
+          $(".alert-danger")
+            .empty()
+            .fadeIn(400)
+            .append("This user is already a member of the organization!");
+        },
       },
       success: () => {
-        $(".alert-danger").fadeOut(300)
+        $(".alert-danger").fadeOut(300);
         updateManagePage(org_id);
       },
     });

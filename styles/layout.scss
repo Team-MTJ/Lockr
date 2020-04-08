@@ -3,14 +3,28 @@
 body {
   background-color: #eee;
   padding-top: 60px;
+  font-family: "Montserrat", sans-serif;
 
-  h1 {
+  .not-logo {
     color: #244751;
   }
 }
 
 .container {
-  padding-top: 40px;
+  margin-top: 6em;
 }
 
+.new-org {
+  margin-top: 8em;
+  label {
+    font-size: 1.2em;
+  }
+}
 
+.entry-form {
+  font-size: 1.2em;
+  margin-top: 6.5em;
+  .login, .register {
+    margin-bottom: 1em;
+  }
+}

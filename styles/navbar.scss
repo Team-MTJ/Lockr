@@ -1,0 +1,14 @@
+.logo {
+  margin: 0.2em 0.3em;
+  font-family: "Unica One", cursive;
+  font-size: 3em;
+}
+
+nav a, nav span, .logout {
+  font-size: 1.3em;
+  margin: 0em 0.5em
+}
+
+#landing > div:nth-child(2) > span {
+  transform: translateY(-2em);
+}

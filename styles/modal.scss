@@ -1,5 +1,20 @@
 .modal-body {
   text-align: center;
+  div {
+    padding: 0.4em 0em;
+    > .copy {
+      color: white;
+      font-size: 1.2em;
+    }
+    > .change {
+      color: white;
+      margin-top: 1em;
+    }
+  }
+  .change_generate > .passGen,
+  #generate_password {
+    color: white;
+  }
 }
 
 .modal-header {
@@ -18,10 +33,11 @@
   min-width: 250px;
   max-width: 250px;
   background-color: white !important;
+  border: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 #generate_password {
-  margin-top: 5px;
+  margin-top: 1.5em;
 }
 
 .copy {
@@ -69,6 +85,19 @@ object::after {
     margin-left: 10px;
     margin-right: 20px;
   }
+}
+
+.card-footer {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.082), transparent 80%);
+  color: white;
+}
+
+.modal-footer {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.082), transparent 80%);
+}
+
+.dropdown-item {
+  width: 93%;
 }
 
 .pwned-major {

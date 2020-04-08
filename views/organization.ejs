@@ -33,7 +33,7 @@
         alt="#"
       />
       <div class="card-body">
-        <h5 class="card-title">Store New Password</h5>
+        <h5 class="card-title"><strong>Store New Password</strong></h5>
       </div>
       <div class="card-footer">
         <a
@@ -63,7 +63,7 @@
         type="image/png"
       ></object>
       <div class="card-body">
-        <h5 class="card-title"><%= pwd.website_title%></h5>
+        <h5 class="card-title"><strong><%= pwd.website_title%></strong></h5>
         <small class="card-subtitle mb-2 text-muted">
           <a href="<%= pwd.website_url%>" target="_blank"
             ><%= pwd.website_url%></a
@@ -96,7 +96,7 @@
           method="POST"
         >
           <div class="modal-header">
-            <h5 class="modal-title"><%=pwd.website_title%></h5>
+            <h4 class="modal-title"><strong><%=pwd.website_title%></strong></h4>
           </div>
           <div class="modal-body pwd-info">
             <object
@@ -118,7 +118,7 @@
               name="website_pwd"
             />
             <div>
-              <a class="copy btn btn-secondary btn-sm" role="button"
+              <a class="copy btn btn-primary btn-lg" role="button"
                 >Copy Password</a
               >
             </div>
@@ -184,7 +184,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="title">Store New Password</h5>
+            <h4 class="modal-title" id="title"><strong>Store New Password</strong></h4>
           </div>
           <div class="modal-body" id="pwd-info">
             <form method="POST" id="store_new">
