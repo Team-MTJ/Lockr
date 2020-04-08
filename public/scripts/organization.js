@@ -20,8 +20,11 @@ const addPwnedAttributeToPasswordBox = function ($passwordBox) {
       // Change timespwned attribute on the input class
       if (indexOfPassword === -1) {
         $passwordBox.attr("timespwned", 0);
+        return 0;
       } else {
-        $passwordBox.attr("timespwned", rows[indexOfPassword + 1]);
+        const timesPwned = rows[indexOfPassword + 1];
+        $passwordBox.attr("timespwned", timesPwned);
+        return timesPwned;
       }
     },
     error: (e) => {
