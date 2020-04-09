@@ -15,6 +15,8 @@
     width: 60vw;
     transform: translateX(-38%);
     background-color: rgba(1, 1, 26, 0.5);
+    padding: 1%;
+    border-radius: 15px;
     section {
       display: flex;
       justify-content: flex-start;
@@ -26,6 +28,7 @@
       margin-right: 3em;
       margin-top: 1.5em;
       margin-bottom: 1.5em;
+      border-radius: 15px;
       span {
         color: white;
         padding: 10% 20% 20%;
