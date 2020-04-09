@@ -2,7 +2,10 @@
 
 // Returns the table body HTML according to contents of passwordList object
 const getTableBodyHTML = function (passwordList) {
-  if (!passwordList) return null;
+  if (!passwordList) return `<tr><td colspan="3">No passwords found</td></tr>`;
+  if (passwordList === "unauthorized")
+    return `<tr><td colspan="3">Please login to <a href="localhost:8080" target="_blank">Lockr</a> first!</td></tr>`;
+
   const markupArray = [];
   for (const password of passwordList) {
     const { name, website_username, website_pwd } = password;
@@ -21,9 +24,7 @@ const getTableBodyHTML = function (passwordList) {
 // Renders the table from data in chrome.storage.sync
 const renderTable = function () {
   chrome.storage.sync.get("passwordList", function (data) {
-    if (data.passwordList) {
-      $("#pwd-tbody").html(getTableBodyHTML(data.passwordList));
-    }
+    $("#pwd-tbody").html(getTableBodyHTML(data.passwordList));
   });
 };
 
@@ -45,9 +46,15 @@ $(() => {
           chrome.storage.sync.set({ passwordList: data });
           renderTable();
         },
-        error: () => {
-          chrome.storage.sync.set({ passwordList: null });
-          renderTable();
+        statusCode: {
+          400: () => {
+            chrome.storage.sync.set({ passwordList: "unauthorized" });
+            renderTable();
+          },
+          404: () => {
+            chrome.storage.sync.set({ passwordList: null });
+            renderTable();
+          },
         },
       });
     });

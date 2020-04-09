@@ -9,6 +9,13 @@
       html,
       body {
         width: 600px;
+        min-height: 200px;
+        text-align: center !important;
+      }
+      tbody,
+      thead {
+        text-align: center;
+        padding-top: 40px;
       }
     </style>
     <link
@@ -19,7 +26,6 @@
     />
   </head>
   <body>
-    <button id="getPwd">Get login for current website</button>
     <table class="table" id="pwd-table">
       <thead class="thead-dark">
         <tr>
@@ -30,6 +36,9 @@
       </thead>
       <tbody id="pwd-tbody"></tbody>
     </table>
+    <button id="getPwd" type="button" class="btn btn-primary">
+      Get login for current website
+    </button>
     <script src="jquery-3.4.1.min.js"></script>
     <script src="popup.js"></script>
   </body>
