@@ -544,6 +544,15 @@ module.exports = (db) => {
       .catch((e) => console.error(e));
   };
 
+  // Returns an array of username and passwords that a user has access to
+  // when given a url
+  const getLoginFromUrl = function (user_id, url) {
+    return db.query(
+      `
+      SELECT username, 
+      `
+    );
+  };
   return {
     getUserWithEmail,
     login,
