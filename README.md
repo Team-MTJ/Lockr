@@ -1,6 +1,5 @@
 # Lockr
 
-=========
 --Description--
 
 ## Technologies
@@ -11,28 +10,28 @@
 - SASS
 - PostgreSQL
 
-## Project Set Up
+## Project Setup
 
-### Clone
+### 1. Clone
 
 - Clone this repo to your local machine
 
-### Set up your database
+### 2. Set up your database
 
 - Connect to your postgres server
 
-```console
+```shell
 psql -U vagrant -d template1
 ```
 
 - Create the necessary objects in your local development database that will serve as connection credentials
 
-```console
+```shell
 CREATE ROLE labber WITH LOGIN password 'labber';
 CREATE DATABASE midterm OWNER labber;
 ```
 
-### Set up your credentials in .env file
+### 3. Set up your credentials in .env file
 
 - Create the `.env` by using `.env.example` as a reference: `cp .env.example .env`
 - Update the .env file with your correct local information
@@ -40,31 +39,15 @@ CREATE DATABASE midterm OWNER labber;
   - password: `labber`
   - database: `midterm`
 
-### Install dependencies and reset database
+### 4. Install dependencies and reset database
 
-- Install dependencies:
+- Install dependencies: `npm i`
 
-```console
-npm i
-```
+- Fix to binaries for sass: `npm rebuild node-sass`
 
-- Fix to binaries for sass:
+- Create tables and seed your database: `npm run db:reset`
 
-```console
-npm rebuild node-sass
-```
-
-- Reset database:
-
-```console
-npm run db:reset
-```
-
-- Run the server:
-
-```console
-npm run local
-```
+- Run the server: `npm run local`
 
 - Visit `http://localhost:8080/`
 
