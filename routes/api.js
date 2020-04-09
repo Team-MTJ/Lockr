@@ -4,9 +4,11 @@ const router = express.Router();
 module.exports = (db) => {
   const dbHelpers = require("./helpers/db_helpers")(db);
 
+  // Test route to see if user is logged in
   router.get("/", (req, res) => {
     const passwordObj = { username: "username", password: "test" };
-    res.json(passwordObj);
+    if (!req.session.userId) return res.status(400).json(null);
+    return res.json(passwordObj);
   });
 
   // Returns the password of the first url that the user has access to
