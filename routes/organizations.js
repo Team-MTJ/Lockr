@@ -3,18 +3,87 @@ const router = express.Router();
 const CryptoJS = require("crypto-js");
 const request = require("request");
 
+const fetchCategory = function (url, cb) {
+  //encode url***
+  const encodedUrl = encodeURI(url);
+  request(
+    `https://website-categorization.whoisxmlapi.com/api/v1?apiKey=at_zb2Fs3RVVNYJX7y5F8Nqyis2YUET6&domainName=${encodedUrl}`,
+    (error, response, body) => {
+      let category = "";
+      const data = JSON.parse(body);
+      if (data.code === 422) {
+        category = null;
+        cb(category);
+      } else {
+        switch (data.categories[0]) {
+          //ENTERTAINMENT
+          case "Arts and Entertainment":
+          case "Gambling":
+          case "Games":
+          case "Recreation and Hobbies":
+          case "Home and Garden":
+          case "Pets and Animals":
+          case "Books and Literature":
+          case "Beauty and Fitness":
+          case "Autos and Vehicles":
+            category = "entertainment";
+            break;
+
+          // BUSINESS
+          case "Computer and electronics":
+          case "Finance":
+          case "Business and Industry":
+          case "Travel":
+          case "Law and Government":
+            category = "business";
+            break;
+
+          // EDUCATIONAL
+          case "Career and Education":
+          case "Science":
+          case "Reference":
+          case "News and Media":
+            category = "educational";
+            break;
+
+          // SHOPPING
+          case "Food and Drink":
+          case "Shopping":
+            category = "shopping";
+            break;
+
+          // SOCIAL
+          case "Health":
+          case "Adult":
+          case "Internet and Telecom":
+          case "People and Society":
+            category = "social";
+            break;
+
+          // SPORTS
+          case "Sports":
+            category = "sports";
+            break;
+        }
+
+        cb(category);
+      }
+    }
+  );
+};
+
+const encryptWithAES = (text, masterkey) => {
+  return CryptoJS.AES.encrypt(text, masterkey).toString();
+};
+
+const decryptWithAES = (ciphertext, masterkey) => {
+  const bytes = CryptoJS.AES.decrypt(ciphertext, masterkey);
+  const originalText = bytes.toString(CryptoJS.enc.Utf8);
+  return originalText;
+};
+
 module.exports = (db) => {
   const dbHelpers = require("./helpers/db_helpers")(db);
-
-  const encryptWithAES = (text, masterkey) => {
-    return CryptoJS.AES.encrypt(text, masterkey).toString();
-  };
-
-  const decryptWithAES = (ciphertext, masterkey) => {
-    const bytes = CryptoJS.AES.decrypt(ciphertext, masterkey);
-    const originalText = bytes.toString(CryptoJS.enc.Utf8);
-    return originalText;
-  };
 
   router.put("/:org_id/:pwd_id", (req, res) => {
     const { org_id, pwd_id } = req.params;
@@ -148,75 +217,6 @@ module.exports = (db) => {
         .catch((e) => e);
     }
   });
-
-  const fetchCategory = function (url, cb) {
-    //encode url***
-    const encodedUrl = encodeURI(url);
-    request(
-      `https://website-categorization.whoisxmlapi.com/api/v1?apiKey=at_zb2Fs3RVVNYJX7y5F8Nqyis2YUET6&domainName=${encodedUrl}`,
-      (error, response, body) => {
-        let category = "";
-        const data = JSON.parse(body);
-        if (data.code === 422) {
-          category = null;
-          cb(category);
-        } else {
-          switch (data.categories[0]) {
-            //ENTERTAINMENT
-            case "Arts and Entertainment":
-            case "Gambling":
-            case "Games":
-            case "Recreation and Hobbies":
-            case "Home and Garden":
-            case "Pets and Animals":
-            case "Books and Literature":
-            case "Beauty and Fitness":
-            case "Autos and Vehicles":
-              category = "entertainment";
-              break;
-
-            // BUSINESS
-            case "Computer and electronics":
-            case "Finance":
-            case "Business and Industry":
-            case "Travel":
-            case "Law and Government":
-              category = "business";
-              break;
-
-            // EDUCATIONAL
-            case "Career and Education":
-            case "Science":
-            case "Reference":
-            case "News and Media":
-              category = "educational";
-              break;
-
-            // SHOPPING
-            case "Food and Drink":
-            case "Shopping":
-              category = "shopping";
-              break;
-
-            // SOCIAL
-            case "Health":
-            case "Adult":
-            case "Internet and Telecom":
-            case "People and Society":
-              category = "social";
-              break;
-
-            // SPORTS
-            case "Sports":
-              category = "sports";
-              break;
-          }
-
-          cb(category);
-        }
-      }
-    );
-  };
 
   router.post("/:org_id", (req, res) => {
     const { org_id } = req.params;
