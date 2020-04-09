@@ -1,4 +1,18 @@
 // Client-side javascript loaded into only organization.ejs
+
+
+// must remove http://www
+const fetchCategory = function (url) {
+  $.getJSON(
+    `https://website-categorization.whoisxmlapi.com/api/v1?apiKey=at_zb2Fs3RVVNYJX7y5F8Nqyis2YUET6&domainName=${url}`,
+    (data) => {
+      return data.categories[0];
+    }
+  );
+};
+
+// console.log(fetchCategories("ashleymadison.com"));
+
 /**
  * Adds attribute timespwned=number to each .passWordBox <input> using
  * haveibeenpwned API upon opening a modal. Also updates the corresponding

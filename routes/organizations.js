@@ -4,7 +4,7 @@ const CryptoJS = require("crypto-js");
 
 module.exports = (db) => {
   const dbHelpers = require("./helpers/db_helpers")(db);
-
+  
   const encryptWithAES = (text, masterkey) => {
     return CryptoJS.AES.encrypt(text, masterkey).toString();
   };
