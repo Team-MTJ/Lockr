@@ -121,11 +121,11 @@ module.exports = (db) => {
           } else {
             dbHelpers
               .getMasterkeyFromOrg(org_id)
-              .then((masterkey) => {
+              .then((org) => {
                 pwds.forEach((pwd) => {
                   pwd["website_pwd"] = decryptWithAES(
                     pwd["website_pwd"],
-                    masterkey.masterkey
+                    org.masterkey
                   );
                 });
                 templateVars["pwds"] = pwds;
@@ -150,8 +150,8 @@ module.exports = (db) => {
     if (!(website_title && website_url && website_username && website_pwd)) {
       return res.status(400).send("All fields must be filled in!");
     } else {
-      dbHelpers.getMasterkeyFromOrg(org_id).then((key) => {
-        const encryptPass = encryptWithAES(website_pwd, key.masterkey);
+      dbHelpers.getMasterkeyFromOrg(org_id).then((org) => {
+        const encryptPass = encryptWithAES(website_pwd, org.masterkey);
         dbHelpers
           .addPwdToOrg(
             org_id,
