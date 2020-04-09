@@ -34,12 +34,13 @@ $(() => {
 
   $("#getPwd").on("click", function (element) {
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
-      let url = tabs[0].url;
+      const url = new URL(tabs[0].url);
+      const domain = url.hostname;
 
       // Process URL
       // TODO
       $.ajax({
-        url: "http://localhost:8080/api/",
+        url: `http://localhost:8080/api/${domain}`,
         method: "GET",
         dataType: "JSON",
         success: (data) => {
