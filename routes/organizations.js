@@ -231,7 +231,7 @@ module.exports = (db) => {
       return res.status(400).send("All fields must be filled in!");
     } else {
       // must remove http://www for fetchCategory
-      const websiteShortened = website_url.split("www.");
+      const websiteShortened = website_url.split("www.").join("");
       fetchCategory(websiteShortened, function (categoryIfNoneGiven) {
         dbHelpers.getMasterkeyFromOrg(org_id).then((org) => {
           const encryptPass = encryptWithAES(website_pwd, org.masterkey);
