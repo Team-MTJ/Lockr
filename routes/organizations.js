@@ -1,8 +1,19 @@
 const express = require("express");
 const router = express.Router();
+const CryptoJS = require("crypto-js");
 
 module.exports = (db) => {
   const dbHelpers = require("./helpers/db_helpers")(db);
+
+  const encryptWithAES = (text, masterkey) => {
+    return CryptoJS.AES.encrypt(text, masterkey).toString();
+  };
+
+  const decryptWithAES = (ciphertext, masterkey) => {
+    const bytes = CryptoJS.AES.decrypt(ciphertext, masterkey);
+    const originalText = bytes.toString(CryptoJS.enc.Utf8);
+    return originalText;
+  };
 
   router.put("/:org_id/:pwd_id", (req, res) => {
     const { org_id, pwd_id } = req.params;
@@ -12,25 +23,31 @@ module.exports = (db) => {
           .status(403)
           .send("You are not authorized to change the password!");
       }
-
-      // Create a newPwd object from the form values passed in
-      const newPwd = req.body;
-      console.log(req.body);
-      newPwd.id = pwd_id;
-
-      // Delete keys that were not passed in through the form
-      for (const key of Object.keys(newPwd)) {
-        if (!newPwd[key]) {
-          delete newPwd[key];
-        }
-      }
-
       dbHelpers
-        .modifyPwd(newPwd)
-        .then(() => {
-          res.redirect(`/orgs/${org_id}`);
-        })
-        .catch((e) => res.send(e));
+        .getMasterkeyFromOrg(org_id)
+        .catch((e) => e)
+        .then((org) => {
+          // Create a newPwd object from the form values passed in
+          const newPwd = req.body;
+          newPwd.id = pwd_id;
+
+          //  Encrypt password
+          const encryptedPwd = encryptWithAES(newPwd.website_pwd, org.masterkey);
+          newPwd.website_pwd = encryptedPwd;
+
+          // Delete keys that were not passed in through the form
+          for (const key of Object.keys(newPwd)) {
+            if (!newPwd[key]) {
+              delete newPwd[key];
+            }
+          }
+          dbHelpers
+            .modifyPwd(newPwd)
+            .then(() => {
+              res.redirect(`/orgs/${org_id}`);
+            })
+            .catch((e) => res.send(e));
+        });
     });
   });
 
@@ -109,8 +126,19 @@ module.exports = (db) => {
           if (!pwds) {
             templateVars["pwds"] = "";
           } else {
-            templateVars["pwds"] = pwds;
-            res.render("organization", templateVars);
+            dbHelpers
+              .getMasterkeyFromOrg(org_id)
+              .then((org) => {
+                pwds.forEach((pwd) => {
+                  pwd["website_pwd"] = decryptWithAES(
+                    pwd["website_pwd"],
+                    org.masterkey
+                  );
+                });
+                templateVars["pwds"] = pwds;
+                res.render("organization", templateVars);
+              })
+              .catch((e) => e);
           }
         })
         .catch((e) => e);
@@ -126,22 +154,24 @@ module.exports = (db) => {
       website_pwd,
       category,
     } = req.body;
-
     if (!(website_title && website_url && website_username && website_pwd)) {
       return res.status(400).send("All fields must be filled in!");
     } else {
-      dbHelpers
-        .addPwdToOrg(
-          org_id,
-          website_title,
-          website_url,
-          website_username,
-          website_pwd,
-          category
-        )
-        .then(() => {
-          return res.redirect(`/orgs/${org_id}`);
-        });
+      dbHelpers.getMasterkeyFromOrg(org_id).then((org) => {
+        const encryptPass = encryptWithAES(website_pwd, org.masterkey);
+        dbHelpers
+          .addPwdToOrg(
+            org_id,
+            website_title,
+            website_url,
+            website_username,
+            encryptPass,
+            category
+          )
+          .then(() => {
+            return res.redirect(`/orgs/${org_id}`);
+          });
+      });
     }
   });
 

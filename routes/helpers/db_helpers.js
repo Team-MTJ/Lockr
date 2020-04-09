@@ -1,5 +1,22 @@
 const bcrypt = require("bcrypt");
 
+const generateRandomMasterkey = () => {
+  const charPool =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890~!@#$%^&*()_+-=`;?/.,<>[]{}";
+
+  let password = "";
+
+  let i = 0;
+  while (i < 20) {
+    const randomCharIndex = Math.floor(Math.random() * charPool.length);
+    const randomChar = charPool.charAt(randomCharIndex);
+    password += randomChar;
+    i++;
+  }
+
+  return password;
+};
+
 module.exports = (db) => {
   /**
    * Get a single user from the db given their email.
@@ -168,12 +185,12 @@ module.exports = (db) => {
       .query(
         `
         INSERT INTO org
-        (name)
+        (name, masterkey)
         VALUES
-        ($1)
+        ($1, $2)
         RETURNING *;
         `,
-        [org.name]
+        [org.name, generateRandomMasterkey()]
       )
       .then((data) => {
         const newOrg = data.rows[0];
@@ -324,7 +341,7 @@ module.exports = (db) => {
     return db
       .query(queryString, values)
       .then((res) => res.rows[0])
-      .catch((e) => console.log(e));
+      .catch((e) => console.error(e));
   };
 
   /**
@@ -334,7 +351,6 @@ module.exports = (db) => {
    */
   const modifyPwd = function (newPwd) {
     const queryParams = [];
-
     let queryString = `
     UPDATE pwd
     SET
@@ -435,8 +451,8 @@ module.exports = (db) => {
       .then((res) => {
         return res.rows[0];
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((e) => {
+        console.error(e);
       });
   };
 
@@ -515,6 +531,19 @@ module.exports = (db) => {
       });
   };
 
+  const getMasterkeyFromOrg = function (org_id) {
+    return db
+      .query(
+        `
+      SELECT masterkey FROM org 
+      WHERE id = $1;
+    `,
+        [org_id]
+      )
+      .then((res) => res.rows[0])
+      .catch((e) => console.error(e));
+  };
+
   return {
     getUserWithEmail,
     login,
@@ -535,5 +564,6 @@ module.exports = (db) => {
     addUserToOrg,
     isUserMemberOfOrg,
     makeUserAdmin,
+    getMasterkeyFromOrg,
   };
 };
