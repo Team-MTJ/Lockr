@@ -122,7 +122,9 @@
                 >Copy Password</a
               >
             </div>
-            <% if(isUserAdminTrueOrNot) { %>
+            <% if (pwd.category) { %>
+            <span>Category: <%=pwd.category%></span>
+            <% } %> <% if(isUserAdminTrueOrNot) { %>
             <div>
               <a class="change btn btn-secondary btn-sm">Change Password</a>
             </div>
@@ -184,7 +186,9 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="title"><strong>Store New Password</strong></h4>
+            <h4 class="modal-title" id="title">
+              <strong>Store New Password</strong>
+            </h4>
           </div>
           <div class="modal-body" id="pwd-info">
             <form method="POST" id="store_new">

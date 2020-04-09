@@ -26,7 +26,7 @@ const fetchCategory = function (url, cb) {
           case "Books and Literature":
           case "Beauty and Fitness":
           case "Autos and Vehicles":
-            category = "entertainment";
+            category = "Entertainment";
             break;
 
           // BUSINESS
@@ -35,7 +35,7 @@ const fetchCategory = function (url, cb) {
           case "Business and Industry":
           case "Travel":
           case "Law and Government":
-            category = "business";
+            category = "Business";
             break;
 
           // EDUCATIONAL
@@ -43,13 +43,13 @@ const fetchCategory = function (url, cb) {
           case "Science":
           case "Reference":
           case "News and Media":
-            category = "educational";
+            category = "Educational";
             break;
 
           // SHOPPING
           case "Food and Drink":
           case "Shopping":
-            category = "shopping";
+            category = "Shopping";
             break;
 
           // SOCIAL
@@ -57,12 +57,12 @@ const fetchCategory = function (url, cb) {
           case "Adult":
           case "Internet and Telecom":
           case "People and Society":
-            category = "social";
+            category = "Social";
             break;
 
           // SPORTS
           case "Sports":
-            category = "sports";
+            category = "Sports";
             break;
         }
 
