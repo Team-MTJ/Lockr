@@ -546,12 +546,22 @@ module.exports = (db) => {
 
   // Returns an array of username and passwords that a user has access to
   // when given a url
-  const getLoginFromUrl = function (user_id, url) {
-    return db.query(
+  const getLoginFromUrl = function (url, user_id) {
+    return db
+      .query(
       `
-      SELECT username, 
-      `
-    );
+      SELECT website_username, website_pwd, masterkey 
+      FROM pwd
+      JOIN org ON pwd.org_id=org.id
+      JOIN membership ON membership.org_id=org.id
+      JOIN users ON membership.user_id=users.id
+      WHERE website_url LIKE "%$1%"
+      AND user.id=$2::integer
+      `,
+        [url, user_id]
+      )
+      .then((res) => res.rows[0])
+      .catch((e) => console.error(e));
   };
   return {
     getUserWithEmail,
@@ -574,5 +584,6 @@ module.exports = (db) => {
     isUserMemberOfOrg,
     makeUserAdmin,
     getMasterkeyFromOrg,
+    getLoginFromUrl,
   };
 };
