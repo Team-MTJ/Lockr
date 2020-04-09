@@ -547,7 +547,6 @@ module.exports = (db) => {
   // Returns an array of username and passwords that a user has access to
   // when given a url
   const getLoginFromUrl = function (url, user_id) {
-    console.log(url, user_id);
     return db
       .query(
         `

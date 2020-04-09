@@ -26,16 +26,22 @@ module.exports = (db) => {
     return res.json([passwordObj, passwordObj2]);
   });
 
-  // Returns the password of the first url that the user has access to
+  // Returns the org name, username, passwords of the urls that the user
+  // has access to
   router.get("/:url", (req, res) => {
     const { url } = req.params;
 
     if (!req.session.userId) {
       return res.status(400).json(null);
     } else {
-      dbHelpers.getLoginFromUrl(url, req.session.userId).then((array) => {
-        if (array.length === 0) return res.json(null);
-        return res.json(array);
+      dbHelpers.getLoginFromUrl(url, req.session.userId).then((pwdArray) => {
+        if (pwdArray.length === 0) return res.json(null);
+
+        // Decode the passwords
+        for (pwd of pwdArray) {
+          pwd.website_pwd = decryptWithAES(pwd.website_pwd, pwd.masterkey);
+        }
+        return res.json(pwdArray);
       });
     }
   });
