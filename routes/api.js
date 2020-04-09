@@ -29,12 +29,12 @@ module.exports = (db) => {
   // Returns the password of the first url that the user has access to
   router.get("/:url", (req, res) => {
     const { url } = req.params;
-    
+
     if (!req.session.userId) {
       return res.status(400).json(null);
     } else {
       dbHelpers.getLoginFromUrl(url, req.session.userId).then((array) => {
-        console.log(typeof array, array);
+        if (array.length === 0) return res.json(null);
         return res.json(array);
       });
     }
