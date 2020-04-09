@@ -18,6 +18,7 @@
     padding: 1%;
     border-radius: 15px;
     section {
+      background-color: rgba(1, 1, 26, 0.349);
       display: flex;
       justify-content: flex-start;
       align-items: center;
@@ -76,7 +77,6 @@
   #landing > div {
     position: relative;
     justify-content: flex-end;
-    width: 500px;
-    transform: translateX(-15%);
+    transform: translateX(-20%);
   }
 }
