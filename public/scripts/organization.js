@@ -1,17 +1,69 @@
 // Client-side javascript loaded into only organization.ejs
 
-
 // must remove http://www
 const fetchCategory = function (url) {
   $.getJSON(
     `https://website-categorization.whoisxmlapi.com/api/v1?apiKey=at_zb2Fs3RVVNYJX7y5F8Nqyis2YUET6&domainName=${url}`,
     (data) => {
-      return data.categories[0];
+      let category = "";
+
+      switch (data.categories[0]) {
+        //ENTERTAINMENT
+        case "Arts and Entertainment":
+        case "Gambling":
+        case "Games":
+        case "Recreation and Hobbies":
+        case "Home and Garden":
+        case "Pets and Animals":
+        case "Books and Literature":
+        case "Beauty and Fitness":
+        case "Autos and Vehicles":
+          category = "entertainment";
+          break;
+
+        // BUSINESS
+        case "Computer and electronics":
+        case "Finance":
+        case "Business and Industry":
+        case "Travel":
+        case "Law and Government":
+          category = "business";
+          break;
+
+        // EDUCATIONAL
+        case "Career and Education":
+        case "Science":
+        case "Reference":
+        case "News and Media":
+          category = "educational";
+          break;
+
+        // SHOPPING
+        case "Food and Drink":
+        case "Shopping":
+          category = "shopping";
+          break;
+
+        // SOCIAL
+        case "Health":
+        case "Adult":
+        case "Internet and Telecom":
+        case "People and Society":
+          category = "social";
+          break;
+
+        // SPORTS
+        case "Sports":
+          category = "sports";
+          break;
+      }
+
+      return category;
     }
   );
 };
 
-// console.log(fetchCategories("ashleymadison.com"));
+// console.log(fetchCategory("ashleymadison.com"));
 
 /**
  * Adds attribute timespwned=number to each .passWordBox <input> using
