@@ -29,8 +29,11 @@ module.exports = (db) => {
   // Returns the org name, username, passwords of the urls that the user
   // has access to
   router.get("/:url", (req, res) => {
-    const { url } = req.params;
+    let { url } = req.params;
 
+    // Remove www.
+    url = url.split("www.").join("");
+    
     if (!req.session.userId) {
       return res.status(400).json(null);
     } else {
