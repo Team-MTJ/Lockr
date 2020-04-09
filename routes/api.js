@@ -12,9 +12,10 @@ module.exports = (db) => {
   };
   // Test route to see if user is logged in
   router.get("/", (req, res) => {
-    const passwordObj = { username: "username", password: "test" };
+    const passwordObj = { name: "FBI", website_username: "username", website_pwd: "test" };
+    const passwordObj2 = { name: "CIA", website_username: "username", website_pwd: "test" };
     if (!req.session.userId) return res.status(400).json(null);
-    return res.json(passwordObj);
+    return res.json([passwordObj, passwordObj2]);
   });
 
   // Returns the password of the first url that the user has access to
