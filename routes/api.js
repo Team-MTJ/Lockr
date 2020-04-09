@@ -5,7 +5,8 @@ module.exports = (db) => {
   const dbHelpers = require("./helpers/db_helpers")(db);
 
   router.get("/", (req, res) => {
-    res.send("Response from localhost");
+    const passwordObj = { username: "username", password: "test" };
+    res.json(passwordObj);
   });
 
   return router;

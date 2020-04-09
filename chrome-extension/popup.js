@@ -6,7 +6,8 @@
 
 let changeColor = document.getElementById("changeColor");
 let getPwd = document.getElementById("getPwd");
-let pwdResult = document.getElementById("pwdResult");
+let username = document.getElementById("username");
+let password = document.getElementById("password");
 
 chrome.storage.sync.get("color", function (data) {
   changeColor.style.backgroundColor = data.color;
@@ -23,18 +24,18 @@ changeColor.onclick = function (element) {
 };
 
 getPwd.onclick = function (element) {
-  pwdResult.innerHTML = "Button clicked";
   let request = new XMLHttpRequest();
   request.open("GET", "http://localhost:8080/api/", true);
 
   request.onload = function () {
     if (this.status >= 200 && this.status < 400) {
       // Success!
-      //var data = JSON.parse(this.response);
-      pwdResult.innerHTML=this.response;
+      var data = JSON.parse(this.response);
+      username.innerHTML=data.username;
+      password.innerHTML=data.password;
     } else {
       // We reached our target server, but it returned an error
-      pwdResult.innerHTML="Error!";
+      username.innerHTML="Error!";
     }
   };
 
