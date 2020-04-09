@@ -173,6 +173,7 @@ module.exports = (db) => {
         }
       });
   };
+
   /**
    * Add a new org to the database.
    * @param {name: string} org
@@ -215,8 +216,8 @@ module.exports = (db) => {
 
   /**
    * Find passwords using org id and user id
-   * @param {name: integer} org_id
-   * @param {name: integer} user_id
+   * @param {integer} org_id id of the organization
+   * @param {integer} user_id id of the user
    * @return {Promise<{}>} A promise to the user.
    */
   const getPwdByOrgID = function (org_id, user_id) {
@@ -238,6 +239,11 @@ module.exports = (db) => {
       .catch((e) => console.error(e));
   };
 
+  /**
+   * Checks if an organization exist in database
+   * @param {id: integer} org_id
+   * @return {Promise<{}>} A promise to the user.
+   */
   const doesOrgExist = function (id) {
     return db
       .query(
@@ -253,6 +259,12 @@ module.exports = (db) => {
       });
   };
 
+  /**
+   * Checks if a user is admin of the organization
+   * @param {integer} org_id organization unique id
+   * @param {integer} user_id user unique id
+   * @return {Promise<{}>} A promise to the user.
+   */
   const isUserAdmin = function (org_id, user_id) {
     return db
       .query(
@@ -273,6 +285,11 @@ module.exports = (db) => {
       });
   };
 
+  /**
+   * returns a list of organizations where user is admin of it
+   * @param {integer} user_id user unique id
+   * @return {Promise<{}>} A promise to the user.
+   */
   const orgsWhereUserIsAdmin = function (user_id) {
     return db
       .query(
@@ -300,6 +317,11 @@ module.exports = (db) => {
     return urlArray.join("://");
   };
 
+  /**
+   * returns a list of organizations where user is admin of it
+   * @param {int: org, string: title, string: url, string: username, string: password, string: category} created_pwd parameters of the new passwords
+   * @return {Promise<{}>} A promise to the user.
+   */
   const addPwdToOrg = function (org, title, url, username, password, category) {
     url = fixUrl(url);
     const values = [org, title, url, username, password, category];
@@ -379,6 +401,12 @@ module.exports = (db) => {
       });
   };
 
+  /**
+   * Deletes the user from membership table, removing the connection to the orgs
+   * @param {integer} org_id organization unique id
+   * @param {string} email user unique email
+   * @return {Promise<{}>} A promise to the user.
+   */
   const removeUserFromOrg = function (org_id, email) {
     return db
       .query(
@@ -405,6 +433,11 @@ module.exports = (db) => {
       });
   };
 
+  /**
+   * removes a password
+   * @param {integer} pwdId password unique id
+   * @return {Promise<{}>} A promise to the user.
+   */
   const deletePwd = function (pwdId) {
     return db
       .query(
@@ -423,6 +456,12 @@ module.exports = (db) => {
       });
   };
 
+  /**
+   * creates a connection from user to organization by adding to membership table
+   * @param {integer} org_id organization unique id
+   * @param {integer} user_id user unique id
+   * @return {Promise<{}>} A promise to the user.
+   */
   const addUserToOrg = function (user_id, org_id) {
     return db
       .query(
@@ -438,6 +477,12 @@ module.exports = (db) => {
       .catch((e) => console.error(e));
   };
 
+  /**
+   * checks if member is part of the organization
+   * @param {integer} org_id organization unique id
+   * @param {integer} user_id user unique id
+   * @return {Promise<{}>} A promise to the user.
+   */
   const isUserMemberOfOrg = function (user_id, org_id) {
     return db
       .query(
@@ -454,6 +499,12 @@ module.exports = (db) => {
       .catch((e) => console.error(e));
   };
 
+  /**
+   * updates the is_admin property in membership table to true
+   * @param {integer} org_id organization unique id
+   * @param {string} email user unique email
+   * @return {Promise<{}>} A promise to the user.
+   */
   const makeUserAdmin = function (org_id, email) {
     return db
       .query(

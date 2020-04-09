@@ -20,6 +20,7 @@ $(() => {
           let adminHTML = "";
           let removeHTML = "";
           if (member.is_admin) {
+            // If user is admin, display disabled button
             adminHTML = `<tr>
             <td>
             <input disabled type="hidden" class="to-delete-email" value="${member.email}" />
@@ -37,6 +38,7 @@ $(() => {
            </tr>`;
           }
           if (member.id === member.currentUser) {
+            // If user is the same as the current user remove the button
             removeHTML = `<tr>
             <td>
             </td>
@@ -70,7 +72,7 @@ $(() => {
     updateManagePage(org_id);
   });
   //----------------------------------------
-  //DELETE MEMBER
+  //Delete member when the button is clicked
   $(document).on("click", ".remove-member", function (event) {
     const org_id = $(event.target).siblings(".org-to-delete-from").val();
     const toDeleteEmail = $(event.target).siblings(".to-delete-email").val();

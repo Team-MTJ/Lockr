@@ -7,25 +7,35 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     if (!req.session.userId)
       return res.status(400).send("You must be logged in to continue.");
-    dbHelpers.getUserWithId(req.session.userId).then((user) => {
-      dbHelpers.getOrgsWithUserId(req.session.userId).then((orgs) => {
+    let templateVars = {};
+    dbHelpers
+      .getUserWithId(req.session.userId)
+      .catch((e) => e)
+      .then((user) => {
+        templateVars["user"] = user;
+        return dbHelpers.getOrgsWithUserId(req.session.userId).catch((e) => e);
+      })
+      .then((orgs) => {
+        templateVars["orgs"] = orgs;
         // If user has no orgs they're a part of of, redirect to "Create new org"
         if (!orgs) res.redirect("/orgs/new");
         // Only want to display orgs where they have admin rights on the manage page
-        dbHelpers.orgsWhereUserIsAdmin(req.session.userId).then((adminOrgs) => {
-          if (adminOrgs.length === 0) {
-            return res
-              .status(400)
-              .send(
-                "You have no admin privileges in any organization that you belong to."
-              );
-          } else {
-            const templateVars = { user, orgs, adminOrgs };
-            res.render("manage", templateVars);
-          }
-        });
+        return dbHelpers
+          .orgsWhereUserIsAdmin(req.session.userId)
+          .catch((e) => e);
+      })
+      .then((adminOrgs) => {
+        templateVars["adminOrgs"] = adminOrgs;
+        if (adminOrgs.length === 0) {
+          return res
+            .status(400)
+            .send(
+              "You have no admin privileges in any organization that you belong to."
+            );
+        } else {
+          res.render("manage", templateVars);
+        }
       });
-    });
   });
 
   router.post("/orgs", (req, res) => {
@@ -78,25 +88,38 @@ module.exports = (db) => {
     const { newuser } = req.body;
     const { org_id } = req.params;
     const { userId } = req.session;
+    let userExists;
 
-    dbHelpers.isUserAdmin(org_id, userId).then((admin) => {
-      if (!admin)
-        return res
-          .status(403)
-          .send("You are not authorized to add members to this organization.").redirect("/");
-      dbHelpers.getUserWithEmail(newuser).then((userExists) => {
-        if (!userExists) return res.status(400).send("This user does not exist.");
-        dbHelpers.isUserMemberOfOrg(userExists.id, org_id).then((member) => {
-          if (member)
-            return res
-              .status(418)
-              .send("This user is already a member of this organization!");
-          dbHelpers.addUserToOrg(userExists.id, org_id).then((newUser) => {
-            res.send(newUser);
-          });
-        });
+    dbHelpers
+      .isUserAdmin(org_id, userId)
+      .then((admin) => {
+        if (!admin)
+          return res
+            .status(403)
+            .send("You are not authorized to add members to this organization.")
+            .redirect("/");
+        return dbHelpers.getUserWithEmail(newuser).catch((e) => e);
+      })
+      .then((userExistsScoped) => {
+        if (!userExistsScoped) {
+          return res.status(400).send("This user does not exist.");
+        }
+
+        userExists = userExistsScoped;
+        return dbHelpers
+          .isUserMemberOfOrg(userExists.id, org_id)
+          .catch((e) => e);
+      })
+      .then((member) => {
+        if (member)
+          return res
+            .status(418)
+            .send("This user is already a member of this organization!");
+        return dbHelpers.addUserToOrg(userExists.id, org_id).catch((e) => e);
+      })
+      .then((newUser) => {
+        res.send(newUser);
       });
-    });
   });
 
   return router;
