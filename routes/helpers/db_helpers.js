@@ -329,7 +329,6 @@ module.exports = (db) => {
    */
   const modifyPwd = function (newPwd) {
     const queryParams = [];
-
     let queryString = `
     UPDATE pwd
     SET
