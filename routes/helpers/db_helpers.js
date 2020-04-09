@@ -319,7 +319,7 @@ module.exports = (db) => {
     return db
       .query(queryString, values)
       .then((res) => res.rows[0])
-      .catch((e) => console.log(e));
+      .catch((e) => console.error(e));
   };
 
   /**
@@ -418,8 +418,8 @@ module.exports = (db) => {
       .then((res) => {
         return res.rows[0];
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((e) => {
+        console.error(e);
       });
   };
 
