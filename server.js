@@ -51,6 +51,7 @@ const passwordRoutes = require("./routes/passwords");
 const indexRoutes = require("./routes/index");
 const organizationRoutes = require("./routes/organizations");
 const manageRoutes = require("./routes/manage");
+const apiRoutes = require("./routes/api");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -62,6 +63,7 @@ app.use("/", indexRoutes(db));
 app.use("/password", passwordRoutes(db));
 app.use("/orgs", organizationRoutes(db));
 app.use("/manage", manageRoutes(db));
+app.use("/api", apiRoutes(db));
 
 // Home page
 // Warning: avoid creating more routes in this file!

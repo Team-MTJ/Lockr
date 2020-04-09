@@ -24,4 +24,23 @@ changeColor.onclick = function (element) {
 
 getPwd.onclick = function (element) {
   pwdResult.innerHTML = "Button clicked";
+  let request = new XMLHttpRequest();
+  request.open("GET", "http://localhost:8080/api/", true);
+
+  request.onload = function () {
+    if (this.status >= 200 && this.status < 400) {
+      // Success!
+      //var data = JSON.parse(this.response);
+      pwdResult.innerHTML=this.response;
+    } else {
+      // We reached our target server, but it returned an error
+      pwdResult.innerHTML="Error!";
+    }
+  };
+
+  request.onerror = function () {
+    console.log("error");
+  };
+
+  request.send();
 };
