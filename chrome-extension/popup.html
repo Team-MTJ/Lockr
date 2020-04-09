@@ -1,33 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-      button {
-        outline: none;
-        display: block;
-      }
-      html,
-      body {
-        width: 600px;
-        min-height: 200px;
-        text-align: center !important;
-        padding-bottom: 10px;
-      }
-      tbody,
-      thead {
-        /* text-align: center; */
-        padding-top: 40px;
-      }
-      .copy{
-      float: right;
-      }
-      td{
-      padding-left:100px;
-      }
-      table{
-      border-collapse: separate;
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css" />
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -47,7 +21,7 @@
       <tbody id="pwd-tbody"></tbody>
     </table>
     <button id="getPwd" type="button" class="btn btn-primary">
-      Get login for current website
+      Get credentials for current website
     </button>
     <script src="jquery-3.4.1.min.js"></script>
     <script src="popup.js"></script>

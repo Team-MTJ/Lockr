@@ -12,8 +12,8 @@ const getTableBodyHTML = function (passwordList) {
     markupArray.push(`
     <tr>
       <th scope="row">${name}</th>
-      <td>${website_username} <a class="copy btn btn-info btn-sm" role="button">Copy</a></td>
-      <td>${website_pwd} <a class="copy btn btn-info btn-sm" role="button">Copy</a></td>
+      <td>${website_username}<a class="copy btn btn-info btn-sm" role="button">Copy</a></td>
+      <td>${website_pwd}<a class="copy btn btn-info btn-sm" role="button">Copy</a></td>
     </tr>
     `);
   }
@@ -25,8 +25,12 @@ const getTableBodyHTML = function (passwordList) {
 const renderTable = function () {
   chrome.storage.sync.get("passwordList", function (data) {
     $("#pwd-tbody").html(getTableBodyHTML(data.passwordList));
-    $(".copy").on("click", function () {
-      navigator.clipboard.writeText("test");
+
+    // Copy button
+    $(".copy").on("click", function (event) {
+      // Slice off text "Copy" from button itself
+      const text = $(this).parent("td").text().slice(0, -4);
+      navigator.clipboard.writeText(text);
     });
   });
 };

@@ -1,0 +1,22 @@
+html, body {
+  width: 600px;
+  text-align: center !important;
+  padding-bottom: 10px;
+}
+
+thead {
+  text-align: center !important;
+  padding-top: 40px;
+}
+
+.copy {
+  float: right;
+}
+
+td {
+  padding-left: 100px;
+}
+
+table {
+  border-collapse: separate;
+}
