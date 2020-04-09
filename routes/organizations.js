@@ -2,12 +2,16 @@ const express = require("express");
 const router = express.Router();
 const CryptoJS = require("crypto-js");
 
-const encryptWithAES = (text, passphrase) => {
-  return CryptoJS.AES.encrypt(text, passphrase).toString();
+const encryptWithAES = (text, masterkey) => {
+  return CryptoJS.AES.encrypt(text, masterkey).toString();
 };
 
-const decryptWithAES = (ciphertext, passphrase) => {
-  const bytes = CryptoJS.AES.decrypt(ciphertext, passphrase);
+// console.log(encsryptWithAES("banana", "=A?vu&R$]IPX*Duqc)H*"))
+
+// console.log(decryptWithAES("U2FsdGVkX18YS4ALTpAsIfj7BO+6pn5dnVImpe3ZvJc=", "=A?vu&R$]IPX*Duqc)H*")
+
+const decryptWithAES = (ciphertext, masterkey) => {
+  const bytes = CryptoJS.AES.decrypt(ciphertext, masterkey);
   const originalText = bytes.toString(CryptoJS.enc.Utf8);
   return originalText;
 };
@@ -117,15 +121,26 @@ module.exports = (db) => {
           return dbHelpers.getPwdByOrgID(org_id, cookieUserID).catch((e) => e);
         })
         .then((pwds) => {
+          // console.log(pwds);
+
           if (!pwds) {
             templateVars["pwds"] = "";
           } else {
-            pwds.forEach((pwd) => {
-              console.log(pwd["website_pwd"]);
-              pwd["website_pwd"] = decryptWithAES(pwd["website_pwd"]);
-            });
-            templateVars["pwds"] = pwds;
-            res.render("organization", templateVars);
+            dbHelpers
+              .getMasterkeyFromOrg(org_id)
+              .then((key) => {
+                console.log(key.masterkey)
+                console.log(key)
+                pwds.forEach((pwd) => {
+                  pwd["website_pwd"] = decryptWithAES(
+                    pwd["website_pwd"],
+                    key.masterkey
+                  );
+                });
+                templateVars["pwds"] = pwds;
+                res.render("organization", templateVars);
+              })
+              .catch((e) => e);
           }
         })
         .catch((e) => e);
@@ -141,22 +156,24 @@ module.exports = (db) => {
       website_pwd,
       category,
     } = req.body;
-    const encryptPass = encryptWithAES(website_pwd);
     if (!(website_title && website_url && website_username && website_pwd)) {
       return res.status(400).send("All fields must be filled in!");
     } else {
-      dbHelpers
-        .addPwdToOrg(
-          org_id,
-          website_title,
-          website_url,
-          website_username,
-          encryptPass,
-          category
-        )
-        .then(() => {
-          return res.redirect(`/orgs/${org_id}`);
-        });
+      dbHelpers.getMasterkeyFromOrg(org_id).then((masterkey) => {
+        const encryptPass = encryptWithAES(website_pwd, masterkey.masterkey);
+        dbHelpers
+          .addPwdToOrg(
+            org_id,
+            website_title,
+            website_url,
+            website_username,
+            encryptPass,
+            category
+          )
+          .then(() => {
+            return res.redirect(`/orgs/${org_id}`);
+          });
+      });
     }
   });
 
