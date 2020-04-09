@@ -3,6 +3,7 @@ const router = express.Router();
 const CryptoJS = require("crypto-js");
 const request = require("request");
 
+// Fetches category for password where no category is given
 const fetchCategory = function (url, cb) {
   const encodedUrl = encodeURI(url);
   request(
