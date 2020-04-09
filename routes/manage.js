@@ -88,6 +88,7 @@ module.exports = (db) => {
     const { newuser } = req.body;
     const { org_id } = req.params;
     const { userId } = req.session;
+    let userExists;
 
     dbHelpers
       .isUserAdmin(org_id, userId)
@@ -99,9 +100,12 @@ module.exports = (db) => {
             .redirect("/");
         return dbHelpers.getUserWithEmail(newuser).catch((e) => e);
       })
-      .then((userExists) => {
-        if (!userExists)
+      .then((userExistsScoped) => {
+        if (!userExistsScoped) {
           return res.status(400).send("This user does not exist.");
+        }
+
+        userExists = userExistsScoped;
         return dbHelpers
           .isUserMemberOfOrg(userExists.id, org_id)
           .catch((e) => e);
