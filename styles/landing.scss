@@ -69,4 +69,11 @@
   }
 }
 
-// TODO: breakpoint for mobile view later
+@media only screen and (max-width: 1000px) {
+  #landing > div {
+    position: relative;
+    justify-content: flex-end;
+    width: 500px;
+    transform: translateX(-15%);
+  }
+}
