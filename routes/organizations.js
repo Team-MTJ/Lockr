@@ -150,64 +150,70 @@ module.exports = (db) => {
   });
 
   const fetchCategory = function (url, cb) {
-    //encode url
+    //encode url***
+    const encodedUrl = encodeURI(url);
     request(
-      `https://website-categorization.whoisxmlapi.com/api/v1?apiKey=at_zb2Fs3RVVNYJX7y5F8Nqyis2YUET6&domainName=${url}`,
+      `https://website-categorization.whoisxmlapi.com/api/v1?apiKey=at_zb2Fs3RVVNYJX7y5F8Nqyis2YUET6&domainName=${encodedUrl}`,
       (error, response, body) => {
         let category = "";
         const data = JSON.parse(body);
-        switch (data.categories[0]) {
-          //ENTERTAINMENT
-          case "Arts and Entertainment":
-          case "Gambling":
-          case "Games":
-          case "Recreation and Hobbies":
-          case "Home and Garden":
-          case "Pets and Animals":
-          case "Books and Literature":
-          case "Beauty and Fitness":
-          case "Autos and Vehicles":
-            category = "entertainment";
-            break;
+        if (data.code === 422) {
+          category = null;
+          cb(category);
+        } else {
+          switch (data.categories[0]) {
+            //ENTERTAINMENT
+            case "Arts and Entertainment":
+            case "Gambling":
+            case "Games":
+            case "Recreation and Hobbies":
+            case "Home and Garden":
+            case "Pets and Animals":
+            case "Books and Literature":
+            case "Beauty and Fitness":
+            case "Autos and Vehicles":
+              category = "entertainment";
+              break;
 
-          // BUSINESS
-          case "Computer and electronics":
-          case "Finance":
-          case "Business and Industry":
-          case "Travel":
-          case "Law and Government":
-            category = "business";
-            break;
+            // BUSINESS
+            case "Computer and electronics":
+            case "Finance":
+            case "Business and Industry":
+            case "Travel":
+            case "Law and Government":
+              category = "business";
+              break;
 
-          // EDUCATIONAL
-          case "Career and Education":
-          case "Science":
-          case "Reference":
-          case "News and Media":
-            category = "educational";
-            break;
+            // EDUCATIONAL
+            case "Career and Education":
+            case "Science":
+            case "Reference":
+            case "News and Media":
+              category = "educational";
+              break;
 
-          // SHOPPING
-          case "Food and Drink":
-          case "Shopping":
-            category = "shopping";
-            break;
+            // SHOPPING
+            case "Food and Drink":
+            case "Shopping":
+              category = "shopping";
+              break;
 
-          // SOCIAL
-          case "Health":
-          case "Adult":
-          case "Internet and Telecom":
-          case "People and Society":
-            category = "social";
-            break;
+            // SOCIAL
+            case "Health":
+            case "Adult":
+            case "Internet and Telecom":
+            case "People and Society":
+              category = "social";
+              break;
 
-          // SPORTS
-          case "Sports":
-            category = "sports";
-            break;
+            // SPORTS
+            case "Sports":
+              category = "sports";
+              break;
+          }
+
+          cb(category);
         }
-
-        cb(category);
       }
     );
   };
@@ -225,7 +231,8 @@ module.exports = (db) => {
       return res.status(400).send("All fields must be filled in!");
     } else {
       // must remove http://www for fetchCategory
-      fetchCategory(website_url, function (categoryIfNoneGiven) {
+      const websiteShortened = website_url.split("www.");
+      fetchCategory(websiteShortened, function (categoryIfNoneGiven) {
         dbHelpers.getMasterkeyFromOrg(org_id).then((org) => {
           const encryptPass = encryptWithAES(website_pwd, org.masterkey);
           if (category) {
