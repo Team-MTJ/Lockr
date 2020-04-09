@@ -44,9 +44,7 @@ $(".submitGenerate").on("click", (data) => {
   addPwnedAttributeToPasswordBox($(".new_pwd"));
 });
 
-// const $passGen = $(".slideG").children(".passGen");
-// LINE 94 to 101
-
+// when generate password in the modal for indvidual is clicked it will generate a password on the password box
 $(".passGen").on("click", (event) => {
   const $passwordBox = $(event.target).parent().siblings(".passwordBox");
   const $length = $(event.target).siblings().children(".passLength");
@@ -65,22 +63,3 @@ $(".passGen").on("click", (event) => {
   $passwordBox.val(generatedPassword);
   addPwnedAttributeToPasswordBox($passwordBox);
 });
-
-// const slideGHTML = `
-// <div class="slideG">
-// <input type="text" class="passLength" /><span>LEngth</span>
-// <input type="checkbox" class="passNumber" /><span>Number</span>
-// <input type="checkbox" class="passSymbol" /><span>symbol</span>
-// <a class="passGen btn btn-secondary btn-sm" id="passGen">GEN</a>
-// </div>
-// `;
-
-// $(".modal").on("hidden.bs.modal", function (e) {
-//   const $slideG = $(".modal")
-//     .children(".modal-dialog")
-//     .children(".modal-content")
-//     .children(".modal-body")
-//     .children(".slideG");
-//   console.log($slideG.html());
-//   $slideG.html(slideGHTML);
-// });
