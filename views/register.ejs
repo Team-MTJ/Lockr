@@ -1,8 +1,15 @@
 <%- include('partials/_header') %> <%- include('partials/_navbar') %>
 <div class="container-fluid">
+
   <div class="entry-form row justify-content-center">
+    <div class="alert alert-warning alert-dismissible fade invalidEmail" role="alert">
+      <strong>Invalid</strong> Email!
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
     <!--ADD ACTION-->
-    <form method='POST'>
+    <form method='POST' id='register-form'>
       <div class="form-group">
         <h1 class="register d-flex justify-content-center">REGISTER</h1>
         <label for="registerFirstName">First Name:</label>
@@ -31,4 +38,5 @@
     </form>
   </div>
 </div>
+
 <%- include('partials/_footer') %>
