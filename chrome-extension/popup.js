@@ -24,24 +24,31 @@ changeColor.onclick = function (element) {
 };
 
 getPwd.onclick = function (element) {
-  let request = new XMLHttpRequest();
-  request.open("GET", "http://localhost:8080/api/", true);
+  chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+    let url = tabs[0].url;
 
-  request.onload = function () {
-    if (this.status >= 200 && this.status < 400) {
-      // Success!
-      var data = JSON.parse(this.response);
-      username.innerHTML=data.username;
-      password.innerHTML=data.password;
-    } else {
-      // We reached our target server, but it returned an error
-      username.innerHTML="Error!";
-    }
-  };
+    // Process URL
+    // TODO
 
-  request.onerror = function () {
-    console.log("error");
-  };
+    let request = new XMLHttpRequest();
+    request.open("GET", "http://localhost:8080/api/", true);
 
-  request.send();
+    request.onload = function () {
+      if (this.status >= 200 && this.status < 400) {
+        // Success!
+        var data = JSON.parse(this.response);
+        username.innerHTML = data.username;
+        password.innerHTML = data.password;
+      } else {
+        username.innerHTML = "Error!";
+        password.innerHTML = "Error!";
+      }
+    };
+
+    request.onerror = function () {
+      console.log("error");
+    };
+
+    request.send();
+  });
 };

@@ -20,6 +20,8 @@ module.exports = (db) => {
   // Returns the password of the first url that the user has access to
   router.get("/:url", (req, res) => {
     const { url } = req.params;
+
+    // Process the url
     let user;
     if (!req.session.userId) {
       res.status(400).json(null);
