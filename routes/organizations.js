@@ -4,7 +4,6 @@ const CryptoJS = require("crypto-js");
 const request = require("request");
 
 const fetchCategory = function (url, cb) {
-  //encode url***
   const encodedUrl = encodeURI(url);
   request(
     `https://website-categorization.whoisxmlapi.com/api/v1?apiKey=at_zb2Fs3RVVNYJX7y5F8Nqyis2YUET6&domainName=${encodedUrl}`,
