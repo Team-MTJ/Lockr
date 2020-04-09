@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const CryptoJS = require("crypto-js");
+const request = require("request");
 
 module.exports = (db) => {
   const dbHelpers = require("./helpers/db_helpers")(db);
-  
+
   const encryptWithAES = (text, masterkey) => {
     return CryptoJS.AES.encrypt(text, masterkey).toString();
   };
@@ -32,7 +33,10 @@ module.exports = (db) => {
           newPwd.id = pwd_id;
 
           //  Encrypt password
-          const encryptedPwd = encryptWithAES(newPwd.website_pwd, org.masterkey);
+          const encryptedPwd = encryptWithAES(
+            newPwd.website_pwd,
+            org.masterkey
+          );
           newPwd.website_pwd = encryptedPwd;
 
           // Delete keys that were not passed in through the form
@@ -145,6 +149,69 @@ module.exports = (db) => {
     }
   });
 
+  const fetchCategory = function (url, cb) {
+    //encode url
+    request(
+      `https://website-categorization.whoisxmlapi.com/api/v1?apiKey=at_zb2Fs3RVVNYJX7y5F8Nqyis2YUET6&domainName=${url}`,
+      (error, response, body) => {
+        let category = "";
+        const data = JSON.parse(body);
+        switch (data.categories[0]) {
+          //ENTERTAINMENT
+          case "Arts and Entertainment":
+          case "Gambling":
+          case "Games":
+          case "Recreation and Hobbies":
+          case "Home and Garden":
+          case "Pets and Animals":
+          case "Books and Literature":
+          case "Beauty and Fitness":
+          case "Autos and Vehicles":
+            category = "entertainment";
+            break;
+
+          // BUSINESS
+          case "Computer and electronics":
+          case "Finance":
+          case "Business and Industry":
+          case "Travel":
+          case "Law and Government":
+            category = "business";
+            break;
+
+          // EDUCATIONAL
+          case "Career and Education":
+          case "Science":
+          case "Reference":
+          case "News and Media":
+            category = "educational";
+            break;
+
+          // SHOPPING
+          case "Food and Drink":
+          case "Shopping":
+            category = "shopping";
+            break;
+
+          // SOCIAL
+          case "Health":
+          case "Adult":
+          case "Internet and Telecom":
+          case "People and Society":
+            category = "social";
+            break;
+
+          // SPORTS
+          case "Sports":
+            category = "sports";
+            break;
+        }
+
+        cb(category);
+      }
+    );
+  };
+
   router.post("/:org_id", (req, res) => {
     const { org_id } = req.params;
     const {
@@ -157,20 +224,38 @@ module.exports = (db) => {
     if (!(website_title && website_url && website_username && website_pwd)) {
       return res.status(400).send("All fields must be filled in!");
     } else {
-      dbHelpers.getMasterkeyFromOrg(org_id).then((org) => {
-        const encryptPass = encryptWithAES(website_pwd, org.masterkey);
-        dbHelpers
-          .addPwdToOrg(
-            org_id,
-            website_title,
-            website_url,
-            website_username,
-            encryptPass,
-            category
-          )
-          .then(() => {
-            return res.redirect(`/orgs/${org_id}`);
-          });
+      // must remove http://www for fetchCategory
+      fetchCategory(website_url, function (categoryIfNoneGiven) {
+        dbHelpers.getMasterkeyFromOrg(org_id).then((org) => {
+          const encryptPass = encryptWithAES(website_pwd, org.masterkey);
+          if (category) {
+            dbHelpers
+              .addPwdToOrg(
+                org_id,
+                website_title,
+                website_url,
+                website_username,
+                encryptPass,
+                category
+              )
+              .then(() => {
+                return res.redirect(`/orgs/${org_id}`);
+              });
+          } else {
+            dbHelpers
+              .addPwdToOrg(
+                org_id,
+                website_title,
+                website_url,
+                website_username,
+                encryptPass,
+                categoryIfNoneGiven
+              )
+              .then(() => {
+                return res.redirect(`/orgs/${org_id}`);
+              });
+          }
+        });
       });
     }
   });
