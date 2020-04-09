@@ -6,10 +6,6 @@ const encryptWithAES = (text, masterkey) => {
   return CryptoJS.AES.encrypt(text, masterkey).toString();
 };
 
-// console.log(encsryptWithAES("banana", "=A?vu&R$]IPX*Duqc)H*"))
-
-// console.log(decryptWithAES("U2FsdGVkX18YS4ALTpAsIfj7BO+6pn5dnVImpe3ZvJc=", "=A?vu&R$]IPX*Duqc)H*")
-
 const decryptWithAES = (ciphertext, masterkey) => {
   const bytes = CryptoJS.AES.decrypt(ciphertext, masterkey);
   const originalText = bytes.toString(CryptoJS.enc.Utf8);
@@ -30,7 +26,6 @@ module.exports = (db) => {
 
       // Create a newPwd object from the form values passed in
       const newPwd = req.body;
-      console.log(req.body);
       newPwd.id = pwd_id;
 
       // Delete keys that were not passed in through the form
@@ -121,15 +116,12 @@ module.exports = (db) => {
           return dbHelpers.getPwdByOrgID(org_id, cookieUserID).catch((e) => e);
         })
         .then((pwds) => {
-          // console.log(pwds);
-
           if (!pwds) {
             templateVars["pwds"] = "";
           } else {
             dbHelpers
               .getMasterkeyFromOrg(org_id)
               .then((masterkey) => {
-                console.log(masterkey.masterkey)
                 pwds.forEach((pwd) => {
                   pwd["website_pwd"] = decryptWithAES(
                     pwd["website_pwd"],
