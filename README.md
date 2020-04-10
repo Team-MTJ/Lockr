@@ -10,6 +10,7 @@ One major feature is the ability to monitor password security through card colou
 ![Passwords](https://github.com/Team-MTJ/Lockr/blob/master/docs/passwords.png)
 ![Password Card](https://github.com/Team-MTJ/Lockr/blob/master/docs/password-card.png)
 ![Organization Management](https://github.com/Team-MTJ/Lockr/blob/master/docs/manage.png)
+![Chrome Extension](https://github.com/Team-MTJ/Lockr/blob/master/docs/chrome-extension.png)
 
 #### LEGEND
 ---
