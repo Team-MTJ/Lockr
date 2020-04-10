@@ -14,10 +14,11 @@
     height: 45vh;
     width: 60vw;
     transform: translateX(-38%);
-    background-color: rgba(1, 1, 26, 0.5);
+    background-color: rgba(23, 23, 44, 0.459);
     padding: 1%;
     border-radius: 15px;
     section {
+      background-color: rgba(1, 1, 26, 0.349);
       display: flex;
       justify-content: flex-start;
       align-items: center;
@@ -35,7 +36,7 @@
         text-align: center;
       }
       #shield + span {
-        padding-top: 15%;
+        padding-top: 10%;
       }
       #idea + span {
         padding: 20%;
@@ -76,7 +77,6 @@
   #landing > div {
     position: relative;
     justify-content: flex-end;
-    width: 500px;
-    transform: translateX(-15%);
+    transform: translateX(-20%);
   }
 }

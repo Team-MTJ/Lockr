@@ -1,19 +1,89 @@
 const express = require("express");
 const router = express.Router();
 const CryptoJS = require("crypto-js");
+const request = require("request");
+
+// Fetches category for password where no category is given
+const fetchCategory = function (url, cb) {
+  const encodedUrl = encodeURI(url);
+  request(
+    `https://website-categorization.whoisxmlapi.com/api/v1?apiKey=at_zb2Fs3RVVNYJX7y5F8Nqyis2YUET6&domainName=${encodedUrl}`,
+    (error, response, body) => {
+      let category = "";
+      const data = JSON.parse(body);
+      if (data.code === 422) {
+        category = null;
+        cb(category);
+      } else {
+        switch (data.categories[0]) {
+          //ENTERTAINMENT
+          case "Arts and Entertainment":
+          case "Gambling":
+          case "Games":
+          case "Recreation and Hobbies":
+          case "Home and Garden":
+          case "Pets and Animals":
+          case "Books and Literature":
+          case "Beauty and Fitness":
+          case "Autos and Vehicles":
+            category = "Entertainment";
+            break;
+
+          // BUSINESS
+          case "Computer and electronics":
+          case "Finance":
+          case "Business and Industry":
+          case "Travel":
+          case "Law and Government":
+            category = "Business";
+            break;
+
+          // EDUCATIONAL
+          case "Career and Education":
+          case "Science":
+          case "Reference":
+          case "News and Media":
+            category = "Educational";
+            break;
+
+          // SHOPPING
+          case "Food and Drink":
+          case "Shopping":
+            category = "Shopping";
+            break;
+
+          // SOCIAL
+          case "Health":
+          case "Adult":
+          case "Internet and Telecom":
+          case "People and Society":
+            category = "Social";
+            break;
+
+          // SPORTS
+          case "Sports":
+            category = "Sports";
+            break;
+        }
+
+        cb(category);
+      }
+    }
+  );
+};
+
+const encryptWithAES = (text, masterkey) => {
+  return CryptoJS.AES.encrypt(text, masterkey).toString();
+};
+
+const decryptWithAES = (ciphertext, masterkey) => {
+  const bytes = CryptoJS.AES.decrypt(ciphertext, masterkey);
+  const originalText = bytes.toString(CryptoJS.enc.Utf8);
+  return originalText;
+};
 
 module.exports = (db) => {
   const dbHelpers = require("./helpers/db_helpers")(db);
-
-  const encryptWithAES = (text, masterkey) => {
-    return CryptoJS.AES.encrypt(text, masterkey).toString();
-  };
-
-  const decryptWithAES = (ciphertext, masterkey) => {
-    const bytes = CryptoJS.AES.decrypt(ciphertext, masterkey);
-    const originalText = bytes.toString(CryptoJS.enc.Utf8);
-    return originalText;
-  };
 
   router.put("/:org_id/:pwd_id", (req, res) => {
     const { org_id, pwd_id } = req.params;
@@ -32,7 +102,10 @@ module.exports = (db) => {
           newPwd.id = pwd_id;
 
           //  Encrypt password
-          const encryptedPwd = encryptWithAES(newPwd.website_pwd, org.masterkey);
+          const encryptedPwd = encryptWithAES(
+            newPwd.website_pwd,
+            org.masterkey
+          );
           newPwd.website_pwd = encryptedPwd;
 
           // Delete keys that were not passed in through the form
@@ -157,20 +230,39 @@ module.exports = (db) => {
     if (!(website_title && website_url && website_username && website_pwd)) {
       return res.status(400).send("All fields must be filled in!");
     } else {
-      dbHelpers.getMasterkeyFromOrg(org_id).then((org) => {
-        const encryptPass = encryptWithAES(website_pwd, org.masterkey);
-        dbHelpers
-          .addPwdToOrg(
-            org_id,
-            website_title,
-            website_url,
-            website_username,
-            encryptPass,
-            category
-          )
-          .then(() => {
-            return res.redirect(`/orgs/${org_id}`);
-          });
+      // must remove http://www for fetchCategory
+      const websiteShortened = website_url.split("www.").join("");
+      fetchCategory(websiteShortened, function (categoryIfNoneGiven) {
+        dbHelpers.getMasterkeyFromOrg(org_id).then((org) => {
+          const encryptPass = encryptWithAES(website_pwd, org.masterkey);
+          if (category) {
+            dbHelpers
+              .addPwdToOrg(
+                org_id,
+                website_title,
+                website_url,
+                website_username,
+                encryptPass,
+                category
+              )
+              .then(() => {
+                return res.redirect(`/orgs/${org_id}`);
+              });
+          } else {
+            dbHelpers
+              .addPwdToOrg(
+                org_id,
+                website_title,
+                website_url,
+                website_username,
+                encryptPass,
+                categoryIfNoneGiven
+              )
+              .then(() => {
+                return res.redirect(`/orgs/${org_id}`);
+              });
+          }
+        });
       });
     }
   });
