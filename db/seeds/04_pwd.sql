@@ -17,4 +17,6 @@ VALUES
   (1, 'Ashley Madison', 'http://www.ashleymadison.com', 'sting-ops@fbi.com', 'U2FsdGVkX19fN0igZADEXurgZmxzB4xMSnJglUwBcTM=', 'Social'),
   (1, 'Questrade', 'http://www.questrade.com', 'fbi@fbi.com', 'U2FsdGVkX19sfjPEwAbrfQILJCqYYqbbHMYyvuufiqTikD7g0qaFBffkEl/ncs++', 'Business'),
   (2, 'eBay', 'http://www.ebay.com', 'admin@cia.com', 'U2FsdGVkX19nuamM8KdtHjH0hdfxtrP08exIYftsipE=', 'Shopping'),
-  (2, 'CNN', 'http://www.cnn.com', 'admin@cia.com', 'U2FsdGVkX19XJ9eWmj88qDNEQVJkTEwjShkZhQKayw8=', 'Business');
+  (2, 'CNN', 'http://www.cnn.com', 'admin@cia.com', 'U2FsdGVkX19XJ9eWmj88qDNEQVJkTEwjShkZhQKayw8=', 'Business'),
+  (2, 'Ashley Madison', 'http://www.ashleymadison.com', 'aaron@cia.com', 'U2FsdGVkX19fN0igZADEXurgZmxzB4xMSnJglUwBcTM=', 'Social'),
+  (2, 'CIBC', 'http://cibc.com', '4212140923543239', 'U2FsdGVkX1+NlYH1AKp0wx7rMWt8RcQ5mssR3NfEhtY=', 'Business');
