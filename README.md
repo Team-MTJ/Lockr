@@ -76,9 +76,10 @@ Other features include:
 
 ## Screenshots
 
-![](URL)
-![](URL)
-![](URL)
+![Landing Page](https://github.com/Team-MTJ/Lockr/blob/master/docs/landing.png)
+![Passwords](https://github.com/Team-MTJ/Lockr/blob/master/docs/passwords.png)
+![Password Card](https://github.com/Team-MTJ/Lockr/blob/master/docs/password-card.png)
+![Organization Management](https://github.com/Team-MTJ/Lockr/blob/master/docs/manage.png)
 
 ## Dependencies
 
