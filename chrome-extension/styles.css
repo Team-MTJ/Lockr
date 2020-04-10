@@ -11,10 +11,16 @@ thead {
 
 .copy {
   float: right;
+  color: white !important;
 }
 
 td {
   padding-left: 100px;
+}
+
+td, th {
+  height: 30px;
+  line-height: 30px;
 }
 
 table {
