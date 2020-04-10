@@ -14,12 +14,12 @@
       <select id="select-category" class="form-control">
         <option selected value="choose">Filter by category:</option>
         <option value="showall">Show All</option>
-        <option value="business">Business</option>
-        <option value="educational">Educational</option>
-        <option value="entertainment">Entertainment</option>
-        <option value="shopping">Shopping</option>
-        <option value="social">Social</option>
-        <option value="sports">Sports</option>
+        <option value="Business">Business</option>
+        <option value="Educational">Educational</option>
+        <option value="Entertainment">Entertainment</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Social">Social</option>
+        <option value="Sports">Sports</option>
       </select>
     </form>
   </div>
@@ -123,7 +123,7 @@
               >
             </div>
             <% if (pwd.category) { %>
-            <span>Category: <%=pwd.category%></span>
+            <span class="modal-category"><%=pwd.category%></span>
             <% } %> <% if(isUserAdminTrueOrNot) { %>
             <div>
               <a class="change btn btn-secondary btn-sm">Change Password</a>
