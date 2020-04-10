@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <table class="table" id="pwd-table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Organization</th>
+          <th scope="col">Username</th>
+          <th scope="col">Password</th>
+        </tr>
+      </thead>
+      <tbody id="pwd-tbody"></tbody>
+    </table>
+    <button id="getPwd" type="button" class="btn btn-primary">
+      Get credentials for current website
+    </button>
+    <script src="jquery-3.4.1.min.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "name": "Lockr Extension",
+  "version": "0.0.1",
+  "description": "Access your Lockr passwords anywhere on the web!",
+  "permissions": ["activeTab", "declarativeContent", "storage", "*://*/*"],
+  "options_page": "options.html",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "page_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/lockr16.png",
+      "32": "images/lockr32.png",
+      "48": "images/lockr48.png",
+      "128": "images/lockr128.png"
+    }
+  },
+  "icons": {
+    "16": "images/lockr16.png",
+    "32": "images/lockr32.png",
+    "48": "images/lockr48.png",
+    "128": "images/lockr128.png"
+  },
+  "manifest_version": 2
+}
