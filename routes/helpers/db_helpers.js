@@ -535,7 +535,7 @@ module.exports = (db) => {
     return db
       .query(
         `
-      SELECT masterkey FROM org 
+      SELECT masterkey FROM org
       WHERE id = $1;
     `,
         [org_id]
@@ -550,13 +550,14 @@ module.exports = (db) => {
     return db
       .query(
         `
-      SELECT name, website_username, website_pwd, masterkey 
+      SELECT name, website_username, website_pwd, masterkey
       FROM pwd
       JOIN org ON pwd.org_id=org.id
       JOIN membership ON membership.org_id=org.id
       JOIN users ON membership.user_id=users.id
       WHERE website_url LIKE $1
-      AND users.id=$2::integer;
+      AND users.id=$2::integer
+      ORDER BY name;
       `,
         [`%${url}%`, user_id]
       )
