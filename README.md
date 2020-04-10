@@ -4,6 +4,13 @@ Lockr is a password-protecting and sharing website designed with businesses in m
 
 One major feature is the ability to monitor password security through card colour-coding depending on how frequently the password has been seen in data breaches. This will update in real time as you're creating each password!
 
+## Screenshots
+
+![Landing Page](https://github.com/Team-MTJ/Lockr/blob/master/docs/landing.png)
+![Passwords](https://github.com/Team-MTJ/Lockr/blob/master/docs/passwords.png)
+![Password Card](https://github.com/Team-MTJ/Lockr/blob/master/docs/password-card.png)
+![Organization Management](https://github.com/Team-MTJ/Lockr/blob/master/docs/manage.png)
+
 #### LEGEND
 ---
 
@@ -73,13 +80,6 @@ Other features include:
 - Run the server: `npm run local`
 
 - Visit `http://localhost:8080/`
-
-## Screenshots
-
-![Landing Page](https://github.com/Team-MTJ/Lockr/blob/master/docs/landing.png)
-![Passwords](https://github.com/Team-MTJ/Lockr/blob/master/docs/passwords.png)
-![Password Card](https://github.com/Team-MTJ/Lockr/blob/master/docs/password-card.png)
-![Organization Management](https://github.com/Team-MTJ/Lockr/blob/master/docs/manage.png)
 
 ## Dependencies
 
