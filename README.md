@@ -4,6 +4,8 @@ Lockr is a password-protecting and sharing website designed with businesses in m
 
 One major feature is the ability to monitor password security through card colour-coding depending on how frequently the password has been seen in data breaches. This will update in real time as you're creating each password!
 
+Note: This midterm project was completed as part of the Lighthouse Labs Full-Stack Web Development Bootcamp and was the first collaborative coding experience for its group members.
+
 ## Screenshots
 
 ![Landing Page](https://github.com/Team-MTJ/Lockr/blob/master/docs/landing.png)
