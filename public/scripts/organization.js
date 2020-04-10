@@ -1,4 +1,5 @@
 // Client-side javascript loaded into only organization.ejs
+
 /**
  * Adds attribute timespwned=number to each .passWordBox <input> using
  * haveibeenpwned API upon opening a modal. Also updates the corresponding

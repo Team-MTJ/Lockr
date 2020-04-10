@@ -85,8 +85,6 @@ $(() => {
   $(document).on("click", ".make-admin", function (event) {
     const org_id = $(event.target).siblings(".org-to-update-from").val();
     const toUpdateEmail = $(event.target).siblings(".to-update-email").val();
-    console.log(org_id);
-    console.log(toUpdateEmail);
     $.post(`/manage/${org_id}/${toUpdateEmail}?_method=PUT`, function () {
       updateManagePage(org_id); //REFRESH TABLE
     });
