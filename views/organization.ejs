@@ -95,8 +95,11 @@
           action="/orgs/<%=pwd.org_id%>/<%=pwd.id%>?_method=PUT"
           method="POST"
         >
-          <div class="modal-header">
-            <h4 class="modal-title"><strong><%=pwd.website_title%></strong></h4>
+          <div class="modal-header flex-column">
+            <h3 class="modal-title"><strong><%=pwd.website_title%></strong></h3>
+            <% if (pwd.category) { %>
+            <div class="modal-category"><%=pwd.category%></div>
+            <% } %>
           </div>
           <div class="modal-body pwd-info">
             <object
@@ -122,9 +125,7 @@
                 >Copy Password</a
               >
             </div>
-            <% if (pwd.category) { %>
-            <span class="modal-category"><%=pwd.category%></span>
-            <% } %> <% if(isUserAdminTrueOrNot) { %>
+            <% if(isUserAdminTrueOrNot) { %>
             <div>
               <a class="change btn btn-secondary btn-sm">Change Password</a>
             </div>

@@ -15,18 +15,21 @@
   #generate_password {
     color: white;
   }
-  .modal-category {
-    display: inline-block;
-    transform: translateY(-2em);
-    margin-right: 16.6em;
-    padding: 0.2em 0.5em;
-    border: 0.5px solid rgba(29, 25, 71, 0.233);
-    box-shadow: 1px 2px 3px 3px rgba(21, 18, 66, 0.397);
-  }
 }
 
 .modal-header {
-  margin: 0 auto;
+  h3 {
+    margin: 0 auto;
+  }
+  .modal-category {
+    margin: auto;
+    padding: 0.2em 0.5em;
+    border: 0.5px solid rgba(29, 25, 71, 0.233);
+    box-shadow: 0.5px 0.5px 5px 0.5px rgba(21, 18, 66, 0.397);
+    border-radius: 50em;
+    font-size: 0.7em;
+    
+  }
 }
 
 .pwd-img {
