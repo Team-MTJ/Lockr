@@ -12,6 +12,7 @@ Note: This midterm project was completed as part of the Lighthouse Labs Full-Sta
 ![Passwords](https://github.com/Team-MTJ/Lockr/blob/master/docs/passwords.png)
 ![Password Card](https://github.com/Team-MTJ/Lockr/blob/master/docs/password-card.png)
 ![Organization Management](https://github.com/Team-MTJ/Lockr/blob/master/docs/manage.png)
+![Chrome Extension](https://github.com/Team-MTJ/Lockr/blob/master/docs/chrome-extension.png)
 
 #### LEGEND
 ---
